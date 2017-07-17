@@ -15,7 +15,10 @@
  */
 package org.fintx.util;
 
-
+/**
+ * @author bluecreator(qiang.x.wang@gmail.com)
+ *
+ */
 public class IdGenerator {
 	private IdGenerator() {
 	}

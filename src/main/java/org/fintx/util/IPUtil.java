@@ -22,7 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 //import org.springframework.web.context.request.RequestAttributes;
 //import org.springframework.web.context.request.RequestContextHolder;
 //import org.springframework.web.context.request.ServletRequestAttributes;
-
+/**
+ * @author bluecreator(qiang.x.wang@gmail.com)
+ *
+ */
 public class IPUtil {
   
 //    public static String getRemoteAddress() {
