@@ -20,7 +20,11 @@ import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.*;
+
+import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
+import com.sun.xml.internal.bind.v2.WellKnownNamespace;
 
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
@@ -31,6 +35,12 @@ public final class ObjectXmlUtil {
 
     private ObjectXmlUtil() {
         throw new AssertionError("No ObjectXmlUtil instances for you!");
+    }
+    
+    private static final Map<String,String> namespacePrefixMap=new HashMap<String,String>();
+    static{
+        //init namespace and prefix mapping
+        namespacePrefixMap.put("http://schemas.xmlsoap.org/soap/envelope/", "soapenv");
     }
 
     /**
@@ -69,6 +79,9 @@ public final class ObjectXmlUtil {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
             // 是否省略xml头声明信息
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
+            //reslove the namespace prefix problem
+            NamespacePrefixMapper mapper=new DefaultNamespacePrefixMapper(namespacePrefixMap);
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
         } catch (PropertyException e) {
             throw new JAXBException(e.getMessage());
         } catch (IllegalArgumentException e) {
@@ -84,7 +97,7 @@ public final class ObjectXmlUtil {
      * Convert from object to XML string
      *
      */
-    public static String toXml(final Object obj, final Encoding encoding, final boolean formatted, final String headers) throws JAXBException {
+    public static String toXml(final Object obj, final Encoding encoding, final boolean formatted, final String xmlHeaders) throws JAXBException {
         JAXBContext cachedContext = getCachedContext(obj.getClass());
         Marshaller marshaller = cachedContext.createMarshaller();
         try {
@@ -94,6 +107,11 @@ public final class ObjectXmlUtil {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
             // 是否省略xml头声明信息
             marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+            //set the new xml headers 添加xml头声明信息
+            marshaller.setProperty("com.sun.xml.bind.xmlHeaders",xmlHeaders);
+            //reslove the namespace prefix problem
+            NamespacePrefixMapper mapper=new DefaultNamespacePrefixMapper(namespacePrefixMap);
+            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
            
         } catch (PropertyException e) {
             throw new JAXBException(e.getMessage());
@@ -102,7 +120,7 @@ public final class ObjectXmlUtil {
         }
         StringWriter writer = new StringWriter();
         marshaller.marshal(obj, writer);
-        return headers+"\r\n"+writer.toString();
+        return writer.toString();
 
     }
 
@@ -140,5 +158,49 @@ public final class ObjectXmlUtil {
             return value;
         }
 
+    }
+    
+    private static final class DefaultNamespacePrefixMapper extends NamespacePrefixMapper {
+        private static final String[] EMPTY_STRING = new String[0];
+
+        private final Map<String, String> nspref;
+        private String[] nsctxt = EMPTY_STRING;
+
+        public DefaultNamespacePrefixMapper(Map<String, String> nspref) {
+            this.nspref = nspref;
+        }
+
+        public String getPreferredPrefix(String namespaceUri, 
+                                         String suggestion, 
+                                         boolean requirePrefix) {
+            String prefix = nspref.get(namespaceUri);
+            if (prefix != null) {
+                return prefix;
+            }
+            if( namespaceUri.equals(WellKnownNamespace.XML_SCHEMA_INSTANCE) )
+                return "xsi";
+            if( namespaceUri.equals(WellKnownNamespace.XML_SCHEMA) )
+                return "xs";
+            if( namespaceUri.equals(WellKnownNamespace.XML_MIME_URI) )
+                return "xmime";
+            return suggestion;
+        }
+
+        public void setContextualNamespace(String[] contextualNamespaceDecls) {
+            this.nsctxt = contextualNamespaceDecls;
+        }
+
+        public String[] getContextualNamespaceDecls() {
+            return nsctxt;
+        }
+        
+        @Override
+        public String[] getPreDeclaredNamespaceUris() {
+            return new String[] { 
+                XMLConstants.W3C_XML_SCHEMA_INSTANCE_NS_URI
+            };
+        }
+        
+        
     }
 }
