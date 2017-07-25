@@ -171,7 +171,7 @@ public class Strings {
      * @param str 待处理字符串
      * @param len 处理后的字符串长度
      * @return
-     * @author zgq
+     * 
      */
     public static String addZeroRight(String str, int len) {
         if (str == null || str.length() == 0) {
@@ -194,7 +194,7 @@ public class Strings {
      * @param str 待处理字符串
      * @param len 处理后的字符串长度
      * @return
-     * @author zgq
+     * 
      */
     public static String addZeroLeft(String str, int len) {
         if (str == null || str.length() == 0) {
@@ -217,7 +217,7 @@ public class Strings {
      * @Description: 数值数组转换成字符串数组
      * @param intArr 数值数组
      * @return
-     * @author zgq
+     * 
      */
     public static String[] intArrToStringArr(int[] intArr) {
         String[] strArr = new String[intArr.length];
@@ -233,7 +233,7 @@ public class Strings {
      * @param str 待处理字符串
      * @param length 长度
      * @return
-     * @author zgq
+     * 
      */
     public static String getBeforeText(String str, int length) {
         if (str.length() >= length) {
@@ -248,7 +248,7 @@ public class Strings {
      * @param str 待处理字符串
      * @param length 长度
      * @return
-     * @author zgq
+     * 
      */
     public static String getAfterText(String str, int length) {
         if (str.length() >= length) {
@@ -262,7 +262,7 @@ public class Strings {
      * @Description: 判断str是否不为空或空字符串
      * @param str 字符串
      * @return
-     * @author zgq
+     * 
      */
     public static boolean isNotEmpty(String str) {
         if (str != null && !str.trim().equals("")) {
@@ -276,7 +276,7 @@ public class Strings {
      * @Description: 判断str是否为空或空字符串
      * @param str
      * @return
-     * @author zgq
+     * 
      */
     public static boolean isEmpty(String str) {
         if (str != null && !str.trim().equals("")) {
@@ -290,7 +290,7 @@ public class Strings {
      * @Description: 判断对象是否为空
      * @param object
      * @return
-     * @author CT
+     * 
      */
     public static boolean isEmpty(Object object) {
         if (object != null)

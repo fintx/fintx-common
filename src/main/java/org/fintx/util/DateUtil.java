@@ -47,7 +47,7 @@ public class DateUtil {
      * @Description: 转换成8位的日期
      * @param date 日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String format(Date date) {
         return format8(date);
@@ -58,7 +58,7 @@ public class DateUtil {
      * @Description: 转换成8位的日期
      * @param date 日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String format8(Date date) {
         LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId()).toLocalDate();
@@ -73,7 +73,7 @@ public class DateUtil {
      * @Description: 转换成14位的日期
      * @param date 日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String format14(Date date) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId());
@@ -88,7 +88,7 @@ public class DateUtil {
      * @Description: 字符串类型的日期转换成Date类型
      * @param datetime 字符串类型的日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static LocalDate parseDate(String date) {
         if (Optional.ofNullable(date).isPresent() && 8 == date.length()) {
@@ -106,7 +106,7 @@ public class DateUtil {
      * @Description: 字符串类型的日期转换成Date类型
      * @param datetime 字符串类型的日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static LocalDateTime parseDateTime(String datetime) {
         if (Optional.ofNullable(datetime).isPresent() && 14 == datetime.length()) {
@@ -123,7 +123,7 @@ public class DateUtil {
      * @Title: isFirstDayOfMonth
      * @Description: 判断是否是本月第一天
      * @return
-     * @author zhangweirong
+     * 
      */
     public static boolean isFirstDayOfMonth() {
         return LocalDate.now().getDayOfMonth() == 1;
@@ -133,7 +133,7 @@ public class DateUtil {
      * @Title: isFirstDayOfYear
      * @Description: 判断是否是本年第一天
      * @return
-     * @author zhangweirong
+     * 
      */
     public static boolean isFirstDayOfYear() {
         return LocalDate.now().getDayOfYear() == 1;
@@ -145,7 +145,7 @@ public class DateUtil {
      * @param datetime 字符串类型日期
      * @param days 增加或退后的天数
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String addDays(String datetime, int days) {
         if (Optional.ofNullable(datetime).isPresent()) {
@@ -168,7 +168,7 @@ public class DateUtil {
      * @Title: getCurDate
      * @Description: 获取计算机系统的当前日期并格式化成8位
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String getCurDate() {
         return LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
@@ -178,7 +178,7 @@ public class DateUtil {
      * @Title: getCurDateTime
      * @Description: 获取计算机系统的当前日期并格式化成14位
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String getCurDateTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -188,7 +188,7 @@ public class DateUtil {
      * @Title: getCurDateTime
      * @Description: 获取计算机系统的当前日期并格式化成14位
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String getCurDateTime(String parten) {
         if (null == parten || "".equals(parten)) {
@@ -202,7 +202,7 @@ public class DateUtil {
      * @Description: 获取当前时间以后的第N分钟的14位时间
      * @param minutes 分钟偏移量
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String getFutureDateTime(int minutes) {
         return LocalDateTime.now().plusMinutes(minutes).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -213,7 +213,7 @@ public class DateUtil {
      * @Description: 获取当前时间以后的第N分钟的14位时间
      * @param seconds 秒钟偏移量
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String getFutureSecondDateTime(long seconds) {
         return LocalDateTime.now().plusSeconds(seconds).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
@@ -224,7 +224,7 @@ public class DateUtil {
      * @Description: 根据日期获取年份
      * @param date 字符串类型日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String parseYear(String date) {
         if (Optional.ofNullable(date).isPresent() && (date.length() == 8 || date.length() == 14)) {
@@ -239,7 +239,7 @@ public class DateUtil {
      * @Description: 根据日期获取月份
      * @param date 字符串类型日期
      * @return
-     * @author zhangweirong
+     * 
      */
     public static String parseMonth(String date) {
         if (Optional.ofNullable(date).isPresent() && date.length() >= 8) {
