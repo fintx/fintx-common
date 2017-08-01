@@ -44,13 +44,15 @@ import javax.net.ssl.X509TrustManager;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public final class HttpClient {
-    private HttpClient() {
+public final class AsyncHttpClient {
+    private AsyncHttpClient() {
         throw new AssertionError("No HttpClient instances for you!");
     }
 
     static private OkHttpClient client;
-    
+    private SSLSocketFactory sslSocketFactory;
+    private X509TrustManager trustManager;
+    private HostnameVerifier hostnameVerifer;
     static{
 //        HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor(new HttpLogger());
 //        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -104,89 +106,33 @@ public final class HttpClient {
         }
     }
     
-    
-    // public static void postMultipart(String url, MediaType mediaType, File[] files, String[] fileKeys,
-    // Param[] params) {
-    //
-    // MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.FORM);
-    // for (Param param : params) {
-    // builder.addFormDataPart(Headers.of("Content-Disposition", "form-data; name=\"" + param.key + "\""),
-    // RequestBody.create(null, param.value));
-    // }
-    // if (files != null) {
-    // RequestBody fileBody = null;
-    // for (int i = 0; i < files.length; i++) {
-    // File file = files[i];
-    // String fileName = file.getName();
-    // fileBody = RequestBody.create(okhttp3.MediaType.parse(mediaType.getValue()), file);
-    // builder.addFormDataPart(fileKeys[i], files[i].getName(), fileBody);
-    // }
-    // }
-    //
-    // RequestBody requestBody = builder.build();
-    // Request request = new Request.Builder().header("Authorization", "Client-ID " +
-    // IMGUR_CLIENT_ID).url(url).post(requestBody).tag(TAG).build();
-    // Response response = client.newCall(request).execute();
-    // if (!response.isSuccessful())
-    // throw new IOException("Unexpected code " + response);
-    //
-    // System.out.println(response.body().string());
-    // }
 
-    public static void get() throws Exception {
+
+    public static void getAsync() throws Exception {
         Request request = new Request.Builder().url("http://publicobject.com/helloworld.txt").build();
 
-        Response response = client.newCall(request).execute();
-        if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
+        client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
 
-        Headers responseHeaders = response.headers();
-        for (int i = 0; i < responseHeaders.size(); i++) {
-            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-        }
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (!response.isSuccessful())
+                    throw new IOException("Unexpected code " + response);
 
-        System.out.println(response.body().string());
+                Headers responseHeaders = response.headers();
+                for (int i = 0, size = responseHeaders.size(); i < size; i++) {
+                    System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+                }
+
+                System.out.println(response.body().string());
+            }
+        });
     }
 
-    public static void getHeaders() throws Exception {
-        Request request = new Request.Builder().url("https://api.github.com/repos/square/okhttp/issues").header("User-Agent", "OkHttp Headers.java")
-                .addHeader("Accept", "application/json; q=0.5").addHeader("Accept", "application/vnd.github.v3+json").build();
-
-        Response response = client.newCall(request).execute();
-        if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
-
-        System.out.println("Server: " + response.header("Server"));
-        System.out.println("Date: " + response.header("Date"));
-        System.out.println("Vary: " + response.headers("Vary"));
-    }
-
-    public static String postString(URL url, MediaType type, String postBody) throws IOException {
-
-        Request request = new Request.Builder().url(url).post(RequestBody.create(okhttp3.MediaType.parse(type.value), postBody)).build();
-
-        Response response = client.newCall(request).execute();
-        if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
-
-        return response.body().string();
-    }
-
-    public static String postForm(URL url,Map<String,String> formParams) throws IOException {
-        FormBody.Builder builder=new FormBody.Builder();
-        for(String key:formParams.keySet()){
-            builder.add(key, formParams.get(key));
-        }
-        RequestBody formBody =builder.build();
-        Request request = new Request.Builder().url(url).post(formBody).build();
-        Response response = client.newCall(request).execute();
-        if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
-        String resp= response.body().string();
-        response.close();
-        return resp;
-    }
-
+ 
   
     /**
      * Common media formats: text/html:HTML格式 text/plain:纯文本格式 text/xml: XML格式 image/gif:gif图片格式 image/jpeg:jpg图片格式
@@ -209,11 +155,5 @@ public final class HttpClient {
         }
 
     }
-    // TODO https://github.com/square/okhttp/wiki/Recipes
-//    public static class HttpLogger implements HttpLoggingInterceptor.Logger {
-//        @Override
-//        public void log(String message) {
-//            System.err.println("HttpLogInfo:\n"+ message);
-//        }
-//    }
+
 }
