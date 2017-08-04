@@ -33,7 +33,7 @@ import java.net.URL;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class HtmlUtil {
+public class Htmls {
 
     /**
      * @param args

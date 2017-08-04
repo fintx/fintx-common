@@ -35,8 +35,8 @@ import java.util.TimeZone;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class DateUtil {
-    private DateUtil() {
+public class Dates {
+    private Dates() {
     }
 
     public final static String MYSQL_CURRENT_DATE_FORMAT_14 = "%Y%m%d%H%i%s";
@@ -170,7 +170,7 @@ public class DateUtil {
      * @return
      * 
      */
-    public static String getCurDate() {
+    public static String getCurrentDate() {
         return LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
     }
 
@@ -180,7 +180,7 @@ public class DateUtil {
      * @return
      * 
      */
-    public static String getCurDateTime() {
+    public static String getCurrentDateTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 
@@ -306,14 +306,14 @@ public class DateUtil {
         System.out.println("isFirstDayOfMonth:" + isFirstDayOfMonth());
         System.out.println("isFirstDayOfYear:" + isFirstDayOfYear());
         System.out.println("addDays:" + addDays("20150101", 1));
-        System.out.println("getCurDate:" + getCurDate());
-        System.out.println("getCurDateTime:" + getCurDateTime());
+        System.out.println("getCurDate:" + getCurrentDate());
+        System.out.println("getCurDateTime:" + getCurrentDateTime());
         System.out.println("getFutureDateTime:" + getFutureDateTime(300));
         System.out.println("parseYear:" + parseYear("20150202"));
         System.out.println("parseMonth:" + parseMonth("20150302"));
         System.out.println("getDateList:" + getDateList("20151024", "20151026"));
         System.out.println("getDayGap:" + getDayGap("20151024", "20151026"));
-        System.out.println("getDayGap:" + DateUtil.getDayGap("20160128", "20151228"));
-        System.out.println("getDayGap:" + DateUtil.getDayGap("20151228", "20160128"));
+        System.out.println("getDayGap:" + Dates.getDayGap("20160128", "20151228"));
+        System.out.println("getDayGap:" + Dates.getDayGap("20151228", "20160128"));
     }
 }

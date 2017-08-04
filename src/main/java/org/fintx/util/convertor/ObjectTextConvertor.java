@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fintx.util;
+package org.fintx.util.convertor;
 
+
+import org.fintx.lang.Encoding;
+
+import lombok.AllArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -32,17 +36,19 @@ import java.util.List;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class BeanTextUtil {
+@AllArgsConstructor
+public class ObjectTextConvertor implements ObjectStringConvertor{
 //TODO use for cached
-    private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
+//    private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
 //TODO use as builder configuration
-    private static String encoding="GBK";
+   
+    private  Encoding encoding;
+    private  Character separator;
+    private Character associator;
     
-    private static ObjectStringConvertor baseTypeConvertor=new DefaultBaseTypeObjectStringConvertor();
+    private static ObjectStringConvertor baseTypeConvertor=new BaseTypeObjectStringConvertor();
     
-    private BeanTextUtil() {
-        throw new AssertionError("No BeanTextUtil instances for you!");
-    }
+  
 
     /**
      * 
@@ -51,7 +57,7 @@ public class BeanTextUtil {
      * @throws ReflectiveOperationException
      */
 
-    public static <T> String toText(final T bean) throws ReflectiveOperationException {
+    public  <T> String toString(final T bean) throws ReflectiveOperationException {
         if (null == bean) {
             return "";
         } else {
@@ -71,7 +77,7 @@ public class BeanTextUtil {
      * @throws ReflectiveOperationException
      */
 
-    public static <T> T toBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
+    public  <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {
         if (null == text || "".equals(text.trim())) {
             return null;
         } else {
@@ -88,7 +94,7 @@ public class BeanTextUtil {
      * @return
      * @throws ReflectiveOperationException
      */
-    private static <T> String doToText(final T bean) throws ReflectiveOperationException {
+    private  <T> String doToText(final T bean) throws ReflectiveOperationException {
         @SuppressWarnings("unchecked")
         Class<T> clazz = (Class<T>) bean.getClass();
         if (isBean(clazz)) {
@@ -105,7 +111,7 @@ public class BeanTextUtil {
                 method = clazz.getDeclaredMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
                 fieldValue = method.invoke(bean, new Object[0]);
                 sb.append(fieldName);
-                sb.append("=");
+                sb.append(associator);
                 if (null != fieldValue) {
                     if (Iterable.class.isAssignableFrom(f.getType())) {
                         Iterator<?> it = ((Iterable<?>) fieldValue).iterator();
@@ -125,7 +131,7 @@ public class BeanTextUtil {
                     }
                 }
                 if (i < (fields.length - 1)) {
-                    sb.append("|");
+                    sb.append(separator);
                 }
             }
             return sb.toString();
@@ -140,7 +146,7 @@ public class BeanTextUtil {
      * @return target object
      * @throws ReflectiveOperationException
      */
-    private static <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
+    private  <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
         Field[] fields = clazz.getDeclaredFields();
         T bean = clazz.newInstance();
         String fieldName = null;
@@ -151,7 +157,7 @@ public class BeanTextUtil {
             String subText = text.substring(text.indexOf("=") + 1);
             byte[] textBytes;
             try {
-                textBytes = subText.getBytes(encoding);
+                textBytes = subText.getBytes(encoding.getCode());
                 InputStream in = new ByteArrayInputStream(textBytes);
                 BufferedReader br = new BufferedReader(new InputStreamReader(in));
                 String subLine;
@@ -166,10 +172,10 @@ public class BeanTextUtil {
                 method.invoke(bean, list);
             }
         } else {
-            String[] fieldTexts = text.split("\\|");
+            String[] fieldTexts = text.split("\\"+separator);
             for (String fieldText : fieldTexts) {
                 String[] fieldPair = null;
-                int equalCharIndex = fieldText.indexOf('=');
+                int equalCharIndex = fieldText.indexOf(associator);
                 if (equalCharIndex > 0 && equalCharIndex < fieldText.length() - 1) {
                     fieldPair = new String[2];
                     fieldPair[0] = fieldText.substring(0, equalCharIndex);
@@ -204,6 +210,8 @@ public class BeanTextUtil {
         }
         return flag;
     }
+
+   
 
 
 }

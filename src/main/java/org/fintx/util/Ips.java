@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class IPUtil {
+public class Ips {
   
 //    public static String getRemoteAddress() {
 //        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fintx.util;
+package org.fintx.util.convertor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class DefaultBaseTypeObjectStringConvertor implements ObjectStringConvertor {
+public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
 
     private static String encoding = "GBK";
 
