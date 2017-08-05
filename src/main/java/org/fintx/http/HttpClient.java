@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fintx.util;
+package org.fintx.http;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -128,51 +128,51 @@ public final class HttpClient {
     // IMGUR_CLIENT_ID).url(url).post(requestBody).tag(TAG).build();
     // Response response = client.newCall(request).execute();
     // if (!response.isSuccessful())
-    // throw new IOException("Unexpected code " + response);
+    // throw new IllegalStateException ("Unexpected code " + response);
     //
     // System.out.println(response.body().string());
     // }
 
-    public static void get() throws Exception {
-        Request request = new Request.Builder().url("http://publicobject.com/helloworld.txt").build();
+    public static String get(URL url) throws IOException,IllegalStateException {
+        Request request = new Request.Builder().url(url).get().build();
 
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
+            throw new IllegalStateException("Unexpected code " + response);
 
-        Headers responseHeaders = response.headers();
-        for (int i = 0; i < responseHeaders.size(); i++) {
-            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
-        }
+//        Headers responseHeaders = response.headers();
+//        for (int i = 0; i < responseHeaders.size(); i++) {
+//            System.out.println(responseHeaders.name(i) + ": " + responseHeaders.value(i));
+//        }
 
-        System.out.println(response.body().string());
+        return response.body().string();
     }
 
-    public static void getHeaders() throws Exception {
+    public static void getHeaders() throws IOException,IllegalStateException {
         Request request = new Request.Builder().url("https://api.github.com/repos/square/okhttp/issues").header("User-Agent", "OkHttp Headers.java")
                 .addHeader("Accept", "application/json; q=0.5").addHeader("Accept", "application/vnd.github.v3+json").build();
 
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
+            throw new IllegalStateException ("Unexpected code " + response);
 
         System.out.println("Server: " + response.header("Server"));
         System.out.println("Date: " + response.header("Date"));
         System.out.println("Vary: " + response.headers("Vary"));
     }
 
-    public static String postString(URL url, MediaType type, String postBody) throws IOException {
+    public static String postString(URL url, MediaType type, String postBody) throws IOException,IllegalStateException  {
 
-        Request request = new Request.Builder().url(url).post(RequestBody.create(okhttp3.MediaType.parse(type.value), postBody)).build();
+        Request request = new Request.Builder().url(url).post(RequestBody.create(okhttp3.MediaType.parse(type.getCode()), postBody)).build();
 
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
+            throw new IllegalStateException ("Unexpected code " + response);
 
         return response.body().string();
     }
 
-    public static String postForm(URL url,Map<String,String> formParams) throws IOException {
+    public static String postForm(URL url,Map<String,String> formParams) throws IOException,IllegalStateException  {
         FormBody.Builder builder=new FormBody.Builder();
         for(String key:formParams.keySet()){
             builder.add(key, formParams.get(key));
@@ -181,34 +181,13 @@ public final class HttpClient {
         Request request = new Request.Builder().url(url).post(formBody).build();
         Response response = client.newCall(request).execute();
         if (!response.isSuccessful())
-            throw new IOException("Unexpected code " + response);
+            throw new IllegalStateException ("Unexpected code " + response);
         String resp= response.body().string();
         response.close();
         return resp;
     }
 
   
-    /**
-     * Common media formats: text/html:HTML格式 text/plain:纯文本格式 text/xml: XML格式 image/gif:gif图片格式 image/jpeg:jpg图片格式
-     * image/png：png图片格式 Media type begin with application application/xhtml+xml:XHTML格式 application/xml :XML数据格式
-     * application/atom+xml :Atom XML聚合格式 application/json :JSON数据格式 application/pdf :pdf格式 application/msword :Word文档格式
-     * application/octet-stream:二进制流数据（如常见的文件下载） application/x-www-form-urlencoded:
-     * <form encType="">中默认的encType，form表单数据被编码为key/value格式发送到服务器（表单默认的提交数据的格式） Others:
-     * multipart/form-data:需要在表单中进行文件上传时，就需要使用该格式
-     */
-    public enum MediaType {
-        APP_XML("application/xml"), APP_JSON("application/json"),APP_FORM("application/x-www-form-urlencoded"), TEXT_PLAIN("text/plain"), TEXT_HTML("text/html"), TEXT_XML("text/xml");
-        private String value;
-
-        private MediaType(String value) {
-            this.value = value;
-        }
-
-        public String getValue() {
-            return value;
-        }
-
-    }
     // TODO https://github.com/square/okhttp/wiki/Recipes
 //    public static class HttpLogger implements HttpLoggingInterceptor.Logger {
 //        @Override
