@@ -113,20 +113,28 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
                 sb.append(fieldName);
                 sb.append(associator);
                 if (null != fieldValue) {
-                    if (Iterable.class.isAssignableFrom(f.getType())) {
+                    if (0==i&&Iterable.class.isAssignableFrom(f.getType())) {
                         Iterator<?> it = ((Iterable<?>) fieldValue).iterator();
                         while (it.hasNext()) {
                             try {
                                 sb.append(doToText(it.next()) + "\r\n");
                             } catch (Exception e) {
-                                throw new ReflectiveOperationException(e.getMessage());
+                                if(e instanceof ReflectiveOperationException) {
+                                    throw (ReflectiveOperationException)e;
+                                }else {
+                                    throw new ReflectiveOperationException(e.getMessage());
+                                }
                             }
                         }
                     } else {
                         try {
                             sb.append(baseTypeConvertor.toString(fieldValue));
                         } catch (Exception e) {
-                            throw new ReflectiveOperationException(e.getMessage());
+                            if(e instanceof ReflectiveOperationException) {
+                                throw (ReflectiveOperationException)e;
+                            }else {
+                                throw new ReflectiveOperationException(e.getMessage());
+                            }
                         }
                     }
                 }
@@ -175,19 +183,19 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
             String[] fieldTexts = text.split("\\"+separator);
             for (String fieldText : fieldTexts) {
                 String[] fieldPair = null;
-                int equalCharIndex = fieldText.indexOf(associator);
-                if (equalCharIndex > 0 && equalCharIndex < fieldText.length() - 1) {
+                int associatorIndex = fieldText.indexOf(associator);
+                if (associatorIndex > 0 && associatorIndex < fieldText.length() - 1) {
                     fieldPair = new String[2];
-                    fieldPair[0] = fieldText.substring(0, equalCharIndex);
-                    fieldPair[1] = fieldText.substring(equalCharIndex + 1);
+                    fieldPair[0] = fieldText.substring(0, associatorIndex);
+                    fieldPair[1] = fieldText.substring(associatorIndex + 1);
                     Method method = clazz.getDeclaredMethod("set" + fieldPair[0], fields[0].getType());
                     Field field = clazz.getDeclaredField(fieldPair[0].substring(0, 1).toLowerCase() + fieldPair[0].substring(1));
                     try {
                         method.invoke(bean, baseTypeConvertor.toObject(fieldPair[1], field.getType()));
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        throw new ReflectiveOperationException(e);
                     }
-                } else if(equalCharIndex!=fieldText.length() - 1){
+                } else if(associatorIndex!=fieldText.length() - 1){
                     throw new RuntimeException("Text format incorrect：" + fieldText);
                 }
             }

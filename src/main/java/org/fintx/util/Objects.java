@@ -21,12 +21,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-/**
- * 用序列化与反序列化实现深克隆
- * 
- * @author qh
- *
- */
+
 public class Objects {
     private Objects() {
     }
@@ -132,6 +127,15 @@ public class Objects {
             this.encoding=encoding;
             return this;
         }
+        public XmlConvertorBuilder fragment(boolean fragment) {
+            this.fragment=fragment;
+            return this;
+        }
+        public XmlConvertorBuilder headers(String headers) {
+            this.headers=headers;
+            return this;
+        }
+        
         public ObjectStringConvertor build() {
             ObjectStringConvertor convertor=new ObjectXmlConvertor(namespacePrefixMapper,formatted, encoding, fragment, headers);
             return convertor;
@@ -143,6 +147,20 @@ public class Objects {
         private  Encoding encoding=Encoding.UTF_8;
         private  Character separator='|';
         private Character associator='=';
+        public TextConvertorBuilder encoding(Encoding encoding) {
+            this.encoding=encoding;
+            return this;
+        }
+        
+        public TextConvertorBuilder separator(Character separator) {
+            this.separator=separator;
+            return this;
+        }
+        
+        public TextConvertorBuilder associator(Character associator) {
+            this.associator=associator;
+            return this;
+        }
         public ObjectStringConvertor build() {
             ObjectStringConvertor convertor=new ObjectTextConvertor(encoding, separator, associator);
             return convertor;

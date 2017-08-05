@@ -107,7 +107,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             }
             return sb.toString();
         } else {
-            throw new ReflectiveOperationException("Unknown type:" + type);
+            throw new ReflectiveOperationException("Unsupport type:" + type);
         }
     }
 
@@ -189,7 +189,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             }
             return (T)blob;
         } else {
-            throw new ReflectiveOperationException("Missing type:"+type);
+            throw new ReflectiveOperationException("Unsupport type:"+type);
         }
     }
 }
