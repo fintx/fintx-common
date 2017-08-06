@@ -34,6 +34,7 @@ import lombok.AllArgsConstructor;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
+@SuppressWarnings("restriction")
 @AllArgsConstructor
 public final class ObjectXmlConvertor implements ObjectStringConvertor {
 
@@ -123,6 +124,7 @@ public final class ObjectXmlConvertor implements ObjectStringConvertor {
             }
         }
 
+        @SuppressWarnings("deprecation")
         public String getPreferredPrefix(String namespaceUri, String suggestion, boolean requirePrefix) {
             String prefix = nspref.get(namespaceUri);
             if (prefix != null) {
@@ -137,7 +139,8 @@ public final class ObjectXmlConvertor implements ObjectStringConvertor {
             return suggestion;
         }
 
-        public void setContextualNamespace(String[] contextualNamespaceDecls) {
+        @SuppressWarnings("unused")
+        public void setContextualNamespace(final String[] contextualNamespaceDecls) {
             this.nsctxt = contextualNamespaceDecls;
         }
 

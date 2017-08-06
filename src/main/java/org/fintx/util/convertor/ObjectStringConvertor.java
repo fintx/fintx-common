@@ -15,7 +15,6 @@
  */
 package org.fintx.util.convertor;
 
-
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
@@ -25,8 +24,8 @@ public interface ObjectStringConvertor {
 
     public <T> T toObject(String text, Class<T> clazz) throws Exception;
 
-	// public <T> String toString(T obj, Properties prop) throws Exception;
+    // public <T> String toString(T obj, Properties prop) throws Exception;
 
-	// public <T> T toObject(String text, Class<T> clazz, Properties prop) throws
-	// Exception;
+    // public <T> T toObject(String text, Class<T> clazz, Properties prop) throws
+    // Exception;
 }

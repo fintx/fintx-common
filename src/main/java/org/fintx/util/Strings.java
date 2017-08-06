@@ -16,15 +16,7 @@
  */
 package org.fintx.util;
 
-
-
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
 
 /**
  * <p>
@@ -70,19 +62,17 @@ import java.util.Map;
  * </ul>
  *
  * <p>
- * <code>StringUtils</code> handles <code>null</code> input Strings quietly. That is to say that a <code>null</code>
- * input will return <code>null</code>. Where a <code>boolean</code> or <code>int</code> is being returned details vary
- * by method.
+ * <code>StringUtils</code> handles <code>null</code> input Strings quietly. That is to say that a <code>null</code> input will return <code>null</code>. Where
+ * a <code>boolean</code> or <code>int</code> is being returned details vary by method.
  * </p>
  *
  * <p>
- * A side effect of the <code>null</code> handling is that a <code>NullPointerException</code> should be considered a
- * bug in <code>StringUtils</code> (except for deprecated methods).
+ * A side effect of the <code>null</code> handling is that a <code>NullPointerException</code> should be considered a bug in <code>StringUtils</code> (except
+ * for deprecated methods).
  * </p>
  *
  * <p>
- * Methods in this class give sample code to explain their operation. The symbol <code>*</code> is used to indicate any
- * input including <code>null</code>.
+ * Methods in this class give sample code to explain their operation. The symbol <code>*</code> is used to indicate any input including <code>null</code>.
  * </p>
  *
  * <p>
@@ -153,8 +143,8 @@ public class Strings {
 
     /**
      * <p>
-     * <code>StringUtils</code> instances should NOT be constructed in standard programming. Instead, the class should
-     * be used as <code>StringUtils.trim(" foo ");</code>.
+     * <code>StringUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>StringUtils.trim(" foo ");</code>.
      * </p>
      *
      * <p>
@@ -353,13 +343,11 @@ public class Strings {
 
     /**
      * <p>
-     * Removes control characters (char &lt;= 32) from both ends of this String, handling <code>null</code> by returning
-     * <code>null</code>.
+     * Removes control characters (char &lt;= 32) from both ends of this String, handling <code>null</code> by returning <code>null</code>.
      * </p>
      *
      * <p>
-     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip
-     * whitespace use {@link #strip(String)}.
+     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip whitespace use {@link #strip(String)}.
      * </p>
      *
      * <p>
@@ -383,12 +371,11 @@ public class Strings {
 
     /**
      * <p>
-     * Removes control characters (char &lt;= 32) from both ends of this String returning <code>null</code> if the
-     * String is empty ("") after the trim or if it is <code>null</code>.
+     * Removes control characters (char &lt;= 32) from both ends of this String returning <code>null</code> if the String is empty ("") after the trim or if it
+     * is <code>null</code>.
      *
      * <p>
-     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip
-     * whitespace use {@link #stripToNull(String)}.
+     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip whitespace use {@link #stripToNull(String)}.
      * </p>
      *
      * <pre>
@@ -410,12 +397,11 @@ public class Strings {
 
     /**
      * <p>
-     * Removes control characters (char &lt;= 32) from both ends of this String returning an empty String ("") if the
-     * String is empty ("") after the trim or if it is <code>null</code>.
+     * Removes control characters (char &lt;= 32) from both ends of this String returning an empty String ("") if the String is empty ("") after the trim or if
+     * it is <code>null</code>.
      *
      * <p>
-     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip
-     * whitespace use {@link #stripToEmpty(String)}.
+     * The String is trimmed using {@link String#trim()}. Trim removes start and end characters &lt;= 32. To strip whitespace use {@link #stripToEmpty(String)}.
      * </p>
      *
      * <pre>
@@ -442,8 +428,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * This is similar to {@link #trim(String)} but removes whitespace. Whitespace is defined by
-     * {@link Character#isWhitespace(char)}.
+     * This is similar to {@link #trim(String)} but removes whitespace. Whitespace is defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <p>
@@ -470,13 +455,11 @@ public class Strings {
 
     /**
      * <p>
-     * Strips whitespace from the start and end of a String returning <code>null</code> if the String is empty ("")
-     * after the strip.
+     * Strips whitespace from the start and end of a String returning <code>null</code> if the String is empty ("") after the strip.
      * </p>
      *
      * <p>
-     * This is similar to {@link #trimToNull(String)} but removes whitespace. Whitespace is defined by
-     * {@link Character#isWhitespace(char)}.
+     * This is similar to {@link #trimToNull(String)} but removes whitespace. Whitespace is defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -508,8 +491,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * This is similar to {@link #trimToEmpty(String)} but removes whitespace. Whitespace is defined by
-     * {@link Character#isWhitespace(char)}.
+     * This is similar to {@link #trimToEmpty(String)} but removes whitespace. Whitespace is defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -533,8 +515,8 @@ public class Strings {
 
     /**
      * <p>
-     * Strips any of a set of characters from the start and end of a String. This is similar to {@link String#trim()}
-     * but allows the characters to be stripped to be controlled.
+     * Strips any of a set of characters from the start and end of a String. This is similar to {@link String#trim()} but allows the characters to be stripped
+     * to be controlled.
      * </p>
      *
      * <p>
@@ -542,8 +524,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by
-     * {@link Character#isWhitespace(char)}. Alternatively use {@link #strip(String)}.
+     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by {@link Character#isWhitespace(char)}. Alternatively use
+     * {@link #strip(String)}.
      * </p>
      *
      * <pre>
@@ -578,8 +560,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by
-     * {@link Character#isWhitespace(char)}.
+     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -627,8 +608,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by
-     * {@link Character#isWhitespace(char)}.
+     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -671,13 +651,12 @@ public class Strings {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Strips whitespace from the start and end of every String in an array. Whitespace is defined by
-     * {@link Character#isWhitespace(char)}.
+     * Strips whitespace from the start and end of every String in an array. Whitespace is defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <p>
-     * A new array is returned each time, except for length zero. A <code>null</code> array will return
-     * <code>null</code>. An empty array will return itself. A <code>null</code> array entry will be ignored.
+     * A new array is returned each time, except for length zero. A <code>null</code> array will return <code>null</code>. An empty array will return itself. A
+     * <code>null</code> array entry will be ignored.
      * </p>
      *
      * <pre>
@@ -702,9 +681,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A new array is returned each time, except for length zero. A <code>null</code> array will return
-     * <code>null</code>. An empty array will return itself. A <code>null</code> array entry will be ignored. A
-     * <code>null</code> stripChars will strip whitespace as defined by {@link Character#isWhitespace(char)}.
+     * A new array is returned each time, except for length zero. A <code>null</code> array will return <code>null</code>. An empty array will return itself. A
+     * <code>null</code> array entry will be ignored. A <code>null</code> stripChars will strip whitespace as defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -740,8 +718,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal.
-     * The comparison is case sensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal. The comparison is case sensitive.
      * </p>
      *
      * <pre>
@@ -767,8 +744,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered equal.
-     * Comparison is case insensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered equal. Comparison is case insensitive.
      * </p>
      *
      * <pre>
@@ -820,13 +796,12 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the first index within a String from a start position, handling <code>null</code>. This method uses
-     * {@link String#indexOf(int, int)}.
+     * Finds the first index within a String from a start position, handling <code>null</code>. This method uses {@link String#indexOf(int, int)}.
      * </p>
      *
      * <p>
-     * A <code>null</code> or empty ("") String will return <code>(INDEX_NOT_FOUND) -1</code>. A negative start position
-     * is treated as zero. A start position greater than the string length returns <code>-1</code>.
+     * A <code>null</code> or empty ("") String will return <code>(INDEX_NOT_FOUND) -1</code>. A negative start position is treated as zero. A start position
+     * greater than the string length returns <code>-1</code>.
      * </p>
      *
      * <pre>
@@ -853,8 +828,7 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the first index within a String, handling <code>null</code>. This method uses
-     * {@link String#indexOf(String)}.
+     * Finds the first index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String)}.
      * </p>
      *
      * <p>
@@ -886,8 +860,7 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the n-th index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String)}
-     * .
+     * Finds the n-th index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String)} .
      * </p>
      *
      * <p>
@@ -919,8 +892,7 @@ public class Strings {
      * @param str the String to check, may be null
      * @param searchStr the String to find, may be null
      * @param ordinal the n-th <code>searchStr</code> to find
-     * @return the n-th index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or
-     *         <code>null</code> string input
+     * @return the n-th index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or <code>null</code> string input
      * @since 2.1
      */
     public static int ordinalIndexOf(String str, String searchStr, int ordinal) {
@@ -929,8 +901,7 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the n-th index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String)}
-     * .
+     * Finds the n-th index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String)} .
      * </p>
      *
      * <p>
@@ -941,8 +912,7 @@ public class Strings {
      * @param searchStr the String to find, may be null
      * @param ordinal the n-th <code>searchStr</code> to find
      * @param lastIndex true if lastOrdinalIndexOf() otherwise false if ordinalIndexOf()
-     * @return the n-th index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or
-     *         <code>null</code> string input
+     * @return the n-th index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or <code>null</code> string input
      */
     // Shared code between ordinalIndexOf(String,String,int) and lastOrdinalIndexOf(String,String,int)
     private static int ordinalIndexOf(String str, String searchStr, int ordinal, boolean lastIndex) {
@@ -970,14 +940,12 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the first index within a String, handling <code>null</code>. This method uses
-     * {@link String#indexOf(String, int)}.
+     * Finds the first index within a String, handling <code>null</code>. This method uses {@link String#indexOf(String, int)}.
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty
-     * ("") search String always matches. A start position greater than the string length only matches an empty search
-     * String.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty ("") search String always matches. A start
+     * position greater than the string length only matches an empty search String.
      * </p>
      *
      * <pre>
@@ -1018,9 +986,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty
-     * ("") search String always matches. A start position greater than the string length only matches an empty search
-     * String.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty ("") search String always matches. A start
+     * position greater than the string length only matches an empty search String.
      * </p>
      *
      * <pre>
@@ -1047,9 +1014,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty
-     * ("") search String always matches. A start position greater than the string length only matches an empty search
-     * String.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position is treated as zero. An empty ("") search String always matches. A start
+     * position greater than the string length only matches an empty search String.
      * </p>
      *
      * <pre>
@@ -1098,8 +1064,7 @@ public class Strings {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Finds the last index within a String, handling <code>null</code>. This method uses
-     * {@link String#lastIndexOf(int)}.
+     * Finds the last index within a String, handling <code>null</code>. This method uses {@link String#lastIndexOf(int)}.
      * </p>
      *
      * <p>
@@ -1127,13 +1092,12 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the last index within a String from a start position, handling <code>null</code>. This method uses
-     * {@link String#lastIndexOf(int, int)}.
+     * Finds the last index within a String from a start position, handling <code>null</code>. This method uses {@link String#lastIndexOf(int, int)}.
      * </p>
      *
      * <p>
-     * A <code>null</code> or empty ("") String will return <code>-1</code>. A negative start position returns
-     * <code>-1</code>. A start position greater than the string length searches the whole string.
+     * A <code>null</code> or empty ("") String will return <code>-1</code>. A negative start position returns <code>-1</code>. A start position greater than
+     * the string length searches the whole string.
      * </p>
      *
      * <pre>
@@ -1162,8 +1126,7 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the last index within a String, handling <code>null</code>. This method uses
-     * {@link String#lastIndexOf(String)}.
+     * Finds the last index within a String, handling <code>null</code>. This method uses {@link String#lastIndexOf(String)}.
      * </p>
      *
      * <p>
@@ -1194,8 +1157,7 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the n-th last index within a String, handling <code>null</code>. This method uses
-     * {@link String#lastIndexOf(String)}.
+     * Finds the n-th last index within a String, handling <code>null</code>. This method uses {@link String#lastIndexOf(String)}.
      * </p>
      *
      * <p>
@@ -1227,8 +1189,7 @@ public class Strings {
      * @param str the String to check, may be null
      * @param searchStr the String to find, may be null
      * @param ordinal the n-th last <code>searchStr</code> to find
-     * @return the n-th last index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or
-     *         <code>null</code> string input
+     * @return the n-th last index of the search String, <code>-1</code> (<code>INDEX_NOT_FOUND</code>) if no match or <code>null</code> string input
      * @since 2.5
      */
     public static int lastOrdinalIndexOf(String str, String searchStr, int ordinal) {
@@ -1237,14 +1198,12 @@ public class Strings {
 
     /**
      * <p>
-     * Finds the first index within a String, handling <code>null</code>. This method uses
-     * {@link String#lastIndexOf(String, int)}.
+     * Finds the first index within a String, handling <code>null</code>. This method uses {@link String#lastIndexOf(String, int)}.
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An
-     * empty ("") search String always matches unless the start position is negative. A start position greater than the
-     * string length searches the whole string.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An empty ("") search String always matches
+     * unless the start position is negative. A start position greater than the string length searches the whole string.
      * </p>
      *
      * <pre>
@@ -1278,9 +1237,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An
-     * empty ("") search String always matches unless the start position is negative. A start position greater than the
-     * string length searches the whole string.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An empty ("") search String always matches
+     * unless the start position is negative. A start position greater than the string length searches the whole string.
      * </p>
      *
      * <pre>
@@ -1309,9 +1267,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An
-     * empty ("") search String always matches unless the start position is negative. A start position greater than the
-     * string length searches the whole string.
+     * A <code>null</code> String will return <code>-1</code>. A negative start position returns <code>-1</code>. An empty ("") search String always matches
+     * unless the start position is negative. A start position greater than the string length searches the whole string.
      * </p>
      *
      * <pre>
@@ -1358,8 +1315,7 @@ public class Strings {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Checks if String contains a search character, handling <code>null</code>. This method uses
-     * {@link String#indexOf(int)}.
+     * Checks if String contains a search character, handling <code>null</code>. This method uses {@link String#indexOf(int)}.
      * </p>
      *
      * <p>
@@ -1387,8 +1343,7 @@ public class Strings {
 
     /**
      * <p>
-     * Checks if String contains a search String, handling <code>null</code>. This method uses
-     * {@link String#indexOf(String)}.
+     * Checks if String contains a search String, handling <code>null</code>. This method uses {@link String#indexOf(String)}.
      * </p>
      *
      * <p>
@@ -1418,8 +1373,8 @@ public class Strings {
 
     /**
      * <p>
-     * Checks if String contains a search String irrespective of case, handling <code>null</code>. Case-insensitivity is
-     * defined as by {@link String#equalsIgnoreCase(String)}.
+     * Checks if String contains a search String irrespective of case, handling <code>null</code>. Case-insensitivity is defined as by
+     * {@link String#equalsIgnoreCase(String)}.
      *
      * <p>
      * A <code>null</code> String will return <code>false</code>.
@@ -1438,8 +1393,7 @@ public class Strings {
      *
      * @param str the String to check, may be null
      * @param searchStr the String to find, may be null
-     * @return true if the String contains the search String irrespective of case or false if not or <code>null</code>
-     *         string input
+     * @return true if the String contains the search String irrespective of case or false if not or <code>null</code> string input
      */
     public static boolean containsIgnoreCase(String str, String searchStr) {
         if (str == null || searchStr == null) {
@@ -1463,9 +1417,9 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A <code>null</code> or zero length search array will
-     * return <code>-1</code>. A <code>null</code> search array entry will be ignored, but a search array containing ""
-     * will return <code>0</code> if <code>str</code> is not null. This method uses {@link String#indexOf(String)}.
+     * A <code>null</code> String will return <code>-1</code>. A <code>null</code> or zero length search array will return <code>-1</code>. A <code>null</code>
+     * search array entry will be ignored, but a search array containing "" will return <code>0</code> if <code>str</code> is not null. This method uses
+     * {@link String#indexOf(String)}.
      * </p>
      *
      * <pre>
@@ -1519,10 +1473,9 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> String will return <code>-1</code>. A <code>null</code> search array will return
-     * <code>-1</code>. A <code>null</code> or zero length search array entry will be ignored, but a search array
-     * containing "" will return the length of <code>str</code> if <code>str</code> is not null. This method uses
-     * {@link String#indexOf(String)}
+     * A <code>null</code> String will return <code>-1</code>. A <code>null</code> search array will return <code>-1</code>. A <code>null</code> or zero length
+     * search array entry will be ignored, but a search array containing "" will return the length of <code>str</code> if <code>str</code> is not null. This
+     * method uses {@link String#indexOf(String)}
      * </p>
      *
      * <pre>
@@ -1587,8 +1540,7 @@ public class Strings {
      * </pre>
      *
      * @param str the String to get the substring from, may be null
-     * @param start the position to start from, negative means count back from the end of the String by this many
-     *            characters
+     * @param start the position to start from, negative means count back from the end of the String by this many characters
      * @return substring from start position, <code>null</code> if null String input
      */
     public static String substring(String str, int start) {
@@ -1621,10 +1573,9 @@ public class Strings {
      * </p>
      *
      * <p>
-     * The returned substring starts with the character in the <code>start</code> position and ends before the
-     * <code>end</code> position. All position counting is zero-based -- i.e., to start at the beginning of the string
-     * use <code>start = 0</code>. Negative start and end positions can be used to specify offsets relative to the end
-     * of the String.
+     * The returned substring starts with the character in the <code>start</code> position and ends before the <code>end</code> position. All position counting
+     * is zero-based -- i.e., to start at the beginning of the string use <code>start = 0</code>. Negative start and end positions can be used to specify
+     * offsets relative to the end of the String.
      * </p>
      *
      * <p>
@@ -1644,10 +1595,8 @@ public class Strings {
      * </pre>
      *
      * @param str the String to get the substring from, may be null
-     * @param start the position to start from, negative means count back from the end of the String by this many
-     *            characters
-     * @param end the position to end at (exclusive), negative means count back from the end of the String by this many
-     *            characters
+     * @param start the position to start from, negative means count back from the end of the String by this many characters
+     * @param end the position to end at (exclusive), negative means count back from the end of the String by this many characters
      * @return substring from start position to end positon, <code>null</code> if null String input
      */
     public static String substring(String str, int start, int end) {
@@ -1691,8 +1640,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If <code>len</code> characters are not available, or the String is <code>null</code>, the String will be returned
-     * without an exception. An empty String is returned if len is negative.
+     * If <code>len</code> characters are not available, or the String is <code>null</code>, the String will be returned without an exception. An empty String
+     * is returned if len is negative.
      * </p>
      *
      * <pre>
@@ -1727,8 +1676,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If <code>len</code> characters are not available, or the String is <code>null</code>, the String will be returned
-     * without an an exception. An empty String is returned if len is negative.
+     * If <code>len</code> characters are not available, or the String is <code>null</code>, the String will be returned without an an exception. An empty
+     * String is returned if len is negative.
      * </p>
      *
      * <pre>
@@ -1763,9 +1712,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If <code>len</code> characters are not available, the remainder of the String will be returned without an
-     * exception. If the String is <code>null</code>, <code>null</code> will be returned. An empty String is returned if
-     * len is negative or exceeds the length of <code>str</code>.
+     * If <code>len</code> characters are not available, the remainder of the String will be returned without an exception. If the String is <code>null</code>,
+     * <code>null</code> will be returned. An empty String is returned if len is negative or exceeds the length of <code>str</code>.
      * </p>
      *
      * <pre>
@@ -1808,8 +1756,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty
-     * string. A <code>null</code> separator will return the input string.
+     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty string. A <code>null</code> separator
+     * will return the input string.
      * </p>
      *
      * <p>
@@ -1852,8 +1800,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty
-     * string. A <code>null</code> separator will return the empty string if the input string is not <code>null</code>.
+     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty string. A <code>null</code> separator
+     * will return the empty string if the input string is not <code>null</code>.
      * </p>
      *
      * <p>
@@ -1896,8 +1844,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty
-     * string. An empty or <code>null</code> separator will return the input string.
+     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty string. An empty or <code>null</code>
+     * separator will return the input string.
      * </p>
      *
      * <p>
@@ -1937,9 +1885,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty
-     * string. An empty or <code>null</code> separator will return the empty string if the input string is not
-     * <code>null</code>.
+     * A <code>null</code> string input will return <code>null</code>. An empty ("") string input will return the empty string. An empty or <code>null</code>
+     * separator will return the empty string if the input string is not <code>null</code>.
      * </p>
      *
      * <p>
@@ -2012,8 +1959,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> input String returns <code>null</code>. A <code>null</code> open/close returns
-     * <code>null</code> (no match). An empty ("") open and close returns an empty string.
+     * A <code>null</code> input String returns <code>null</code>. A <code>null</code> open/close returns <code>null</code> (no match). An empty ("") open and
+     * close returns an empty string.
      * </p>
      *
      * <pre>
@@ -2090,8 +2037,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the
-     * empty string. A <code>null</code> search string will return the source string.
+     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the empty string. A <code>null</code> search
+     * string will return the source string.
      * </p>
      *
      * <pre>
@@ -2121,13 +2068,12 @@ public class Strings {
 
     /**
      * <p>
-     * Case insensitive removal of a substring if it is at the begining of a source string, otherwise returns the source
-     * string.
+     * Case insensitive removal of a substring if it is at the begining of a source string, otherwise returns the source string.
      * </p>
      *
      * <p>
-     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the
-     * empty string. A <code>null</code> search string will return the source string.
+     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the empty string. A <code>null</code> search
+     * string will return the source string.
      * </p>
      *
      * <pre>
@@ -2162,8 +2108,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the
-     * empty string. A <code>null</code> search string will return the source string.
+     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the empty string. A <code>null</code> search
+     * string will return the source string.
      * </p>
      *
      * <pre>
@@ -2193,13 +2139,12 @@ public class Strings {
 
     /**
      * <p>
-     * Case insensitive removal of a substring if it is at the end of a source string, otherwise returns the source
-     * string.
+     * Case insensitive removal of a substring if it is at the end of a source string, otherwise returns the source string.
      * </p>
      *
      * <p>
-     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the
-     * empty string. A <code>null</code> search string will return the source string.
+     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the empty string. A <code>null</code> search
+     * string will return the source string.
      * </p>
      *
      * <pre>
@@ -2235,8 +2180,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the
-     * empty string.
+     * A <code>null</code> source string will return <code>null</code>. An empty ("") source string will return the empty string.
      * </p>
      *
      * <pre>
@@ -2277,10 +2221,9 @@ public class Strings {
      * </pre>
      *
      * <p>
-     * Note: this method doesn't not support padding with
-     * <a href="http://www.unicode.org/glossary/#supplementary_character">Unicode Supplementary Characters</a> as they
-     * require a pair of <code>char</code>s to be represented. If you are needing to support full I18N of your
-     * applications consider using {@link #repeat(String, int)} instead.
+     * Note: this method doesn't not support padding with <a href="http://www.unicode.org/glossary/#supplementary_character">Unicode Supplementary
+     * Characters</a> as they require a pair of <code>char</code>s to be represented. If you are needing to support full I18N of your applications consider
+     * using {@link #repeat(String, int)} instead.
      * </p>
      *
      * @param repeat number of times to repeat delim
@@ -2561,8 +2504,8 @@ public class Strings {
      * <p>
      *
      * <p>
-     * If the size is less than the String length, the String is returned. A <code>null</code> String returns
-     * <code>null</code>. A negative size is treated as zero.
+     * If the size is less than the String length, the String is returned. A <code>null</code> String returns <code>null</code>. A negative size is treated as
+     * zero.
      * </p>
      *
      * <p>
@@ -2588,13 +2531,12 @@ public class Strings {
 
     /**
      * <p>
-     * Centers a String in a larger String of size <code>size</code>. Uses a supplied character as the value to pad the
-     * String with.
+     * Centers a String in a larger String of size <code>size</code>. Uses a supplied character as the value to pad the String with.
      * </p>
      *
      * <p>
-     * If the size is less than the String length, the String is returned. A <code>null</code> String returns
-     * <code>null</code>. A negative size is treated as zero.
+     * If the size is less than the String length, the String is returned. A <code>null</code> String returns <code>null</code>. A negative size is treated as
+     * zero.
      * </p>
      *
      * <pre>
@@ -2629,13 +2571,12 @@ public class Strings {
 
     /**
      * <p>
-     * Centers a String in a larger String of size <code>size</code>. Uses a supplied String as the value to pad the
-     * String with.
+     * Centers a String in a larger String of size <code>size</code>. Uses a supplied String as the value to pad the String with.
      * </p>
      *
      * <p>
-     * If the size is less than the String length, the String is returned. A <code>null</code> String returns
-     * <code>null</code>. A negative size is treated as zero.
+     * If the size is less than the String length, the String is returned. A <code>null</code> String returns <code>null</code>. A negative size is treated as
+     * zero.
      * </p>
      *
      * <pre>
@@ -2691,9 +2632,9 @@ public class Strings {
      * </pre>
      *
      * <p>
-     * <strong>Note:</strong> As described in the documentation for {@link String#toUpperCase()}, the result of this
-     * method is affected by the current locale. For platform-independent case transformations, the method
-     * {@link #lowerCase(String, Locale)} should be used with a specific locale (e.g. {@link Locale#ENGLISH}).
+     * <strong>Note:</strong> As described in the documentation for {@link String#toUpperCase()}, the result of this method is affected by the current locale.
+     * For platform-independent case transformations, the method {@link #lowerCase(String, Locale)} should be used with a specific locale (e.g.
+     * {@link Locale#ENGLISH}).
      * </p>
      *
      * @param str the String to upper case, may be null
@@ -2749,9 +2690,9 @@ public class Strings {
      * </pre>
      *
      * <p>
-     * <strong>Note:</strong> As described in the documentation for {@link String#toLowerCase()}, the result of this
-     * method is affected by the current locale. For platform-independent case transformations, the method
-     * {@link #lowerCase(String, Locale)} should be used with a specific locale (e.g. {@link Locale#ENGLISH}).
+     * <strong>Note:</strong> As described in the documentation for {@link String#toLowerCase()}, the result of this method is affected by the current locale.
+     * For platform-independent case transformations, the method {@link #lowerCase(String, Locale)} should be used with a specific locale (e.g.
+     * {@link Locale#ENGLISH}).
      * </p>
      *
      * @param str the String to lower case, may be null
@@ -3008,8 +2949,7 @@ public class Strings {
 
     /**
      * <p>
-     * Checks if the String contains only unicode digits or space (<code>' '</code>). A decimal point is not a unicode
-     * digit and returns false.
+     * Checks if the String contains only unicode digits or space (<code>' '</code>). A decimal point is not a unicode digit and returns false.
      * </p>
      *
      * <p>
@@ -3191,8 +3131,7 @@ public class Strings {
 
     /**
      * <p>
-     * Returns either the passed in String, or if the String is whitespace, empty ("") or <code>null</code>, the value
-     * of <code>defaultStr</code>.
+     * Returns either the passed in String, or if the String is whitespace, empty ("") or <code>null</code>, the value of <code>defaultStr</code>.
      * </p>
      *
      * <pre>
@@ -3204,8 +3143,7 @@ public class Strings {
      * </pre>
      * 
      * @param str the String to check, may be null
-     * @param defaultStr the default String to return if the input is whitespace, empty ("") or <code>null</code>, may
-     *            be null
+     * @param defaultStr the default String to return if the input is whitespace, empty ("") or <code>null</code>, may be null
      * @return the passed in String, or the default
      * @see Strings#defaultString(String, String)
      * @since 2.6
@@ -3216,8 +3154,7 @@ public class Strings {
 
     /**
      * <p>
-     * Returns either the passed in String, or if the String is empty or <code>null</code>, the value of
-     * <code>defaultStr</code>.
+     * Returns either the passed in String, or if the String is empty or <code>null</code>, the value of <code>defaultStr</code>.
      * </p>
      *
      * <pre>
@@ -3240,8 +3177,7 @@ public class Strings {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Abbreviates a String using ellipses. This will turn "Now is the time for all good men" into
-     * "Now is the time for..."
+     * Abbreviates a String using ellipses. This will turn "Now is the time for all good men" into "Now is the time for..."
      * </p>
      *
      * <p>
@@ -3276,14 +3212,12 @@ public class Strings {
 
     /**
      * <p>
-     * Abbreviates a String using ellipses. This will turn "Now is the time for all good men" into
-     * "...is the time for..."
+     * Abbreviates a String using ellipses. This will turn "Now is the time for all good men" into "...is the time for..."
      * </p>
      *
      * <p>
-     * Works like <code>abbreviate(String, int)</code>, but allows you to specify a "left edge" offset. Note that this
-     * left edge is not necessarily going to be the leftmost character in the result, or the first character following
-     * the ellipses, but it will appear somewhere in the result.
+     * Works like <code>abbreviate(String, int)</code>, but allows you to specify a "left edge" offset. Note that this left edge is not necessarily going to be
+     * the leftmost character in the result, or the first character following the ellipses, but it will appear somewhere in the result.
      *
      * <p>
      * In no case will it return a String of length greater than <code>maxWidth</code>.
@@ -3344,8 +3278,8 @@ public class Strings {
     // -----------------------------------------------------------------------
     /**
      * <p>
-     * Compares two Strings, and returns the portion where they differ. (More precisely, return the remainder of the
-     * second String, starting from where it's different from the first.)
+     * Compares two Strings, and returns the portion where they differ. (More precisely, return the remainder of the second String, starting from where it's
+     * different from the first.)
      * </p>
      *
      * <p>
@@ -3547,8 +3481,8 @@ public class Strings {
      * </pre>
      *
      * @param strs array of String objects, entries may be null
-     * @return the initial sequence of characters that are common to all Strings in the array; empty String if the array
-     *         is null, the elements are all null or if there is no common prefix.
+     * @return the initial sequence of characters that are common to all Strings in the array; empty String if the array is null, the elements are all null or
+     *         if there is no common prefix.
      * @since 2.4
      */
     public static String getCommonPrefix(String[] strs) {
@@ -3579,8 +3513,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * This is the number of changes needed to change one String into another, where each change is a single character
-     * modification (deletion, insertion or substitution).
+     * This is the number of changes needed to change one String into another, where each change is a single character modification (deletion, insertion or
+     * substitution).
      * </p>
      *
      * <p>
@@ -3589,8 +3523,8 @@ public class Strings {
      * </p>
      *
      * <p>
-     * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java
-     * implementation is used with very large strings.<br>
+     * Chas Emerick has written an implementation in Java, which avoids an OutOfMemoryError which can occur when my Java implementation is used with very large
+     * strings.<br>
      * This implementation of the Levenshtein distance algorithm is from
      * <a href="http://www.merriampark.com/ldjava.htm">http://www.merriampark.com/ldjava.htm</a>
      * </p>
@@ -3620,18 +3554,15 @@ public class Strings {
         }
 
         /*
-         * The difference between this impl. and the previous is that, rather than creating and retaining a matrix of
-         * size s.length()+1 by t.length()+1, we maintain two single-dimensional arrays of length s.length()+1. The
-         * first, d, is the 'current working' distance array that maintains the newest distance cost counts as we
-         * iterate through the characters of String s. Each time we increment the index of String t we are comparing, d
-         * is copied to p, the second int[]. Doing so allows us to retain the previous cost counts as required by the
-         * algorithm (taking the minimum of the cost count to the left, up one, and diagonally up and to the left of the
-         * current cost count being calculated). (Note that the arrays aren't really copied anymore, just
-         * switched...this is clearly much better than cloning an array or doing a System.arraycopy() each time through
-         * the outer loop.)
+         * The difference between this impl. and the previous is that, rather than creating and retaining a matrix of size s.length()+1 by t.length()+1, we
+         * maintain two single-dimensional arrays of length s.length()+1. The first, d, is the 'current working' distance array that maintains the newest
+         * distance cost counts as we iterate through the characters of String s. Each time we increment the index of String t we are comparing, d is copied to
+         * p, the second int[]. Doing so allows us to retain the previous cost counts as required by the algorithm (taking the minimum of the cost count to the
+         * left, up one, and diagonally up and to the left of the current cost count being calculated). (Note that the arrays aren't really copied anymore, just
+         * switched...this is clearly much better than cloning an array or doing a System.arraycopy() each time through the outer loop.)
          * 
-         * Effectively, the difference between the two implementations is this one does not cause an out of memory
-         * condition when calculating the LD over two very large strings.
+         * Effectively, the difference between the two implementations is this one does not cause an out of memory condition when calculating the LD over two
+         * very large strings.
          */
 
         int n = s.length(); // length of s
@@ -3698,8 +3629,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal.
-     * The comparison is case sensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal. The comparison is case sensitive.
      * </p>
      *
      * <pre>
@@ -3726,8 +3656,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal.
-     * The comparison is case insensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal. The comparison is case insensitive.
      * </p>
      *
      * <pre>
@@ -3778,8 +3707,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal.
-     * The comparison is case sensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal. The comparison is case sensitive.
      * </p>
      *
      * <pre>
@@ -3807,8 +3735,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal.
-     * The comparison is case insensitive.
+     * <code>null</code>s are handled without exceptions. Two <code>null</code> references are considered to be equal. The comparison is case insensitive.
      * </p>
      *
      * <pre>
@@ -3852,10 +3779,7 @@ public class Strings {
         return str.regionMatches(ignoreCase, strOffset, suffix, 0, suffix.length());
     }
 
-
     public static void main(String[] args) throws ReflectiveOperationException {
-
-      
 
     }
 

@@ -16,10 +16,16 @@
  */
 package org.fintx.lang;
 
+import java.io.Serializable;
+
 /**
- * <p>A mutable pair consisting of two {@code Object} elements.</p>
+ * <p>
+ * A mutable pair consisting of two {@code Object} elements.
+ * </p>
  * 
- * <p>Not #ThreadSafe#</p>
+ * <p>
+ * Not #ThreadSafe#
+ * </p>
  *
  * @param <L> the left element type
  * @param <R> the right element type
@@ -27,7 +33,7 @@ package org.fintx.lang;
  * @since Lang 3.0
  * @version $Id: MutablePair.java 1436770 2013-01-22 07:09:45Z ggregory $
  */
-public class Pair<L, R> {
+public class Pair<L, R> implements Serializable {
 
     /** Serialization version */
     private static final long serialVersionUID = 4954918890077093841L;
@@ -38,15 +44,18 @@ public class Pair<L, R> {
     public R right;
 
     /**
-     * <p>Obtains an immutable pair of from two objects inferring the generic types.</p>
+     * <p>
+     * Obtains an immutable pair of from two objects inferring the generic types.
+     * </p>
      * 
-     * <p>This factory allows the pair to be created using inference to
-     * obtain the generic types.</p>
+     * <p>
+     * This factory allows the pair to be created using inference to obtain the generic types.
+     * </p>
      * 
      * @param <L> the left element type
      * @param <R> the right element type
-     * @param left  the left element, may be null
-     * @param right  the right element, may be null
+     * @param left the left element, may be null
+     * @param right the right element, may be null
      * @return a pair formed from the two parameters, not null
      */
     public static <L, R> Pair<L, R> of(final L left, final R right) {
@@ -63,8 +72,8 @@ public class Pair<L, R> {
     /**
      * Create a new pair instance.
      *
-     * @param left  the left value, may be null
-     * @param right  the right value, may be null
+     * @param left the left value, may be null
+     * @param right the right value, may be null
      */
     public Pair(final L left, final R right) {
         super();
@@ -72,7 +81,7 @@ public class Pair<L, R> {
         this.right = right;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * {@inheritDoc}
      */
@@ -83,7 +92,7 @@ public class Pair<L, R> {
     /**
      * Sets the left element of the pair.
      * 
-     * @param left  the new value of the left element, may be null
+     * @param left the new value of the left element, may be null
      */
     public void setLeft(final L left) {
         this.left = left;
@@ -99,17 +108,16 @@ public class Pair<L, R> {
     /**
      * Sets the right element of the pair.
      * 
-     * @param right  the new value of the right element, may be null
+     * @param right the new value of the right element, may be null
      */
     public void setRight(final R right) {
         this.right = right;
     }
 
     /**
-     * Sets the {@code Map.Entry} value.
-     * This sets the right element of the pair.
+     * Sets the {@code Map.Entry} value. This sets the right element of the pair.
      * 
-     * @param value  the right value to set, not null
+     * @param value the right value to set, not null
      * @return the old value for the right element
      */
     public R setValue(final R value) {

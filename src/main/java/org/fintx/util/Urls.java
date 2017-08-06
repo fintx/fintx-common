@@ -25,7 +25,7 @@ import java.util.Map;
  *
  */
 public class Urls {
-	public static void parseParameters(Map map, String data) {
+	public static void parseParameters(Map<String,String> map, String data) {
 		try {
 			parseParameters(map, data, "UTF-8");
 		} catch (UnsupportedEncodingException e) {
@@ -34,7 +34,7 @@ public class Urls {
 		}
 	}
 
-	private static void parseParameters(Map map, String data, String encoding) throws UnsupportedEncodingException {
+	private static void parseParameters(Map<String,String> map, String data, String encoding) throws UnsupportedEncodingException {
 		if ((data == null) || (data.length() <= 0)) {
 			return;
 		}
@@ -50,7 +50,7 @@ public class Urls {
 		parseParameters(map, bytes, encoding);
 	}
 
-	private static void parseParameters(Map map, byte[] data, String encoding) throws UnsupportedEncodingException {
+	private static void parseParameters(Map<String,String> map, byte[] data, String encoding) throws UnsupportedEncodingException {
 		if ((data != null) && (data.length > 0)) {
 			int ix = 0;
 			int ox = 0;
@@ -94,7 +94,7 @@ public class Urls {
 		}
 	}
 
-	private static void putMapEntry(Map map, String name, String value) {
+	private static void putMapEntry(Map<String,String> map, String name, String value) {
 		// String[] newValues = null;
 		// String[] oldValues = (String[]) (String[]) map.get(name);
 		// if (oldValues == null) {
@@ -118,7 +118,8 @@ public class Urls {
 		return 0;
 	}
 
-	public static String buildQueryData(Map<String, String> map) {
+	@SuppressWarnings("deprecation")
+    public static String buildQueryData(Map<String, String> map) {
 		StringBuilder sb = new StringBuilder(512);
 		boolean first = true;
 		for (String key : map.keySet()) {

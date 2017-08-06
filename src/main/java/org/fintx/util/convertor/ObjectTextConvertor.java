@@ -15,7 +15,6 @@
  */
 package org.fintx.util.convertor;
 
-
 import org.fintx.lang.Encoding;
 
 import lombok.AllArgsConstructor;
@@ -37,18 +36,16 @@ import java.util.List;
  *
  */
 @AllArgsConstructor
-public class ObjectTextConvertor implements ObjectStringConvertor{
-//TODO use for cached
-//    private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
-//TODO use as builder configuration
-   
-    private  Encoding encoding;
-    private  Character separator;
-    private Character associator;
-    
-    private static ObjectStringConvertor baseTypeConvertor=new BaseTypeObjectStringConvertor();
-    
-  
+public class ObjectTextConvertor implements ObjectStringConvertor {
+    // TODO use for cached
+    // private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
+    // TODO use as builder configuration
+
+    private final Encoding encoding;
+    private final Character separator;
+    private final Character associator;
+
+    private static ObjectStringConvertor baseTypeConvertor = new BaseTypeObjectStringConvertor();
 
     /**
      * 
@@ -57,7 +54,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
      * @throws ReflectiveOperationException
      */
 
-    public  <T> String toString(final T bean) throws ReflectiveOperationException {
+    public <T> String toString(final T bean) throws ReflectiveOperationException {
         if (null == bean) {
             return "";
         } else {
@@ -77,7 +74,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
      * @throws ReflectiveOperationException
      */
 
-    public  <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {
+    public <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {
         if (null == text || "".equals(text.trim())) {
             return null;
         } else {
@@ -94,7 +91,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
      * @return
      * @throws ReflectiveOperationException
      */
-    private  <T> String doToText(final T bean) throws ReflectiveOperationException {
+    private <T> String doToText(final T bean) throws ReflectiveOperationException {
         @SuppressWarnings("unchecked")
         Class<T> clazz = (Class<T>) bean.getClass();
         if (isBean(clazz)) {
@@ -113,15 +110,15 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
                 sb.append(fieldName);
                 sb.append(associator);
                 if (null != fieldValue) {
-                    if (0==i&&Iterable.class.isAssignableFrom(f.getType())) {
+                    if (0 == i && Iterable.class.isAssignableFrom(f.getType())) {
                         Iterator<?> it = ((Iterable<?>) fieldValue).iterator();
                         while (it.hasNext()) {
                             try {
                                 sb.append(doToText(it.next()) + "\r\n");
                             } catch (Exception e) {
-                                if(e instanceof ReflectiveOperationException) {
-                                    throw (ReflectiveOperationException)e;
-                                }else {
+                                if (e instanceof ReflectiveOperationException) {
+                                    throw (ReflectiveOperationException) e;
+                                } else {
                                     throw new ReflectiveOperationException(e.getMessage());
                                 }
                             }
@@ -130,9 +127,9 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
                         try {
                             sb.append(baseTypeConvertor.toString(fieldValue));
                         } catch (Exception e) {
-                            if(e instanceof ReflectiveOperationException) {
-                                throw (ReflectiveOperationException)e;
-                            }else {
+                            if (e instanceof ReflectiveOperationException) {
+                                throw (ReflectiveOperationException) e;
+                            } else {
                                 throw new ReflectiveOperationException(e.getMessage());
                             }
                         }
@@ -154,7 +151,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
      * @return target object
      * @throws ReflectiveOperationException
      */
-    private  <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
+    private <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
         Field[] fields = clazz.getDeclaredFields();
         T bean = clazz.newInstance();
         String fieldName = null;
@@ -180,7 +177,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
                 method.invoke(bean, list);
             }
         } else {
-            String[] fieldTexts = text.split("\\"+separator);
+            String[] fieldTexts = text.split("\\" + separator);
             for (String fieldText : fieldTexts) {
                 String[] fieldPair = null;
                 int associatorIndex = fieldText.indexOf(associator);
@@ -195,7 +192,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
                     } catch (Exception e) {
                         throw new ReflectiveOperationException(e);
                     }
-                } else if(associatorIndex!=fieldText.length() - 1){
+                } else if (associatorIndex != fieldText.length() - 1) {
                     throw new RuntimeException("Text format incorrect：" + fieldText);
                 }
             }
@@ -211,15 +208,12 @@ public class ObjectTextConvertor implements ObjectStringConvertor{
         Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
             String name = m.getName();
-            //check whether there are methods that are nether set nor get
+            // check whether there are methods that are nether set nor get
             if (!name.startsWith("set") && !name.startsWith("get")) {
                 flag = false;
             }
         }
         return flag;
     }
-
-   
-
 
 }

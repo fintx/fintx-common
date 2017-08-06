@@ -36,7 +36,7 @@ public final class HttpClient {
 
     static private HttpClientBase httpClientBase = new HttpClientBase(null, null, null);
 
-    public static HttpClientBase custom(KeyStore trustStore, KeyStore keyStore, String keyPass) {
+    public static HttpClientBase custom(final KeyStore trustStore, final KeyStore keyStore, final String keyPass) {
         return new HttpClientBase(trustStore, keyStore, keyPass);
     }
 

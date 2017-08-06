@@ -27,18 +27,18 @@ import javax.servlet.http.HttpServletRequest;
  *
  */
 public class Ips {
-  
-//    public static String getRemoteAddress() {
-//        RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
-//        if (requestAttributes == null) {
-//            return StringUtil.EMPTY;
-//        }
-//        HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
-//        if (request == null) {
-//            return StringUtil.EMPTY;
-//        }
-//        return getRemoteAddress(request);
-//    }
+
+    // public static String getRemoteAddress() {
+    // RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
+    // if (requestAttributes == null) {
+    // return StringUtil.EMPTY;
+    // }
+    // HttpServletRequest request = ((ServletRequestAttributes) requestAttributes).getRequest();
+    // if (request == null) {
+    // return StringUtil.EMPTY;
+    // }
+    // return getRemoteAddress(request);
+    // }
 
     public static String getRemoteAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
@@ -66,7 +66,6 @@ public class Ips {
         return request.getRemoteAddr();
     }
 
-   
     public static String getLocalAddress() {
         String clientId = "";
         try {

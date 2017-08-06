@@ -42,7 +42,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return obj.toString();
         } else if (type.equals("char[]")) {
             return new String((char[]) obj);
-        } else if (type.equals("char")||type.equals("java.lang.Character")) {
+        } else if (type.equals("char") || type.equals("java.lang.Character")) {
             return obj.toString();
         } else if (type.equals("int") || type.equals("java.lang.Integer")) {
             return obj.toString();
@@ -66,8 +66,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         } else if (type.equals("java.sql.Date")) {
             return LocalDateTime.ofInstant(((java.sql.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.BASIC_ISO_DATE);
         } else if (type.equals("java.util.Date")) {
-            return LocalDateTime.ofInstant(((java.util.Date) obj).toInstant(), ZoneId.systemDefault())
-                    .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
+            return LocalDateTime.ofInstant(((java.util.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         } else if (type.equals("byte") || type.equals("java.lang.Byte")) {
             // TODO ??
             return obj.toString();
@@ -115,10 +114,10 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
     public <T> T toObject(String text, Class<T> clazz) throws ReflectiveOperationException {
         if (null == text) {
             return null;
-        }else{
-            text=text.trim();
+        } else {
+            text = text.trim();
         }
-        
+
         String type = clazz.getName();
         if (type.equals("java.lang.String")) {
             return (T) text;
@@ -152,14 +151,11 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return (T) java.sql.Timestamp
                     .from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("java.sql.Time")) {
-            return (T) java.sql.Timestamp
-                    .from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("HHmmss")).atZone(ZoneId.systemDefault()).toInstant());
+            return (T) java.sql.Timestamp.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("HHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("java.sql.Date")) {
-            return (T) java.sql.Date
-                    .from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
+            return (T) java.sql.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("java.util.Date")) {
-            return (T) java.util.Date
-                    .from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
+            return (T) java.util.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("byte") || type.equals("java.lang.Byte")) {
             return (T) new Byte(text);
         } else if (type.equals("short") || type.equals("java.lang.Short")) {
@@ -167,29 +163,30 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         } else if (type.equals("java.math.BigInteger")) {
             return (T) new java.math.BigInteger(text);
         } else if (type.equals("java.util.Calendar")) {
-            java.util.Calendar ca=java.util.Calendar.getInstance();
-            ca.setTime(java.util.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant()));
+            java.util.Calendar ca = java.util.Calendar.getInstance();
+            ca.setTime(
+                    java.util.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant()));
             return (T) ca;
         } else if (java.sql.Clob.class.isAssignableFrom(clazz)) {
-            java.sql.Clob clob=null;
+            java.sql.Clob clob = null;
             try {
-                clob= ((java.sql.Clob)clazz.newInstance());
+                clob = ((java.sql.Clob) clazz.newInstance());
                 clob.setString(0, text);
             } catch (SQLException e) {
                 throw new ReflectiveOperationException(e.getMessage());
             }
-            return (T)clob;
+            return (T) clob;
         } else if (type.equals("java.sql.Blob")) {
-            java.sql.Blob blob=null;
+            java.sql.Blob blob = null;
             try {
-                blob= ((java.sql.Blob)clazz.newInstance());
+                blob = ((java.sql.Blob) clazz.newInstance());
                 blob.setBytes(0, text.getBytes(encoding));
             } catch (SQLException | UnsupportedEncodingException e) {
                 throw new ReflectiveOperationException(e.getMessage());
             }
-            return (T)blob;
+            return (T) blob;
         } else {
-            throw new ReflectiveOperationException("Unsupport type:"+type);
+            throw new ReflectiveOperationException("Unsupport type:" + type);
         }
     }
 }

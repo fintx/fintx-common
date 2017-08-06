@@ -15,12 +15,7 @@
  */
 package org.fintx.http;
 
-import org.fintx.lang.Pair;
-
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.FormBody;
-import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
@@ -34,16 +29,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -76,8 +65,8 @@ public final class HttpClientBase {
     }).setLevel(HttpLoggingInterceptor.Level.BODY);;
 
     @SuppressWarnings("deprecation")
-    HttpClientBase(KeyStore trustStore, KeyStore keyStore, String keyPass) {
-        if(null!=keyStore&&null==keyPass) {
+    HttpClientBase(final KeyStore trustStore, final KeyStore keyStore, final String keyPass) {
+        if (null != keyStore && null == keyPass) {
             throw new IllegalArgumentException("keyPass for keyStore could not be null!");
         }
         // this.keyStore = keyStore;
@@ -92,12 +81,12 @@ public final class HttpClientBase {
                 if (trustManagers.length != 1 || !(trustManagers[0] instanceof X509TrustManager)) {
                     throw new IllegalStateException("Unexpected default trust managers:" + Arrays.toString(trustManagers));
                 }
-                //trustManager = (X509TrustManager) trustManagers[0];
+                // trustManager = (X509TrustManager) trustManagers[0];
             } catch (Exception e) {
                 throw new RuntimeException("Can not get trustManager!", e);
             }
         } else {
-            trustManagers = new X509TrustManager[]{new X509TrustManager() {
+            trustManagers = new X509TrustManager[] { new X509TrustManager() {
                 private final Set<X509Certificate> acceptedIssuers_ = new HashSet<>();
 
                 /**
@@ -132,8 +121,7 @@ public final class HttpClientBase {
                     }
                     return acceptedIssuers_.toArray(new X509Certificate[acceptedIssuers_.size()]);
                 }
-            }
-            };
+            } };
         }
         KeyManager[] keyManagers = null;
         if (null != keyStore) {
@@ -144,7 +132,7 @@ public final class HttpClientBase {
                 if (keyManagers.length != 1 || !(keyManagers[0] instanceof X509KeyManager)) {
                     throw new IllegalStateException("Unexpected default trust managers:" + Arrays.toString(keyManagers));
                 }
-                //keyManager = (X509KeyManager) keyManagers[0];
+                // keyManager = (X509KeyManager) keyManagers[0];
             } catch (Exception e) {
                 throw new RuntimeException("Can not get keyManager!", e);
             }
@@ -344,7 +332,7 @@ public final class HttpClientBase {
             throw new NullPointerException("url could not be null!");
         }
 
-        if (null == file||0==file.length()) {
+        if (null == file || 0 == file.length()) {
             throw new IllegalArgumentException("file could not be null or 0 length!");
         }
         okhttp3.MediaType mediaType = null;

@@ -15,7 +15,6 @@
  */
 package org.fintx.util;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -29,7 +28,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.TimeZone;
-
 
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
@@ -207,7 +205,7 @@ public class Dates {
     public static String getFutureDateTime(int minutes) {
         return LocalDateTime.now().plusMinutes(minutes).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
-    
+
     /**
      * @Title: getFutureDateTime
      * @Description: 获取当前时间以后的第N分钟的14位时间
@@ -250,18 +248,18 @@ public class Dates {
     }
 
     /**
-	 * @param time1
-	 * @param time2
-	 * @return time1在time2之后返回true
-	 * @throws ParseException
-	 */
-	public static boolean compareTimeAfter(String time1, String time2,String type) throws ParseException {
-		SimpleDateFormat formatter = new SimpleDateFormat(type);
-		Date former = formatter.parse(time1);
-		Date after = formatter.parse(time2);
-		return former.after(after);
-	}
-	
+     * @param time1
+     * @param time2
+     * @return time1在time2之后返回true
+     * @throws ParseException
+     */
+    public static boolean compareTimeAfter(String time1, String time2, String type) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat(type);
+        Date former = formatter.parse(time1);
+        Date after = formatter.parse(time2);
+        return former.after(after);
+    }
+
     /**
      * 两日期之间的天数
      * 
@@ -275,7 +273,8 @@ public class Dates {
         // Period p=Period.between(d1,d2);
         // return p.getDays(); //！！！！！it will return 0 if 2 days ends of same
         // day number
-        return ((d2.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() - d1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / (24 * 60 * 60 * 1000L));
+        return ((d2.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+                - d1.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()) / (24 * 60 * 60 * 1000L));
     }
 
     /**
@@ -286,18 +285,18 @@ public class Dates {
      * @return
      * @throws TransactionException
      */
-    public static List<String> getDateList(String beginDate, String endDate){
-            List<String> list = new ArrayList<String>();
-            LocalDate Date1 = parseDate(beginDate);
-            LocalDate Date2 = parseDate(endDate);
-            Period period = Period.between(Date1, Date2);
-            for (int i = 0; i <= period.getDays(); i++) {
-                list.add(addDays(beginDate, i));
-            }
-            return list;
+    public static List<String> getDateList(String beginDate, String endDate) {
+        List<String> list = new ArrayList<String>();
+        LocalDate Date1 = parseDate(beginDate);
+        LocalDate Date2 = parseDate(endDate);
+        Period period = Period.between(Date1, Date2);
+        for (int i = 0; i <= period.getDays(); i++) {
+            list.add(addDays(beginDate, i));
+        }
+        return list;
     }
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) {
         System.out.println("format:" + format(new Date()));
         System.out.println("format8:" + format8(new Date()));
         System.out.println("format14:" + format14(new Date()));

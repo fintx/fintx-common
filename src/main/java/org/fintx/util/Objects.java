@@ -1,21 +1,13 @@
 package org.fintx.util;
 
 import org.fintx.lang.Encoding;
-import org.fintx.util.convertor.ObjectStringConvertor;
 import org.fintx.util.convertor.ObjectTextConvertor;
 import org.fintx.util.convertor.ObjectXmlConvertor;
 
 import net.sf.cglib.beans.BeanCopier;
 import net.sf.cglib.core.Converter;
-import org.apache.commons.lang3.CharSet;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.reflect.Array;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
@@ -58,17 +50,16 @@ public class Objects {
 
     private static ConcurrentMap<Class<?>, BeanCopier> beanCopiers = new ConcurrentHashMap<Class<?>, BeanCopier>();
 
-  
-
     public static <T> T clone(T from) {
         try {
+            @SuppressWarnings("unchecked")
             T clone = (T) from.getClass().newInstance();
 
             BeanCopier copier = getCopier(from.getClass());
 
             copier.copy(from, clone, new Converter() {
                 @Override
-                public Object convert(Object pojo, Class fieldType, Object fieldName) {
+                public Object convert(Object pojo, @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
                     return _clone(pojo);
                 }
             });
@@ -104,8 +95,6 @@ public class Objects {
 
     }
 
-   
-
     public static class Xml {
         private static ObjectXmlConvertor convertor = new ObjectXmlConvertor(null, true, Encoding.UTF_8, false, null);
 
@@ -132,7 +121,8 @@ public class Objects {
             return convertor.toObject(xml, clazz);
         }
 
-        public static ObjectXmlConvertor custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment, String headers) {
+        public static ObjectXmlConvertor custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment,
+                String headers) {
             return new ObjectXmlConvertor(namespacePrefixMapper, formatted, encoding, fragment, headers);
         }
 
@@ -164,7 +154,7 @@ public class Objects {
             return convertor.toObject(text, clazz);
         }
 
-        public static ObjectTextConvertor custom(Encoding encoding, Character separator, Character associator) {
+        public static ObjectTextConvertor custom(final Encoding encoding, final Character separator, final Character associator) {
             return new ObjectTextConvertor(encoding, separator, associator);
         }
     }

@@ -16,10 +16,16 @@
  */
 package org.fintx.lang;
 
+import java.io.Serializable;
+
 /**
- * <p>A mutable triple consisting of three {@code Object} elements.</p>
+ * <p>
+ * A mutable triple consisting of three {@code Object} elements.
+ * </p>
  *
- * <p>Not #ThreadSafe#</p>
+ * <p>
+ * Not #ThreadSafe#
+ * </p>
  *
  * @param <L> the left element type
  * @param <M> the middle element type
@@ -28,7 +34,7 @@ package org.fintx.lang;
  * @version $Id: MutableTriple.java 1552635 2013-12-20 13:02:03Z britter $
  * @since 3.2
  */
-public class Triple<L, M, R>  {
+public class Triple<L, M, R> implements Serializable {
 
     /** Serialization version */
     private static final long serialVersionUID = 1L;
@@ -41,17 +47,20 @@ public class Triple<L, M, R>  {
     public R right;
 
     /**
-     * <p>Obtains an mutable triple of three objects inferring the generic types.</p>
+     * <p>
+     * Obtains an mutable triple of three objects inferring the generic types.
+     * </p>
      *
-     * <p>This factory allows the triple to be created using inference to
-     * obtain the generic types.</p>
+     * <p>
+     * This factory allows the triple to be created using inference to obtain the generic types.
+     * </p>
      *
      * @param <L> the left element type
      * @param <M> the middle element type
      * @param <R> the right element type
-     * @param left  the left element, may be null
-     * @param middle  the middle element, may be null
-     * @param right  the right element, may be null
+     * @param left the left element, may be null
+     * @param middle the middle element, may be null
+     * @param right the right element, may be null
      * @return a triple formed from the three parameters, not null
      */
     public static <L, M, R> Triple<L, M, R> of(final L left, final M middle, final R right) {
@@ -68,9 +77,9 @@ public class Triple<L, M, R>  {
     /**
      * Create a new triple instance.
      *
-     * @param left  the left value, may be null
-     * @param middle  the middle value, may be null
-     * @param right  the right value, may be null
+     * @param left the left value, may be null
+     * @param middle the middle value, may be null
+     * @param right the right value, may be null
      */
     public Triple(final L left, final M middle, final R right) {
         super();
@@ -79,7 +88,7 @@ public class Triple<L, M, R>  {
         this.right = right;
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
      * {@inheritDoc}
      */
@@ -90,7 +99,7 @@ public class Triple<L, M, R>  {
     /**
      * Sets the left element of the triple.
      *
-     * @param left  the new value of the left element, may be null
+     * @param left the new value of the left element, may be null
      */
     public void setLeft(final L left) {
         this.left = left;
@@ -106,7 +115,7 @@ public class Triple<L, M, R>  {
     /**
      * Sets the middle element of the triple.
      *
-     * @param middle  the new value of the middle element, may be null
+     * @param middle the new value of the middle element, may be null
      */
     public void setMiddle(final M middle) {
         this.middle = middle;
@@ -122,10 +131,9 @@ public class Triple<L, M, R>  {
     /**
      * Sets the right element of the triple.
      *
-     * @param right  the new value of the right element, may be null
+     * @param right the new value of the right element, may be null
      */
     public void setRight(final R right) {
         this.right = right;
     }
 }
-
