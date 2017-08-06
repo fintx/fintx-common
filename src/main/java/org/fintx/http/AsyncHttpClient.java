@@ -50,9 +50,7 @@ public final class AsyncHttpClient {
     }
 
     static private OkHttpClient client;
-    private SSLSocketFactory sslSocketFactory;
-    private X509TrustManager trustManager;
-    private HostnameVerifier hostnameVerifer;
+ 
     static{
 //        HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor(new HttpLogger());
 //        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -108,8 +106,8 @@ public final class AsyncHttpClient {
     
 
 
-    public static void getAsync() throws IOException,IllegalStateException {
-        Request request = new Request.Builder().url("http://publicobject.com/helloworld.txt").build();
+    public static void getAsync(URL url) throws IOException,IllegalStateException {
+        Request request = new Request.Builder().url(url).build();
 
         client.newCall(request).enqueue(new Callback() {
             @Override

@@ -1,6 +1,5 @@
 package org.fintx.util;
 
-
 import org.fintx.lang.Encoding;
 import org.fintx.util.convertor.ObjectStringConvertor;
 import org.fintx.util.convertor.ObjectTextConvertor;
@@ -21,6 +20,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import javax.xml.bind.JAXBException;
 
 public class Objects {
     private Objects() {
@@ -61,12 +61,11 @@ public class Objects {
     public static XmlConvertorBuilder xml() {
         return new XmlConvertorBuilder();
     }
-    
+
     public static TextConvertorBuilder text() {
         return new TextConvertorBuilder();
     }
-    
-    
+
     public static <T> T clone(T from) {
         try {
             T clone = (T) from.getClass().newInstance();
@@ -112,58 +111,126 @@ public class Objects {
     }
 
     public static class XmlConvertorBuilder {
-        
-        private boolean formatted=true;
-        private Encoding encoding=Encoding.UTF_8;
-        private boolean fragment=false;
-        private String headers=null;
-        private Map<String,String> namespacePrefixMapper=null;
+
+        private boolean formatted = true;
+        private Encoding encoding = Encoding.UTF_8;
+        private boolean fragment = false;
+        private String headers = null;
+        private Map<String, String> namespacePrefixMapper = null;
+
         public XmlConvertorBuilder formatted(boolean formatted) {
-            this.formatted=formatted;
+            this.formatted = formatted;
             return this;
         }
-        
+
         public XmlConvertorBuilder encoding(Encoding encoding) {
-            this.encoding=encoding;
+            this.encoding = encoding;
             return this;
         }
+
         public XmlConvertorBuilder fragment(boolean fragment) {
-            this.fragment=fragment;
+            this.fragment = fragment;
             return this;
         }
+
         public XmlConvertorBuilder headers(String headers) {
-            this.headers=headers;
+            this.headers = headers;
             return this;
         }
-        
+
         public ObjectStringConvertor build() {
-            ObjectStringConvertor convertor=new ObjectXmlConvertor(namespacePrefixMapper,formatted, encoding, fragment, headers);
+            ObjectStringConvertor convertor = new ObjectXmlConvertor(namespacePrefixMapper, formatted, encoding, fragment, headers);
             return convertor;
         }
 
     }
 
     public static class TextConvertorBuilder {
-        private  Encoding encoding=Encoding.UTF_8;
-        private  Character separator='|';
-        private Character associator='=';
+        private Encoding encoding = Encoding.UTF_8;
+        private Character separator = '|';
+        private Character associator = '=';
+
         public TextConvertorBuilder encoding(Encoding encoding) {
-            this.encoding=encoding;
+            this.encoding = encoding;
             return this;
         }
-        
+
         public TextConvertorBuilder separator(Character separator) {
-            this.separator=separator;
+            this.separator = separator;
             return this;
         }
-        
+
         public TextConvertorBuilder associator(Character associator) {
-            this.associator=associator;
+            this.associator = associator;
             return this;
         }
+
         public ObjectStringConvertor build() {
-            ObjectStringConvertor convertor=new ObjectTextConvertor(encoding, separator, associator);
+            ObjectStringConvertor convertor = new ObjectTextConvertor(encoding, separator, associator);
             return convertor;
+        }
+    }
+
+    public static class Xml {
+        private static ObjectXmlConvertor convertor = new ObjectXmlConvertor(null, true, Encoding.UTF_8, false, null);
+
+        /**
+         * 
+         * @param bean
+         * @return String xml of bean
+         * @throws JAXBException
+         */
+
+        public static <T> String toString(final T bean) throws JAXBException {
+            return convertor.toString(bean);
+        }
+
+        /**
+         * 
+         * @param xml xml to be convert to object
+         * @param clazz target class type of object
+         * @return target object
+         * @throws JAXBException
+         */
+
+        public static <T> T toObject(final String xml, final Class<T> clazz) throws JAXBException {
+            return convertor.toObject(xml, clazz);
+        }
+
+        public static ObjectXmlConvertor custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment, String headers) {
+            return new ObjectXmlConvertor(namespacePrefixMapper, formatted, encoding, fragment, headers);
+        }
+
+    }
+
+    public static class Text {
+        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, '|', '=');
+
+        /**
+         * 
+         * @param bean
+         * @return String text of bean
+         * @throws ReflectiveOperationException
+         */
+
+        public static <T> String toString(final T bean) throws ReflectiveOperationException {
+            return convertor.toString(bean);
+        }
+
+        /**
+         * 
+         * @param text text to be convert to object
+         * @param clazz target class type of object
+         * @return target object
+         * @throws ReflectiveOperationException
+         */
+
+        public static <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {
+            return convertor.toObject(text, clazz);
+        }
+
+        public static ObjectTextConvertor custom(Encoding encoding, Character separator, Character associator) {
+            return new ObjectTextConvertor(encoding, separator, associator);
         }
     }
 }
