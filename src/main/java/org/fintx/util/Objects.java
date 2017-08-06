@@ -58,13 +58,7 @@ public class Objects {
 
     private static ConcurrentMap<Class<?>, BeanCopier> beanCopiers = new ConcurrentHashMap<Class<?>, BeanCopier>();
 
-    public static XmlConvertorBuilder xml() {
-        return new XmlConvertorBuilder();
-    }
-
-    public static TextConvertorBuilder text() {
-        return new TextConvertorBuilder();
-    }
+  
 
     public static <T> T clone(T from) {
         try {
@@ -110,66 +104,7 @@ public class Objects {
 
     }
 
-    public static class XmlConvertorBuilder {
-
-        private boolean formatted = true;
-        private Encoding encoding = Encoding.UTF_8;
-        private boolean fragment = false;
-        private String headers = null;
-        private Map<String, String> namespacePrefixMapper = null;
-
-        public XmlConvertorBuilder formatted(boolean formatted) {
-            this.formatted = formatted;
-            return this;
-        }
-
-        public XmlConvertorBuilder encoding(Encoding encoding) {
-            this.encoding = encoding;
-            return this;
-        }
-
-        public XmlConvertorBuilder fragment(boolean fragment) {
-            this.fragment = fragment;
-            return this;
-        }
-
-        public XmlConvertorBuilder headers(String headers) {
-            this.headers = headers;
-            return this;
-        }
-
-        public ObjectStringConvertor build() {
-            ObjectStringConvertor convertor = new ObjectXmlConvertor(namespacePrefixMapper, formatted, encoding, fragment, headers);
-            return convertor;
-        }
-
-    }
-
-    public static class TextConvertorBuilder {
-        private Encoding encoding = Encoding.UTF_8;
-        private Character separator = '|';
-        private Character associator = '=';
-
-        public TextConvertorBuilder encoding(Encoding encoding) {
-            this.encoding = encoding;
-            return this;
-        }
-
-        public TextConvertorBuilder separator(Character separator) {
-            this.separator = separator;
-            return this;
-        }
-
-        public TextConvertorBuilder associator(Character associator) {
-            this.associator = associator;
-            return this;
-        }
-
-        public ObjectStringConvertor build() {
-            ObjectStringConvertor convertor = new ObjectTextConvertor(encoding, separator, associator);
-            return convertor;
-        }
-    }
+   
 
     public static class Xml {
         private static ObjectXmlConvertor convertor = new ObjectXmlConvertor(null, true, Encoding.UTF_8, false, null);
