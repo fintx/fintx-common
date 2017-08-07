@@ -45,8 +45,7 @@ public final class ObjectXmlConvertor implements ObjectStringConvertor {
     private String headers;
 
     /**
-     * JAXBContext is thread safe, Marshaller(Unmarshaller) and Validator are not safe for threads. So, we cached the
-     * JAXBContext for reusing.
+     * JAXBContext is thread safe, Marshaller(Unmarshaller) and Validator are not safe for threads. So, we cached the JAXBContext for reusing.
      */
     private final Map<Class<?>, JAXBContext> cachedContexts = new HashMap<Class<?>, JAXBContext>();
 
@@ -100,7 +99,6 @@ public final class ObjectXmlConvertor implements ObjectStringConvertor {
 
     }
 
-  
     /**
      * Convert from XML string to object
      */

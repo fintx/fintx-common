@@ -50,27 +50,28 @@ public final class AsyncHttpClient {
     }
 
     static private OkHttpClient client;
- 
-    static{
-//        HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor(new HttpLogger());
-//        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        client = new OkHttpClient().newBuilder().sslSocketFactory(createSSLSocketFactory()).hostnameVerifier(new TrustAllHostnameVerifier()).retryOnConnectionFailure(true).connectTimeout(20, TimeUnit.SECONDS).writeTimeout(40,  TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS)/*.addNetworkInterceptor(interceptor)*/.build();
+
+    static {
+        // HttpLoggingInterceptor interceptor=new HttpLoggingInterceptor(new HttpLogger());
+        // interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        client = new OkHttpClient().newBuilder().sslSocketFactory(createSSLSocketFactory()).hostnameVerifier(new TrustAllHostnameVerifier())
+                .retryOnConnectionFailure(true).connectTimeout(20, TimeUnit.SECONDS).writeTimeout(40, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS)
+                /* .addNetworkInterceptor(interceptor) */.build();
     }
 
     /**
-     * 默认信任所有的证书
-     * TODO 最好加上证书认证，主流App都有自己的证书
+     * 默认信任所有的证书 TODO 最好加上证书认证，主流App都有自己的证书
      *
      * @return
      */
-   // @SuppressLint("TrulyRandom")
+    // @SuppressLint("TrulyRandom")
     private static SSLSocketFactory createSSLSocketFactory() {
 
         SSLSocketFactory sslSocketFactory = null;
 
         try {
             SSLContext sc = SSLContext.getInstance("TLS");
-            sc.init(null, new TrustManager[]{new TrustAllManager()},new SecureRandom());
+            sc.init(null, new TrustManager[] { new TrustAllManager() }, new SecureRandom());
             sslSocketFactory = sc.getSocketFactory();
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,8 +82,7 @@ public final class AsyncHttpClient {
 
     private static class TrustAllManager implements X509TrustManager {
         @Override
-        public void checkClientTrusted(X509Certificate[] chain, String authType)
-                throws CertificateException {
+        public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
         }
 
         @Override
@@ -100,13 +100,11 @@ public final class AsyncHttpClient {
     private static class TrustAllHostnameVerifier implements HostnameVerifier {
         @Override
         public boolean verify(String hostname, SSLSession session) {
-          return true;
+            return true;
         }
     }
-    
 
-
-    public static void getAsync(URL url) throws IOException,IllegalStateException {
+    public static void getAsync(URL url) throws IOException, IllegalStateException {
         Request request = new Request.Builder().url(url).build();
 
         client.newCall(request).enqueue(new Callback() {
