@@ -156,11 +156,11 @@ public class Strings {
     }
 
     /**
-     * @Title: addZeroRight
-     * @Description: str右补0
-     * @param str 待处理字符串
-     * @param len 处理后的字符串长度
-     * @return
+     * Add 0 to right of the str to meet the length of len
+     * 
+     * @param str str to add 0
+     * @param len the total length
+     * @return string from str with 0 on right and with length of len
      * 
      */
     public static String addZeroRight(String str, int len) {
@@ -179,11 +179,11 @@ public class Strings {
     }
 
     /**
-     * @Title: addZeroRight
-     * @Description: str左补0
-     * @param str 待处理字符串
-     * @param len 处理后的字符串长度
-     * @return
+     * Add 0 to left of the str to meet the length of len
+     * 
+     * @param str str to add 0
+     * @param len the total length
+     * @return string from str with 0 on left and with length of len
      * 
      */
     public static String addZeroLeft(String str, int len) {
@@ -202,11 +202,10 @@ public class Strings {
     }
 
     /**
-     * 
-     * @Title: intArrToStringArr
-     * @Description: 数值数组转换成字符串数组
-     * @param intArr 数值数组
-     * @return
+     * convert int array to String array
+     *
+     * @param intArr int array
+     * @return string array
      * 
      */
     public static String[] intArrToStringArr(int[] intArr) {
@@ -218,14 +217,14 @@ public class Strings {
     }
 
     /**
-     * @Title: getBeforeText
-     * @Description: 取text中前length位的字符串
-     * @param str 待处理字符串
-     * @param length 长度
-     * @return
+     * Get the prefix of the String
+     * 
+     * @param str the string to be get
+     * @param length the prefix length
+     * @return the prefix
      * 
      */
-    public static String getBeforeText(String str, int length) {
+    public static String getPrefix(String str, int length) {
         if (str.length() >= length) {
             return str.substring(0, length);
         }
@@ -233,14 +232,14 @@ public class Strings {
     }
 
     /**
-     * @Title: getAfterText
-     * @Description: 取text中后length位的字符串
-     * @param str 待处理字符串
-     * @param length 长度
-     * @return
+     * Get postfix of the string
+     * 
+     * @param str the string to be get
+     * @param length the postfix length
+     * @return the postfix
      * 
      */
-    public static String getAfterText(String str, int length) {
+    public static String getPostfix(String str, int length) {
         if (str.length() >= length) {
             return str.substring(length);
         }
@@ -248,10 +247,10 @@ public class Strings {
     }
 
     /**
-     * @Title: isNotEmpty
-     * @Description: 判断str是否不为空或空字符串
-     * @param str 字符串
-     * @return
+     * Check whether the string is not null
+     * 
+     * @param str the string to be check
+     * @return boolean the result true not empty; false empty
      * 
      */
     public static boolean isNotEmpty(String str) {
@@ -262,11 +261,10 @@ public class Strings {
     }
 
     /**
-     * @Title: isEmpty
-     * @Description: 判断str是否为空或空字符串
-     * @param str
-     * @return
+     * Check whether the string is null
      * 
+     * @param str the string to be check
+     * @return boolean the result true empty; false not empty
      */
     public static boolean isEmpty(String str) {
         if (str != null && !str.trim().equals("")) {
@@ -276,11 +274,10 @@ public class Strings {
     }
 
     /**
-     * @Title: isEmpty
-     * @Description: 判断对象是否为空
-     * @param object
-     * @return
+     * Check whether the object is null
      * 
+     * @param object the string to be check
+     * @return boolean the result true null; false not null
      */
     public static boolean isEmpty(Object object) {
         if (object != null)
@@ -677,6 +674,7 @@ public class Strings {
      * <p>
      * Strips any of a set of characters from the start and end of every String in an array.
      * </p>
+     * <p>
      * Whitespace is defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
@@ -2501,7 +2499,7 @@ public class Strings {
     /**
      * <p>
      * Centers a String in a larger String of size <code>size</code> using the space character (' ').
-     * <p>
+     * </p>
      *
      * <p>
      * If the size is less than the String length, the String is returned. A <code>null</code> String returns <code>null</code>. A negative size is treated as
@@ -3099,7 +3097,6 @@ public class Strings {
      * StringUtils.defaultString("bat") = "bat"
      * </pre>
      *
-     * @see ObjectUtils#toString(Object)
      * @see String#valueOf(Object)
      * @param str the String to check, may be null
      * @return the passed in String, or the empty String if it was <code>null</code>
@@ -3119,7 +3116,6 @@ public class Strings {
      * StringUtils.defaultString("bat", "NULL") = "bat"
      * </pre>
      *
-     * @see ObjectUtils#toString(Object,String)
      * @see String#valueOf(Object)
      * @param str the String to check, may be null
      * @param defaultStr the default String to return if the input is <code>null</code>, may be null
@@ -3188,7 +3184,6 @@ public class Strings {
      * <li>If <code>maxWidth</code> is less than <code>4</code>, throw an <code>IllegalArgumentException</code>.</li>
      * <li>In no case will it return a String of length greater than <code>maxWidth</code>.</li>
      * </ul>
-     * </p>
      *
      * <pre>
      * StringUtils.abbreviate(null, *)      = null
@@ -3283,7 +3278,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * For example, <code>difference("i am a machine", "i am a robot") -> "robot"</code>.
+     * For example, <code>difference("i am a machine", "i am a robot") -- "robot"</code>.
      * </p>
      *
      * <pre>
@@ -3322,7 +3317,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * For example, <code>indexOfDifference("i am a machine", "i am a robot") -> 7</code>
+     * For example, <code>indexOfDifference("i am a machine", "i am a robot") -- 7</code>
      * </p>
      *
      * <pre>
@@ -3366,7 +3361,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * For example, <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -> 7</code>
+     * For example, <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -- 7</code>
      * </p>
      *
      * <pre>
@@ -3457,7 +3452,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * For example, <code>getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) -> "i am a "</code>
+     * For example, <code>getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) -- "i am a "</code>
      * </p>
      *
      * <pre>

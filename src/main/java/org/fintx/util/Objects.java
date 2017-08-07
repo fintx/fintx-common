@@ -271,8 +271,6 @@ public class Objects {
     /**
      * Returns {@code true} if the provided reference is {@code null} otherwise returns {@code false}.
      *
-     * @apiNote This method exists to be used as a {@link java.util.function.Predicate}, {@code filter(java.util.Objects::isNull)}
-     *
      * @param obj a reference to be checked against {@code null}
      * @return {@code true} if the provided reference is {@code null} otherwise {@code false}
      *
@@ -285,8 +283,6 @@ public class Objects {
 
     /**
      * Returns {@code true} if the provided reference is non-{@code null} otherwise returns {@code false}.
-     *
-     * @apiNote This method exists to be used as a {@link java.util.function.Predicate}, {@code filter(java.util.Objects::nonNull)}
      *
      * @param obj a reference to be checked against {@code null}
      * @return {@code true} if the provided reference is non-{@code null} otherwise {@code false}
@@ -321,22 +317,26 @@ public class Objects {
         private static ObjectXmlConvertor convertor = new ObjectXmlConvertor(null, true, Encoding.UTF_8, false, null);
 
         /**
+         * Convert bean object to xml string
          * 
-         * @param bean
+         * @param <T> the object type
+         * @param object the object to be converted
          * @return String xml of bean
-         * @throws JAXBException
+         * @throws JAXBException when there is exception during the conversion
          */
 
-        public static <T> String toString(final T bean) throws JAXBException {
-            return convertor.toString(bean);
+        public static <T> String toString(final T object) throws JAXBException {
+            return convertor.toString(object);
         }
 
         /**
+         * Convert xml string to object of the clazz
          * 
+         * @param <T> the object type
          * @param xml xml to be convert to object
          * @param clazz target class type of object
          * @return target object
-         * @throws JAXBException
+         * @throws JAXBException when there is exception during the conversion
          */
 
         public static <T> T toObject(final String xml, final Class<T> clazz) throws JAXBException {
@@ -354,10 +354,12 @@ public class Objects {
         private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, '|', '=');
 
         /**
+         * Convert bean object to text string
          * 
-         * @param bean
+         * @param <T> the object type
+         * @param bean to be convert to text
          * @return String text of bean
-         * @throws ReflectiveOperationException
+         * @throws ReflectiveOperationException when there is exception during conversion
          */
 
         public static <T> String toString(final T bean) throws ReflectiveOperationException {
@@ -365,11 +367,13 @@ public class Objects {
         }
 
         /**
+         * Convert text string to bean of clazz
          * 
+         * @param <T> the object type
          * @param text text to be convert to object
          * @param clazz target class type of object
          * @return target object
-         * @throws ReflectiveOperationException
+         * @throws ReflectiveOperationException when there is exception during conversion
          */
 
         public static <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {

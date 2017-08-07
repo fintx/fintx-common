@@ -25,6 +25,12 @@ import java.util.Map;
  *
  */
 public class Urls {
+    /**
+     * Parse key value pair from data string
+     * 
+     * @param map key value pair map
+     * @param data to be parse
+     */
     public static void parseParameters(Map<String, String> map, String data) {
         try {
             parseParameters(map, data, "UTF-8");
@@ -34,6 +40,13 @@ public class Urls {
         }
     }
 
+    /**
+     * Parse key value pair from data string
+     * 
+     * @param map key value pair map
+     * @param data to be parse
+     * @param encoding the data string encoding
+     */
     private static void parseParameters(Map<String, String> map, String data, String encoding) throws UnsupportedEncodingException {
         if ((data == null) || (data.length() <= 0)) {
             return;
@@ -50,6 +63,13 @@ public class Urls {
         parseParameters(map, bytes, encoding);
     }
 
+    /**
+     * Parse key value pair from data string
+     * 
+     * @param map key value pair map
+     * @param data to be parse
+     * @param encoding the data string encoding
+     */
     private static void parseParameters(Map<String, String> map, byte[] data, String encoding) throws UnsupportedEncodingException {
         if ((data != null) && (data.length > 0)) {
             int ix = 0;
@@ -94,6 +114,13 @@ public class Urls {
         }
     }
 
+    /**
+     * Put name value pair to map
+     * 
+     * @param map key value pair map
+     * @param data name the key of pair
+     * @param value the value of the pair
+     */
     private static void putMapEntry(Map<String, String> map, String name, String value) {
         // String[] newValues = null;
         // String[] oldValues = (String[]) (String[]) map.get(name);
@@ -118,6 +145,12 @@ public class Urls {
         return 0;
     }
 
+    /**
+     * Build query string in url from map
+     * 
+     * @param map key value pair map
+     * @return the query string in url
+     */
     @SuppressWarnings("deprecation")
     public static String buildQueryData(Map<String, String> map) {
         StringBuilder sb = new StringBuilder(512);

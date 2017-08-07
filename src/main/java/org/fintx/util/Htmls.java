@@ -33,14 +33,15 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
+ * 
+ * Not yet ready to use
+ * 
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
+@Deprecated
 public class Htmls {
 
-    /**
-     * @param args
-     */
     public static void main(String[] args) {
 
         try {

@@ -48,10 +48,11 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
     private static ObjectStringConvertor baseTypeConvertor = new BaseTypeObjectStringConvertor();
 
     /**
+     * Convert from bean to string text.
      * 
-     * @param bean
+     * @param bean the bean object to be convert
      * @return String text of bean
-     * @throws ReflectiveOperationException
+     * @throws ReflectiveOperationException when parameter bean is not a valid bean
      */
 
     public <T> String toString(final T bean) throws ReflectiveOperationException {
@@ -71,7 +72,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
      * @param text text to be convert to object
      * @param clazz target class type of object
      * @return target object
-     * @throws ReflectiveOperationException
+     * @throws ReflectiveOperationException when parameter calzz is not a bean class
      */
 
     public <T> T toObject(final String text, final Class<T> clazz) throws ReflectiveOperationException {
@@ -87,9 +88,9 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
     }
 
     /**
-     * @param bean
-     * @return
-     * @throws ReflectiveOperationException
+     * @param bean to be converted to text string
+     * @return the text string
+     * @throws ReflectiveOperationException when there is any exception during conversion.
      */
     private <T> String doToText(final T bean) throws ReflectiveOperationException {
         @SuppressWarnings("unchecked")
@@ -149,7 +150,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
      * @param text text to be convert to object
      * @param clazz target class type of object
      * @return target object
-     * @throws ReflectiveOperationException
+     * @throws ReflectiveOperationException when there is any exception during conversion
      */
     private <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
         Field[] fields = clazz.getDeclaredFields();

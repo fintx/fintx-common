@@ -30,9 +30,12 @@ import java.util.Optional;
 import java.util.TimeZone;
 
 /**
+ * Since the new date time api is very easy to use, we do not need date util any more.
+ * 
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
+@Deprecated
 public class Dates {
     private Dates() {
     }
@@ -41,22 +44,20 @@ public class Dates {
     public final static String MYSQL_CURRENT_DATE_FORMAT_8 = "%Y%m%d";
 
     /**
-     * @Title: format
-     * @Description: 转换成8位的日期
-     * @param date 日期
-     * @return
+     * Format the Date object as 8 character String.
      * 
+     * @param date the date object
+     * @return the 8 character string
      */
     public static String format(Date date) {
         return format8(date);
     }
 
     /**
-     * @Title: format8
-     * @Description: 转换成8位的日期
-     * @param date 日期
-     * @return
+     * Format the Date object as 8 character String.
      * 
+     * @param date Date object
+     * @return string the 8 character string
      */
     public static String format8(Date date) {
         LocalDate localDate = LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId()).toLocalDate();
@@ -67,11 +68,10 @@ public class Dates {
     }
 
     /**
-     * @Title: format14
-     * @Description: 转换成14位的日期
-     * @param date 日期
-     * @return
+     * Format the Date object as 14 character String.
      * 
+     * @param date Date object
+     * @return string the 14 character string
      */
     public static String format14(Date date) {
         LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(), TimeZone.getDefault().toZoneId());
@@ -82,11 +82,10 @@ public class Dates {
     }
 
     /**
-     * @Title: parse
-     * @Description: 字符串类型的日期转换成Date类型
-     * @param datetime 字符串类型的日期
-     * @return
+     * Parse 8 character date String to LocalDate
      * 
+     * @param date the 8 character date string
+     * @return LocalDate the LocalDate from the date string
      */
     public static LocalDate parseDate(String date) {
         if (Optional.ofNullable(date).isPresent() && 8 == date.length()) {
@@ -100,11 +99,10 @@ public class Dates {
     }
 
     /**
-     * @Title: parse
-     * @Description: 字符串类型的日期转换成Date类型
-     * @param datetime 字符串类型的日期
-     * @return
+     * Parse 14 character datetime String to LocalDateTime
      * 
+     * @param datetime the 14 character date string
+     * @return LocalDateTime the LocalDateTime from the datetime string
      */
     public static LocalDateTime parseDateTime(String datetime) {
         if (Optional.ofNullable(datetime).isPresent() && 14 == datetime.length()) {
@@ -117,33 +115,20 @@ public class Dates {
         return null;
     }
 
-    /**
-     * @Title: isFirstDayOfMonth
-     * @Description: 判断是否是本月第一天
-     * @return
-     * 
-     */
     public static boolean isFirstDayOfMonth() {
         return LocalDate.now().getDayOfMonth() == 1;
     }
 
-    /**
-     * @Title: isFirstDayOfYear
-     * @Description: 判断是否是本年第一天
-     * @return
-     * 
-     */
     public static boolean isFirstDayOfYear() {
         return LocalDate.now().getDayOfYear() == 1;
     }
 
     /**
-     * @Title: addDays
-     * @Description: 增加天数
-     * @param datetime 字符串类型日期
-     * @param days 增加或退后的天数
-     * @return
+     * Add days to the datetime String
      * 
+     * @param datetime the datetime string
+     * @param days the days to be added
+     * @return datetime string after add days to parameter datetime
      */
     public static String addDays(String datetime, int days) {
         if (Optional.ofNullable(datetime).isPresent()) {
@@ -162,32 +147,14 @@ public class Dates {
         return null;
     }
 
-    /**
-     * @Title: getCurDate
-     * @Description: 获取计算机系统的当前日期并格式化成8位
-     * @return
-     * 
-     */
     public static String getCurrentDate() {
         return LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
     }
 
-    /**
-     * @Title: getCurDateTime
-     * @Description: 获取计算机系统的当前日期并格式化成14位
-     * @return
-     * 
-     */
     public static String getCurrentDateTime() {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 
-    /**
-     * @Title: getCurDateTime
-     * @Description: 获取计算机系统的当前日期并格式化成14位
-     * @return
-     * 
-     */
     public static String getCurDateTime(String parten) {
         if (null == parten || "".equals(parten)) {
             parten = "yyyy-MM-dd HH:mm:ss.SSS";
@@ -195,35 +162,14 @@ public class Dates {
         return LocalDateTime.now().format(DateTimeFormatter.ofPattern(parten));
     }
 
-    /**
-     * @Title: getFutureDateTime
-     * @Description: 获取当前时间以后的第N分钟的14位时间
-     * @param minutes 分钟偏移量
-     * @return
-     * 
-     */
     public static String getFutureDateTime(int minutes) {
         return LocalDateTime.now().plusMinutes(minutes).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 
-    /**
-     * @Title: getFutureDateTime
-     * @Description: 获取当前时间以后的第N分钟的14位时间
-     * @param seconds 秒钟偏移量
-     * @return
-     * 
-     */
     public static String getFutureSecondDateTime(long seconds) {
         return LocalDateTime.now().plusSeconds(seconds).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
     }
 
-    /**
-     * @Title: parseYear
-     * @Description: 根据日期获取年份
-     * @param date 字符串类型日期
-     * @return
-     * 
-     */
     public static String parseYear(String date) {
         if (Optional.ofNullable(date).isPresent() && (date.length() == 8 || date.length() == 14)) {
             return date.substring(0, 4);
@@ -232,13 +178,6 @@ public class Dates {
         }
     }
 
-    /**
-     * @Title: parseMonth
-     * @Description: 根据日期获取月份
-     * @param date 字符串类型日期
-     * @return
-     * 
-     */
     public static String parseMonth(String date) {
         if (Optional.ofNullable(date).isPresent() && date.length() >= 8) {
             return date.substring(4, 6);
@@ -247,12 +186,6 @@ public class Dates {
         }
     }
 
-    /**
-     * @param time1
-     * @param time2
-     * @return time1在time2之后返回true
-     * @throws ParseException
-     */
     public static boolean compareTimeAfter(String time1, String time2, String type) throws ParseException {
         SimpleDateFormat formatter = new SimpleDateFormat(type);
         Date former = formatter.parse(time1);
@@ -261,11 +194,11 @@ public class Dates {
     }
 
     /**
-     * 两日期之间的天数
+     * Get the days between two date string maybe negative
      * 
-     * @param lastTxnDate 最后交易时间
-     * @param txnDate 当前交易时间
-     * @return
+     * @param lastTxnDate the begin date
+     * @param txnDate the end date
+     * @return the days between the two date
      */
     public static Long getDayGap(String lastTxnDate, String txnDate) {
         LocalDate d1 = parseDate(lastTxnDate);
@@ -278,12 +211,11 @@ public class Dates {
     }
 
     /**
-     * 返回2个日期之间的日期集合 包含起止日期
+     * Get all days string between beginDate and endDate includes the beginDate and endDate
      * 
-     * @param beginDate
-     * @param endDate
-     * @return
-     * @throws TransactionException
+     * @param beginDate the begin date
+     * @param endDate the end date
+     * @return list of all days
      */
     public static List<String> getDateList(String beginDate, String endDate) {
         List<String> list = new ArrayList<String>();
