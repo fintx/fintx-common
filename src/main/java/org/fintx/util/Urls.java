@@ -155,15 +155,15 @@ public class Urls {
     public static String buildQueryData(Map<String, String> map) {
         StringBuilder sb = new StringBuilder(512);
         boolean first = true;
-        for (String key : map.keySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             if (!first) {
                 sb.append("&");
             } else {
                 first = false;
             }
-            sb.append(key);
+            sb.append(entry.getKey());
             sb.append("=");
-            sb.append(URLEncoder.encode(map.get(key)));
+            sb.append(URLEncoder.encode(entry.getValue()));
         }
         return sb.toString();
 

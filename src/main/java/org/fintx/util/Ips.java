@@ -39,12 +39,12 @@ public class Ips {
     // }
     // return getRemoteAddress(request);
     // }
-/**
- * Get the remote IP from HttpServletRequest
- * 
- * @param request the HttpServletRequest
- * @return String the remote IP
- */
+    /**
+     * Get the remote IP from HttpServletRequest
+     * 
+     * @param request the HttpServletRequest
+     * @return String the remote IP
+     */
     public static String getRemoteAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
         if (Strings.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
@@ -70,6 +70,7 @@ public class Ips {
         }
         return request.getRemoteAddr();
     }
+
     /**
      * Get the local IP
      * 

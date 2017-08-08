@@ -361,8 +361,8 @@ public final class HttpClientBase {
         }
 
         FormBody.Builder builder = new FormBody.Builder();
-        for (String key : formParams.keySet()) {
-            builder.add(key, formParams.get(key));
+        for (Map.Entry<String, String> entry : formParams.entrySet()) {
+            builder.add(entry.getKey(), entry.getValue());
         }
         RequestBody formBody = builder.build();
 
@@ -389,15 +389,15 @@ public final class HttpClientBase {
         MultipartBody.Builder builder = new MultipartBody.Builder().setType(MultipartBody.ALTERNATIVE);
 
         if (null != formParams && 0 != formParams.size()) {
-            for (String key : formParams.keySet()) {
-                builder = builder.addFormDataPart(key, formParams.get(key));
+            for (Map.Entry<String, String> entry : formParams.entrySet()) {
+                builder = builder.addFormDataPart(entry.getKey(), entry.getValue());
             }
         }
 
         if (null != formFiles && 0 != formFiles.size()) {
-            for (String key : formFiles.keySet()) {
-                RequestBody fileBody = RequestBody.create(okhttp3.MediaType.parse(MediaType.APP_OCTETSTREAM.getCode()), formFiles.get(key));
-                builder.addFormDataPart(key, formFiles.get(key).getName(), fileBody);
+            for (Map.Entry<String, File> entry : formFiles.entrySet()) {
+                RequestBody fileBody = RequestBody.create(okhttp3.MediaType.parse(MediaType.APP_OCTETSTREAM.getCode()), entry.getValue());
+                builder.addFormDataPart(entry.getKey(), entry.getValue().getName(), fileBody);
             }
 
         }
