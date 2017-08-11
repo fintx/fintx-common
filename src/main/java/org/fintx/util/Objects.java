@@ -55,14 +55,14 @@ public class Objects {
     // return o;
     // }
 
-    private static ConcurrentMap<Class<?>, BeanCopier> beanCopiers = new ConcurrentHashMap<Class<?>, BeanCopier>();
+    private static ConcurrentMap<String, BeanCopier> beanCopiers = new ConcurrentHashMap<String, BeanCopier>();
 
     public static <T> T deepClone(T from) {
         try {
             @SuppressWarnings("unchecked")
             T clone = (T) from.getClass().newInstance();
 
-            BeanCopier copier = getCopier(from.getClass());
+            BeanCopier copier = getCopier(from.getClass(), from.getClass());
 
             copier.copy(from, clone, new Converter() {
                 @Override
@@ -94,12 +94,27 @@ public class Objects {
         }
     }
 
-    private static BeanCopier getCopier(Class<?> clz) {
-        if (beanCopiers.containsKey(clz))
-            return beanCopiers.get(clz);
-        beanCopiers.putIfAbsent(clz, BeanCopier.create(clz, clz, true));
-        return beanCopiers.get(clz);
+    private static BeanCopier getCopier(Class<?> clz1, Class<?> clz2) {
+        if (beanCopiers.containsKey(clz1.getName() + clz2.getName()))
+            return beanCopiers.get(clz1.getName() + clz2.getName());
+        beanCopiers.putIfAbsent(clz1.getName() + clz2.getName(), BeanCopier.create(clz1, clz2, true));
+        return beanCopiers.get(clz1.getName() + clz2.getName());
 
+    }
+
+    public static void copyProperties(Object from, Object to) {
+        BeanCopier bc = getCopier(from.getClass(), to.getClass());
+        bc.copy(from, to, new Converter() {
+
+            @Override
+            public Object convert(Object value, Class target, Object context) {
+                if (null != value && target.getName().equals("java.lang.String")) {
+                    return value.toString();
+                }
+                return null;
+            }
+
+        });
     }
 
     /**
