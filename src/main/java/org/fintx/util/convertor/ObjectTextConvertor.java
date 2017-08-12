@@ -35,7 +35,6 @@ import java.util.List;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-@AllArgsConstructor
 public class ObjectTextConvertor implements ObjectStringConvertor {
     // TODO use for cached
     // private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
@@ -44,8 +43,15 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
     private final Encoding encoding;
     private final Character separator;
     private final Character associator;
+    
+    public ObjectTextConvertor(Encoding encoding,Character separator,Character associator) {
+        this.encoding=encoding;
+        this.separator=separator;
+        this.associator=associator;
+        this.baseTypeConvertor = new BaseTypeObjectStringConvertor(encoding);
+    }
 
-    private static ObjectStringConvertor baseTypeConvertor = new BaseTypeObjectStringConvertor();
+    private final ObjectStringConvertor baseTypeConvertor;
 
     /**
      * Convert from bean to string text.
@@ -108,6 +114,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
                 fieldName = f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
                 method = clazz.getDeclaredMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
                 fieldValue = method.invoke(bean, new Object[0]);
+                
                 sb.append(fieldName);
                 sb.append(associator);
                 if (null != fieldValue) {

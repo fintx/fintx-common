@@ -15,6 +15,8 @@
  */
 package org.fintx.util.convertor;
 
+import org.fintx.lang.Encoding;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -30,8 +32,11 @@ import java.time.format.DateTimeFormatter;
  *
  */
 public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
+    public BaseTypeObjectStringConvertor(Encoding encoding) {
+        this.encoding=encoding;
+    }
 
-    private static String encoding = "GBK";
+    private  Encoding encoding = Encoding.UTF_8;
 
     public <T> String toString(T obj) throws ReflectiveOperationException {
         if (null == obj) {
@@ -133,7 +138,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return (T) new Integer(text);
         } else if (type.equals("byte[]")) {
             try {
-                return (T) text.getBytes(encoding);
+                return (T) text.getBytes(encoding.getCode());
             } catch (UnsupportedEncodingException e) {
                 throw new ReflectiveOperationException(e.getMessage());
             }
@@ -180,7 +185,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             java.sql.Blob blob = null;
             try {
                 blob = ((java.sql.Blob) clazz.newInstance());
-                blob.setBytes(0, text.getBytes(encoding));
+                blob.setBytes(0, text.getBytes(encoding.getCode()));
             } catch (SQLException | UnsupportedEncodingException e) {
                 throw new ReflectiveOperationException(e.getMessage());
             }
