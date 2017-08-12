@@ -59,19 +59,33 @@ public class Objects {
 
     public static <T> T deepClone(T from) {
         try {
-            @SuppressWarnings("unchecked")
-            T clone = (T) from.getClass().newInstance();
+            
 
             BeanCopier copier = getCopier(from.getClass(), from.getClass());
-
-            copier.copy(from, clone, new Converter() {
-                @Override
-                public Object convert(Object pojo, @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
-                    return _clone(pojo);
+            if (from.getClass().isArray() ) {
+                if(!from.getClass().getComponentType().equals(byte.class)) {
+                    int length = Array.getLength(from);
+                    @SuppressWarnings("unchecked")
+                    T clone = (T) Array.newInstance(from.getClass().getComponentType(), length);
+                    for (int i = 0; i < length; i++) {
+                        Array.set(clone, i, _clone(Array.get(from, i)));
+                    }
+                    return clone;
+                }else {
+                    return from;
                 }
-            });
-
-            return clone;
+                
+            } else {
+                @SuppressWarnings("unchecked")
+                T clone = (T) from.getClass().newInstance();
+                copier.copy(from, clone, new Converter() {
+                    @Override
+                    public Object convert(Object pojo,  @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
+                        return _clone(pojo);
+                    }
+                });
+                return clone;
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
