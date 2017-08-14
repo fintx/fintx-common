@@ -10,8 +10,10 @@ import net.sf.cglib.core.Converter;
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.Supplier;
@@ -56,55 +58,48 @@ public class Objects {
     // }
 
     private static ConcurrentMap<String, BeanCopier> beanCopiers = new ConcurrentHashMap<String, BeanCopier>();
+    private static final Set<Class<?>> WRAPPER_TYPES = new HashSet<Class<?>>(
+            Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
 
+    public static boolean isWrapperType(Class<?> clazz) {
+        return WRAPPER_TYPES.contains(clazz);
+    }
+/**
+ * Make sure there is #no cycle reference# in the from parameter
+ * 
+ * @param from the object to be clone (make sure no cycle reference in the object)
+ * @return the clone object
+ */
     public static <T> T deepClone(T from) {
         try {
-            
-
+            if (null == from) {
+                return null;
+            }
             BeanCopier copier = getCopier(from.getClass(), from.getClass());
-            if (from.getClass().isArray() ) {
-                if(!from.getClass().getComponentType().equals(byte.class)) {
-                    int length = Array.getLength(from);
-                    @SuppressWarnings("unchecked")
-                    T clone = (T) Array.newInstance(from.getClass().getComponentType(), length);
-                    for (int i = 0; i < length; i++) {
-                        Array.set(clone, i, _clone(Array.get(from, i)));
-                    }
-                    return clone;
-                }else {
-                    return from;
+            if (from.getClass().isArray()) {
+                int length = Array.getLength(from);
+                @SuppressWarnings("unchecked")
+                T clone = (T) Array.newInstance(from.getClass().getComponentType(), length);
+                for (int i = 0; i < length; i++) {
+                    Array.set(clone, i, deepClone(Array.get(from, i)));
                 }
-                
+                return clone;
+            } else if (isWrapperType(from.getClass())) {
+                return from;
             } else {
                 @SuppressWarnings("unchecked")
                 T clone = (T) from.getClass().newInstance();
                 copier.copy(from, clone, new Converter() {
                     @Override
-                    public Object convert(Object pojo,  @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
-                        return _clone(pojo);
+                    public Object convert(Object pojo, @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
+                        System.out.println(pojo+fieldType.getName()+fieldName.toString());
+                        return deepClone(pojo);
                     }
                 });
                 return clone;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    private static Object _clone(Object pojo) {
-        if (pojo == null) {
-            return null;
-        } else {
-            if (pojo.getClass().isArray() && !pojo.getClass().getComponentType().equals(byte.class)) {
-                int length = Array.getLength(pojo);
-                Object clone = Array.newInstance(pojo.getClass().getComponentType(), length);
-                for (int i = 0; i < length; i++) {
-                    Array.set(clone, i, _clone(Array.get(pojo, i)));
-                }
-                return clone;
-            } else {
-                return pojo;
-            }
         }
     }
 
@@ -121,7 +116,7 @@ public class Objects {
         bc.copy(from, to, new Converter() {
 
             @Override
-            public Object convert(Object value, Class target, Object context) {
+            public Object convert(Object value, @SuppressWarnings("rawtypes") Class target, Object context) {
                 if (null != value && target.getName().equals("java.lang.String")) {
                     return value.toString();
                 }
