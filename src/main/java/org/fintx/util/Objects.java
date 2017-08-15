@@ -64,12 +64,13 @@ public class Objects {
     public static boolean isWrapperType(Class<?> clazz) {
         return WRAPPER_TYPES.contains(clazz);
     }
-/**
- * Make sure there is #no cycle reference# in the from parameter
- * 
- * @param from the object to be clone (make sure no cycle reference in the object)
- * @return the clone object
- */
+
+    /**
+     * Make sure there is #no cycle reference# in the from parameter
+     * 
+     * @param from the object to be clone (make sure no cycle reference in the object)
+     * @return the clone object
+     */
     public static <T> T deepClone(T from) {
         try {
             if (null == from) {
@@ -92,7 +93,6 @@ public class Objects {
                 copier.copy(from, clone, new Converter() {
                     @Override
                     public Object convert(Object pojo, @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
-                        System.out.println(pojo+fieldType.getName()+fieldName.toString());
                         return deepClone(pojo);
                     }
                 });
@@ -119,6 +119,8 @@ public class Objects {
             public Object convert(Object value, @SuppressWarnings("rawtypes") Class target, Object context) {
                 if (null != value && target.getName().equals("java.lang.String")) {
                     return value.toString();
+                } else if (null != value && target.isAssignableFrom(value.getClass())) {
+                    return value;
                 }
                 return null;
             }
@@ -375,7 +377,7 @@ public class Objects {
     }
 
     public static class Text {
-        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, '|', '=');
+        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, "|", "\r\n", false);
 
         /**
          * Convert bean object to text string
@@ -404,8 +406,9 @@ public class Objects {
             return convertor.toObject(text, clazz);
         }
 
-        public static ObjectTextConvertor custom(final Encoding encoding, final Character separator, final Character associator) {
-            return new ObjectTextConvertor(encoding, separator, associator);
+        public static ObjectTextConvertor custom(final Encoding encoding, final String separate, final String linkbreak, final boolean withname,
+                final String associate) {
+            return new ObjectTextConvertor(encoding, separate, linkbreak, withname, associate);
         }
     }
 }

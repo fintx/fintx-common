@@ -82,16 +82,20 @@ public final class ObjectXmlConvertor implements ObjectStringConvertor {
                 marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
             } else {
                 // set the new xml headers 添加xml头声明信息
-                marshaller.setProperty("com.sun.xml.bind.xmlHeaders", headers);
+                marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", headers);
             }
 
             // reslove the namespace prefix problem
-            NamespacePrefixMapper mapper = new DefaultNamespacePrefixMapper(namespacePrefixMapper);
-            marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
+            if(null!=namespacePrefixMapper) {
+                System.out.println("--------------------");
+                NamespacePrefixMapper mapper = new DefaultNamespacePrefixMapper(namespacePrefixMapper);
+                marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", mapper);
+            }
+           
         } catch (PropertyException e) {
-            throw new JAXBException(e.getMessage());
+            throw new JAXBException(e);
         } catch (IllegalArgumentException e) {
-            throw new JAXBException(e.getMessage());
+            throw new JAXBException(e);
         }
         StringWriter writer = new StringWriter();
         marshaller.marshal(obj, writer);

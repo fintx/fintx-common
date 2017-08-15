@@ -41,14 +41,26 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
     // TODO use as builder configuration
 
     private final Encoding encoding;
-    private final Character separator;
-    private final Character associator;
-    
-    public ObjectTextConvertor(Encoding encoding,Character separator,Character associator) {
-        this.encoding=encoding;
-        this.separator=separator;
-        this.associator=associator;
+    private final String separate;
+    private final String associate;
+    private final String linebreak;
+    private final boolean withname;
+
+    public ObjectTextConvertor(Encoding encoding, String separate,  String linebreak, boolean withname,String... associate) {
+        this.encoding = encoding;
+        this.separate = separate;
+        if(withname) {
+            if(null==associate||null==associate[0]||0==associate[0].length()){
+                this.associate=associate[0];
+            }else {
+                throw new IllegalArgumentException("Argument associate must have at leaset one value with length>1!");
+            }
+        }else {
+            this.associate=null;
+        }
+        this.linebreak = linebreak;
         this.baseTypeConvertor = new BaseTypeObjectStringConvertor(encoding);
+        this.withname = withname;
     }
 
     private final ObjectStringConvertor baseTypeConvertor;
@@ -68,7 +80,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
             if (isBean(bean.getClass())) {
                 return doToText(bean);
             } else {
-                throw new ReflectiveOperationException("Object is not a bean");
+                throw new IllegalArgumentException("Object is not a bean");
             }
         }
     }
@@ -112,17 +124,18 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
             for (int i = 0; i < fields.length; i++) {
                 f = fields[i];
                 fieldName = f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
-                method = clazz.getDeclaredMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
-                fieldValue = method.invoke(bean, new Object[0]);
-                
+                //method = clazz.getDeclaredMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
+                //fieldValue = method.invoke(bean, new Object[0]);
+                f.setAccessible(true);
+                fieldValue =f.get(bean);
                 sb.append(fieldName);
-                sb.append(associator);
+                sb.append(associate);
                 if (null != fieldValue) {
                     if (0 == i && Iterable.class.isAssignableFrom(f.getType())) {
                         Iterator<?> it = ((Iterable<?>) fieldValue).iterator();
                         while (it.hasNext()) {
                             try {
-                                sb.append(doToText(it.next()) + "\r\n");
+                                sb.append(doToText(it.next()) + linebreak);
                             } catch (Exception e) {
                                 if (e instanceof ReflectiveOperationException) {
                                     throw (ReflectiveOperationException) e;
@@ -144,7 +157,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
                     }
                 }
                 if (i < (fields.length - 1)) {
-                    sb.append(separator);
+                    sb.append(separate);
                 }
             }
             return sb.toString();
@@ -167,7 +180,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
             fieldName = fields[0].getName().substring(0, 1).toUpperCase() + fields[0].getName().substring(1);
             Class<?> genericClass = (Class<?>) ((ParameterizedType) fields[0].getGenericType()).getActualTypeArguments()[0];
             List<Object> list = new ArrayList<Object>();
-            String subText = text.substring(text.indexOf("=") + 1);
+            String subText = text.substring(text.indexOf(associate) + 1);
             byte[] textBytes;
             try {
                 textBytes = subText.getBytes(encoding.getCode());
@@ -185,23 +198,39 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
                 method.invoke(bean, list);
             }
         } else {
-            String[] fieldTexts = text.split("\\" + separator);
-            for (String fieldText : fieldTexts) {
-                String[] fieldPair = null;
-                int associatorIndex = fieldText.indexOf(associator);
-                if (associatorIndex > 0 && associatorIndex < fieldText.length() - 1) {
-                    fieldPair = new String[2];
-                    fieldPair[0] = fieldText.substring(0, associatorIndex);
-                    fieldPair[1] = fieldText.substring(associatorIndex + 1);
-                    Method method = clazz.getDeclaredMethod("set" + fieldPair[0], fields[0].getType());
-                    Field field = clazz.getDeclaredField(fieldPair[0].substring(0, 1).toLowerCase() + fieldPair[0].substring(1));
+            String[] fieldTexts = text.split(separate);
+            if(withname) {
+                if (fieldTexts.length != fields.length) {
+                    throw new RuntimeException("Text part number " + fieldTexts.length + " is not match the field number " + fields.length);
+                }
+                for (int i=0;i<fieldTexts.length;i++) {
                     try {
-                        method.invoke(bean, baseTypeConvertor.toObject(fieldPair[1], field.getType()));
+                        fields[i].setAccessible(true);
+                        fields[i].set(bean, baseTypeConvertor.toObject(fieldTexts[i], fields[i].getType()));
                     } catch (Exception e) {
                         throw new ReflectiveOperationException(e);
                     }
-                } else if (associatorIndex != fieldText.length() - 1) {
-                    throw new RuntimeException("Text format incorrect：" + fieldText);
+                }
+            }else {
+                for (String fieldText : fieldTexts) {
+                    String[] fieldPair = null;
+                    int associatorIndex = fieldText.indexOf(associate);
+                    if (associatorIndex > 0 && associatorIndex < fieldText.length() - 1) {
+                        fieldPair = new String[2];
+                        fieldPair[0] = fieldText.substring(0, associatorIndex);
+                        fieldPair[1] = fieldText.substring(associatorIndex + 1);
+                        Field field = clazz.getDeclaredField(fieldPair[0].substring(0, 1).toLowerCase() + fieldPair[0].substring(1));
+                        //Method method = clazz.getDeclaredMethod("set" + fieldPair[0], field.getType());
+                        try {
+                            //method.invoke(bean, baseTypeConvertor.toObject(fieldPair[1], field.getType()));
+                            field.setAccessible(true);
+                            field.set(bean, baseTypeConvertor.toObject(fieldPair[1], field.getType()));
+                        } catch (Exception e) {
+                            throw new ReflectiveOperationException(e);
+                        }
+                    } else if (associatorIndex != fieldText.length() - 1) {
+                        throw new RuntimeException("Text format incorrect：" + fieldText);
+                    }
                 }
             }
         }
@@ -217,7 +246,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
         for (Method m : methods) {
             String name = m.getName();
             // check whether there are methods that are nether set nor get
-            if (!name.startsWith("set") && !name.startsWith("get")) {
+            if (!name.startsWith("set") && !name.startsWith("get")&& !name.startsWith("is")) {
                 flag = false;
             }
         }
