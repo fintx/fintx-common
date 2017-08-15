@@ -16,6 +16,8 @@
  */
 package org.fintx.util;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -126,6 +128,12 @@ public class Strings {
      * @since 2.0
      */
     public static final String EMPTY = "";
+    /**
+     * The empty String <code>""</code>.
+     * 
+     * @since 2.0
+     */
+    public static final String[] EMPTY_ARRAY = new String[0];
 
     /**
      * Represents a failed index search.
@@ -167,8 +175,6 @@ public class Strings {
         }
         return true;
     }
-
-    
 
     // Empty checks
 
@@ -1263,6 +1269,49 @@ public class Strings {
             return str;
         }
         return new String(chs, 0, count);
+    }
+
+    /**
+     * Performs the logic for the {@code split} and {@code splitPreserveAllTokens} methods that do not return a maximum array length.
+     *
+     * @param str the String to parse, may be {@code null}
+     * @param separatorChar the separate character
+     * @param preserveAllTokens if {@code true}, adjacent separators are treated as empty token separators; if {@code false}, adjacent separators are treated as
+     *            one separator.
+     * @return an array of parsed Strings, {@code null} if null String input
+     */
+    public static String[] split(final String str, final char separatorChar) {
+        // Performance tuned for 2.0 (JDK1.4)
+        boolean preserveAllTokens = true;
+        if (str == null) {
+            return null;
+        }
+        final int len = str.length();
+        if (len == 0) {
+            return EMPTY_ARRAY;
+        }
+        final List<String> list = new ArrayList<>();
+        int i = 0, start = 0;
+        boolean match = false;
+        boolean lastMatch = false;
+        while (i < len) {
+            if (str.charAt(i) == separatorChar) {
+                if (match || preserveAllTokens) {
+                    list.add(str.substring(start, i));
+                    match = false;
+                    lastMatch = true;
+                }
+                start = ++i;
+                continue;
+            }
+            lastMatch = false;
+            match = true;
+            i++;
+        }
+        if (match || preserveAllTokens && lastMatch) {
+            list.add(str.substring(start, i));
+        }
+        return list.toArray(new String[list.size()]);
     }
 
     // Remove
