@@ -377,7 +377,7 @@ public class Objects {
     }
 
     public static class Text {
-        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, "|", "\r\n", false);
+        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, '|', "\r\n", false);
 
         /**
          * Convert bean object to text string
@@ -406,8 +406,8 @@ public class Objects {
             return convertor.toObject(text, clazz);
         }
 
-        public static ObjectTextConvertor custom(final Encoding encoding, final String separate, final String linkbreak, final boolean withname,
-                final String associate) {
+        public static ObjectTextConvertor custom(final Encoding encoding, final Character separate, final String linkbreak, final boolean withname,
+                final Character associate) {
             return new ObjectTextConvertor(encoding, separate, linkbreak, withname, associate);
         }
     }

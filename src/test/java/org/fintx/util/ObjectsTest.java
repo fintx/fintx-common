@@ -166,6 +166,11 @@ public class ObjectsTest {
 
         String text = Objects.Text.toString(pojo);
         System.out.println(text);
+        TextPoJo pojo2=Objects.Text.toObject(text, TextPoJo.class);
+        System.out.println(pojo2.getF1());
+        System.out.println(pojo2.getF3());
+        Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
+        Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
     }
 
 }
