@@ -47,7 +47,7 @@ public class Ips {
      */
     public static String getRemoteAddress(HttpServletRequest request) {
         String ip = request.getHeader("X-Forwarded-For");
-        if (Strings.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+        if (!Strings.isBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             // If there are proxies, the first IP is the real IP.
             int index = ip.indexOf(",");
             if (index != -1) {
@@ -57,15 +57,15 @@ public class Ips {
             }
         }
         ip = request.getHeader("X-Real-IP");
-        if (Strings.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+        if (!Strings.isBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             return ip;
         }
         ip = request.getHeader("Proxy-Client-IP");
-        if (Strings.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+        if (!Strings.isBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             return ip;
         }
         ip = request.getHeader("WL-Proxy-Client-IP");
-        if (Strings.isNotBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
+        if (!Strings.isBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             return ip;
         }
         return request.getRemoteAddr();
