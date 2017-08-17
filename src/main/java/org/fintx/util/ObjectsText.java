@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fintx.util.convertor;
+package org.fintx.util;
 
 import org.fintx.lang.Encoding;
-import org.fintx.util.Strings;
+import org.fintx.util.convertor.BaseTypeObjectStringConvertor;
+import org.fintx.util.convertor.ObjectStringConvertor;
 
 import lombok.AllArgsConstructor;
 
@@ -36,7 +37,7 @@ import java.util.List;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class ObjectTextConvertor implements ObjectStringConvertor {
+public class ObjectsText implements ObjectStringConvertor {
     // TODO use for cached
     // private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
     // TODO use as builder configuration
@@ -47,7 +48,7 @@ public class ObjectTextConvertor implements ObjectStringConvertor {
     private final String linebreak;
     private final boolean withname;
 
-    public ObjectTextConvertor(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
+    public ObjectsText(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
         this.encoding = encoding;
         this.separator = separator;
         if (withname) {

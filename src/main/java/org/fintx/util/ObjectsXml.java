@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.fintx.util.convertor;
+package org.fintx.util;
 
 import java.io.StringReader;
 import java.io.StringWriter;
@@ -24,7 +24,7 @@ import javax.xml.XMLConstants;
 import javax.xml.bind.*;
 
 import org.fintx.lang.Encoding;
-import org.fintx.util.Strings;
+import org.fintx.util.convertor.ObjectStringConvertor;
 
 import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import com.sun.xml.internal.bind.v2.WellKnownNamespace;
@@ -36,7 +36,7 @@ import lombok.AllArgsConstructor;
  */
 @SuppressWarnings("restriction")
 @AllArgsConstructor
-public final class ObjectXmlConvertor implements ObjectStringConvertor {
+public final class ObjectsXml implements ObjectStringConvertor {
 
     private Map<String, String> namespacePrefixMapper;
     private boolean formatted;

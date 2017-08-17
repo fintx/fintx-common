@@ -17,4 +17,31 @@ FinTx is an open source group focus on financial technologies.
 
 fintx-common is common library for all fintx projects.
 
-[1] FinTx https://www.fintx.org/
+## Using
+This is something that you get for free just by adding the following dependency inside your project:
+
+```xml
+<dependency>
+    <groupId>org.fintx</groupId>
+    <artifactId>fintx-common</artifactId>
+    <version>${latest.version></version>
+</dependency>
+```
+## Example
+1. Get a 20 characters length unique id.
+
+```java
+String id = UniqueId.get().toBase64String();
+```
+2. Parse id to get timestamp, machine identifier (physical MAC address), process identifier, counter number.
+
+```java
+UniqueId uniqueId = UniqueId.fromBase64String(id);    
+long timestamp = uniqueId.getTimestamp();    
+long machineId = uniqueId.getMachineIdentifier();    
+int processId = uniqueId.getProcessIdentifier();    
+long counter = uniqueId.getCounter();    
+```
+
+[1] FinTx https://www.fintx.org/    
+[2] Maven https://maven.apache.org/

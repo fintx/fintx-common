@@ -18,7 +18,6 @@ package org.fintx.util;
 import static org.junit.Assert.*;
 
 import org.fintx.lang.Encoding;
-import org.fintx.util.convertor.ObjectXmlConvertor;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -145,7 +144,7 @@ public class ObjectsTest {
         pojo.setBytes(bytes);
         pojo.getBytes()[2] = 1;
         String xml = Objects.Xml.toString(pojo);
-        ObjectXmlConvertor xmlConvertor=Objects.Xml.custom(null, false, Encoding.GB18030, true, "<?xml version=\"1.0\" encoding=\"UTF-8\">");
+        ObjectsXml xmlConvertor=Objects.Xml.custom(null, false, Encoding.GB18030, true, "<?xml version=\"1.0\" encoding=\"UTF-8\">");
         String xml2=xmlConvertor.toString(pojo);
         System.out.println(xml);
         System.out.println(xml2);

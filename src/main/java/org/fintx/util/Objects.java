@@ -1,8 +1,6 @@
 package org.fintx.util;
 
 import org.fintx.lang.Encoding;
-import org.fintx.util.convertor.ObjectTextConvertor;
-import org.fintx.util.convertor.ObjectXmlConvertor;
 
 import net.sf.cglib.beans.BeanCopier;
 import net.sf.cglib.core.Converter;
@@ -340,7 +338,7 @@ public class Objects {
     }
 
     public static class Xml {
-        private static ObjectXmlConvertor convertor = new ObjectXmlConvertor(null, true, Encoding.UTF_8, false, null);
+        private static ObjectsXml convertor = new ObjectsXml(null, true, Encoding.UTF_8, false, null);
 
         /**
          * Convert bean object to xml string
@@ -369,15 +367,15 @@ public class Objects {
             return convertor.toObject(xml, clazz);
         }
 
-        public static ObjectXmlConvertor custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment,
+        public static ObjectsXml custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment,
                 String headers) {
-            return new ObjectXmlConvertor(namespacePrefixMapper, formatted, encoding, fragment, headers);
+            return new ObjectsXml(namespacePrefixMapper, formatted, encoding, fragment, headers);
         }
 
     }
 
     public static class Text {
-        private static ObjectTextConvertor convertor = new ObjectTextConvertor(Encoding.UTF_8, '|', "\r\n", false);
+        private static ObjectsText convertor = new ObjectsText(Encoding.UTF_8, '|', "\r\n", false);
 
         /**
          * Convert bean object to text string
@@ -406,9 +404,9 @@ public class Objects {
             return convertor.toObject(text, clazz);
         }
 
-        public static ObjectTextConvertor custom(final Encoding encoding, final Character separate, final String linkbreak, final boolean withname,
+        public static ObjectsText custom(final Encoding encoding, final Character separate, final String linkbreak, final boolean withname,
                 final Character associate) {
-            return new ObjectTextConvertor(encoding, separate, linkbreak, withname, associate);
+            return new ObjectsText(encoding, separate, linkbreak, withname, associate);
         }
     }
 }
