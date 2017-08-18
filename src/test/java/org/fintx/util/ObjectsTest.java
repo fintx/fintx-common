@@ -139,22 +139,26 @@ public class ObjectsTest {
         pojo.setIns(ints);
         pojo.setObjs(new Object[10]);
         pojo.setStr("aa");
-
         pojo.setStrs(new String[3]);
         bytes[9] = 10;
         pojo.setBytes(bytes);
         pojo.getBytes()[2] = 1;
         String xml = Objects.Xml.toString(pojo);
-        ObjectsXml xmlConvertor=Objects.Xml.custom(null, false, Encoding.GB18030, true, "<?xml version=\"1.0\" encoding=\"UTF-8\">");
-        String xml2=xmlConvertor.toString(pojo);
         System.out.println(xml);
-        System.out.println(xml2);
         PoJo pojo2=Objects.Xml.toObject(xml, PoJo.class);
         Assert.assertTrue(0 == pojo2.getIn());
         Assert.assertTrue(1 == pojo2.getIns()[0]);
         Assert.assertTrue("aa".equals(pojo2.getStr()) );
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
-
+        
+        ObjectsXml xmlConvertor=Objects.Xml.custom(null, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        xml=xmlConvertor.toString(pojo);
+        System.out.println(xml);
+        pojo2=xmlConvertor.toObject(xml, PoJo.class);
+        Assert.assertTrue(0 == pojo2.getIn());
+        Assert.assertTrue(1 == pojo2.getIns()[0]);
+        Assert.assertTrue("aa".equals(pojo2.getStr()) );
+        Assert.assertTrue(10 == pojo2.getBytes()[9]);
     }
 
     @Test
@@ -167,12 +171,14 @@ public class ObjectsTest {
         TextPoJo pojo2=Objects.Text.toObject(text, TextPoJo.class);
         Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
         Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        
         ObjectsText convertor=Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
         text=convertor.toString(pojo);
         System.out.println(text);
         pojo2=convertor.toObject(text, TextPoJo.class);
         Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
         Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        
         TextPoJo2 textPoJo2=new TextPoJo2();
         textPoJo2.setList(new ArrayList<TextPoJo>());
         textPoJo2.getList().add(pojo2);
@@ -181,6 +187,12 @@ public class ObjectsTest {
         text=Objects.Text.toString(textPoJo2);
         System.out.println(text);
         TextPoJo2 textPoJo3=Objects.Text.toObject(text, TextPoJo2.class);
+        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
+        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        
+        text=convertor.toString(textPoJo2);
+        System.out.println(text);
+        textPoJo3=convertor.toObject(text, TextPoJo2.class);
         Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
         Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
     }

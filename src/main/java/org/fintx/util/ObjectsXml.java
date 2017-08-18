@@ -72,6 +72,7 @@ public final class ObjectsXml implements ObjectStringConvertor {
     public String toString(final Object obj) throws JAXBException {
         JAXBContext cachedContext = getCachedContext(obj.getClass());
         Marshaller marshaller = cachedContext.createMarshaller();
+        StringWriter writer = new StringWriter();
         try {
             // 编码格式
             marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding.getCode());
@@ -82,12 +83,13 @@ public final class ObjectsXml implements ObjectStringConvertor {
                 marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);
             } else {
                 // set the new xml headers 添加xml头声明信息
-                marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", headers);
+                //marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders", headers);
+                marshaller.setProperty(Marshaller.JAXB_FRAGMENT, true);
+                writer.write(headers);
             }
 
             // reslove the namespace prefix problem
             if(null!=namespacePrefixMapper) {
-                System.out.println("--------------------");
                 NamespacePrefixMapper mapper = new DefaultNamespacePrefixMapper(namespacePrefixMapper);
                 marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", mapper);
             }
@@ -97,7 +99,7 @@ public final class ObjectsXml implements ObjectStringConvertor {
         } catch (IllegalArgumentException e) {
             throw new JAXBException(e);
         }
-        StringWriter writer = new StringWriter();
+        
         marshaller.marshal(obj, writer);
         return writer.toString();
 
@@ -132,12 +134,12 @@ public final class ObjectsXml implements ObjectStringConvertor {
             if (prefix != null) {
                 return prefix;
             }
-            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA_INSTANCE))
-                return "xsi";
-            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA))
-                return "xs";
-            if (namespaceUri.equals(WellKnownNamespace.XML_MIME_URI))
-                return "xmime";
+//            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA_INSTANCE))
+//                return "xsi";
+//            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA))
+//                return "xs";
+//            if (namespaceUri.equals(WellKnownNamespace.XML_MIME_URI))
+//                return "xmime";
             return suggestion;
         }
 
