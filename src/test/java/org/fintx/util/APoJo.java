@@ -15,10 +15,17 @@
  */
 package org.fintx.util;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.List;
+
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
+@Getter
+@Setter
 public class APoJo extends PoJo {
   
     String anotherProperties;

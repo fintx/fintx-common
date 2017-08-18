@@ -26,11 +26,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class TextPoJo {
-    String f1;
-    String f2;
-    String f3;
-    boolean f4;
+public class TextPoJo2 {
+    private List<TextPoJo> list;
     
- 
+
 }

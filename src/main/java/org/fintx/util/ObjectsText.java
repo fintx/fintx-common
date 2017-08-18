@@ -53,9 +53,10 @@ public class ObjectsText implements ObjectStringConvertor {
         this.separator = separator;
         if (withname) {
             if (null == associator || null == associator[0]) {
-                this.associator = associator[0];
-            } else {
                 throw new IllegalArgumentException("Argument associate must have at leaset one value with length>1!");
+                
+            } else {
+                this.associator = associator[0];
             }
         } else {
             this.associator = null;
@@ -185,7 +186,14 @@ public class ObjectsText implements ObjectStringConvertor {
             fieldName = fields[0].getName().substring(0, 1).toUpperCase() + fields[0].getName().substring(1);
             Class<?> genericClass = (Class<?>) ((ParameterizedType) fields[0].getGenericType()).getActualTypeArguments()[0];
             List<Object> list = new ArrayList<Object>();
-            String subText = text.substring(text.indexOf(associator) + 1);
+           
+            String subText = null;
+            if (withname) {
+                subText=text.substring(text.indexOf(associator) + 1);
+            }else {
+                subText=text;
+            }
+            
             byte[] textBytes;
             try {
                 textBytes = subText.getBytes(encoding.getCode());

@@ -27,6 +27,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.xml.bind.JAXBException;
@@ -161,15 +162,27 @@ public class ObjectsTest {
         TextPoJo pojo=new TextPoJo();
         pojo.setF1("a");
         pojo.setF3("b");
-       
-
         String text = Objects.Text.toString(pojo);
         System.out.println(text);
         TextPoJo pojo2=Objects.Text.toObject(text, TextPoJo.class);
-        System.out.println(pojo2.getF1());
-        System.out.println(pojo2.getF3());
         Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
         Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        ObjectsText convertor=Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
+        text=convertor.toString(pojo);
+        System.out.println(text);
+        pojo2=convertor.toObject(text, TextPoJo.class);
+        Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
+        Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        TextPoJo2 textPoJo2=new TextPoJo2();
+        textPoJo2.setList(new ArrayList<TextPoJo>());
+        textPoJo2.getList().add(pojo2);
+        textPoJo2.getList().add(pojo);
+        textPoJo2.getList().add(pojo);
+        text=Objects.Text.toString(textPoJo2);
+        System.out.println(text);
+        TextPoJo2 textPoJo3=Objects.Text.toObject(text, TextPoJo2.class);
+        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
+        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
     }
 
 }
