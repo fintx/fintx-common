@@ -10,19 +10,20 @@
 	<parent>
 		<groupId>org.fintx</groupId>
 		<artifactId>fintx-parent</artifactId>
-		<version>${parent.version}</version>
-		<relativePath>../fintx-parent/pom.xml</relativePath>
+		<version>0.4.0.0-SNAPSHOT</version>
+		<relativePath />
 	</parent>
+	<properties>
+		<coveralls.project.token>aj4N0QJHV6gHT59MvA0uFnK2oWOH9Zt30</coveralls.project.token>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- dependency>
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-		</dependency-->
+		<!-- dependency> <groupId>net.sourceforge.htmlunit</groupId> <artifactId>htmlunit</artifactId> 
+			</dependency -->
 		<dependency>
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
