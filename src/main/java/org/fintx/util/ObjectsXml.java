@@ -134,12 +134,12 @@ public final class ObjectsXml implements ObjectStringConvertor {
             if (prefix != null) {
                 return prefix;
             }
-//            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA_INSTANCE))
-//                return "xsi";
-//            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA))
-//                return "xs";
-//            if (namespaceUri.equals(WellKnownNamespace.XML_MIME_URI))
-//                return "xmime";
+            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA_INSTANCE))
+                return "xsi";
+            if (namespaceUri.equals(WellKnownNamespace.XML_SCHEMA))
+                return "xs";
+            if (namespaceUri.equals(WellKnownNamespace.XML_MIME_URI))
+                return "xmime";
             return suggestion;
         }
 

@@ -19,8 +19,6 @@ import org.fintx.lang.Encoding;
 import org.fintx.util.convertor.BaseTypeObjectStringConvertor;
 import org.fintx.util.convertor.ObjectStringConvertor;
 
-import lombok.AllArgsConstructor;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -54,7 +52,7 @@ public class ObjectsText implements ObjectStringConvertor {
         if (withname) {
             if (null == associator || null == associator[0]) {
                 throw new IllegalArgumentException("Argument associate must have at leaset one value with length>1!");
-                
+
             } else {
                 this.associator = associator[0];
             }
@@ -118,15 +116,15 @@ public class ObjectsText implements ObjectStringConvertor {
         Class<T> clazz = (Class<T>) bean.getClass();
         if (isBean(clazz)) {
             // Method[] methods=clazz.getDeclaredMethods();
-            Field[] fields = clazz.getDeclaredFields();
+            Field[] fields = getLegalBeanFields(clazz);
             StringBuilder sb = new StringBuilder();
-            Method method = null;
             String fieldName = null;
             Object fieldValue = null;
             Field f = null;
             for (int i = 0; i < fields.length; i++) {
                 f = fields[i];
-                fieldName = f.getName().substring(0, 1).toUpperCase() + f.getName().substring(1);
+                fieldName = f.getName();
+                fieldName = fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
                 // method = clazz.getDeclaredMethod("get" + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1));
                 // fieldValue = method.invoke(bean, new Object[0]);
                 f.setAccessible(true);
@@ -136,6 +134,7 @@ public class ObjectsText implements ObjectStringConvertor {
                     sb.append(associator);
                 }
 
+                
                 if (null != fieldValue) {
                     if (0 == i && Iterable.class.isAssignableFrom(f.getType())) {
                         Iterator<?> it = ((Iterable<?>) fieldValue).iterator();
@@ -154,11 +153,8 @@ public class ObjectsText implements ObjectStringConvertor {
                         try {
                             sb.append(baseTypeConvertor.toString(fieldValue));
                         } catch (Exception e) {
-                            if (e instanceof ReflectiveOperationException) {
-                                throw (ReflectiveOperationException) e;
-                            } else {
-                                throw new ReflectiveOperationException(e.getMessage());
-                            }
+                            throw new ReflectiveOperationException(
+                                    e.getMessage() + ";Reflective fieldname:" + fieldName + " Reflective fieldValue:" + fieldValue, e);
                         }
                     }
                 }
@@ -179,21 +175,21 @@ public class ObjectsText implements ObjectStringConvertor {
      * @throws ReflectiveOperationException when there is any exception during conversion
      */
     private <T> T doToBean(final String text, final Class<T> clazz) throws ReflectiveOperationException {
-        Field[] fields = clazz.getDeclaredFields();
+        Field[] fields = getLegalBeanFields(clazz);
         T bean = clazz.newInstance();
         String fieldName = null;
         if (fields.length == 1 && List.class.isAssignableFrom(fields[0].getType())) {
             fieldName = fields[0].getName().substring(0, 1).toUpperCase() + fields[0].getName().substring(1);
             Class<?> genericClass = (Class<?>) ((ParameterizedType) fields[0].getGenericType()).getActualTypeArguments()[0];
             List<Object> list = new ArrayList<Object>();
-           
+
             String subText = null;
             if (withname) {
-                subText=text.substring(text.indexOf(associator) + 1);
-            }else {
-                subText=text;
+                subText = text.substring(text.indexOf(associator) + 1);
+            } else {
+                subText = text;
             }
-            
+
             byte[] textBytes;
             try {
                 textBytes = subText.getBytes(encoding.getCode());
@@ -230,23 +226,27 @@ public class ObjectsText implements ObjectStringConvertor {
                             throw new ReflectiveOperationException(e);
                         }
                     } else if (associatorIndex != fieldText.length() - 1) {
-                        throw new RuntimeException("Text format incorrect：" + fieldText);
+                        throw new IllegalStateException("Text format incorrect：" + fieldText);
                     }
                 }
 
             } else {
                 if (fieldTexts.length != fields.length) {
-                    for(int i=0;i<fieldTexts.length;i++) {
-                        System.out.println("---------------------"+fieldTexts[i]);
+                    for (int i = 0; i < fieldTexts.length; i++) {
+                        System.out.println("---------------------" + fieldTexts[i]);
                     }
-                    throw new RuntimeException("Text part number " + fieldTexts.length + " is not match the field number " + fields.length);
+                    throw new IllegalStateException("Text part number " + fieldTexts.length + " is not match the field number " + fields.length + ";text:\r\n"
+                            + text + "\n\r\n\r class name " + clazz.getName() + " class canonical name " + clazz.getName());
                 }
                 for (int i = 0; i < fieldTexts.length; i++) {
                     try {
                         fields[i].setAccessible(true);
                         fields[i].set(bean, baseTypeConvertor.toObject(fieldTexts[i], fields[i].getType()));
                     } catch (Exception e) {
-                        throw new ReflectiveOperationException(e);
+                        throw new ReflectiveOperationException(
+                                e.getMessage() + "; fieldText:" + fieldTexts[i] + " field name:" + fields[i].getName() + " field class name:"
+                                        + fields[i].getType().getName() + " field class canonical name:" + fields[i].getType().getCanonicalName(),
+                                e);
                     }
                 }
             }
@@ -257,17 +257,33 @@ public class ObjectsText implements ObjectStringConvertor {
     /**
      * Check whether the class is a java bean class
      */
-    private static boolean isBean(Class<?> clazz) {
+    private boolean isBean(Class<?> clazz) {
         boolean flag = true;
         Method[] methods = clazz.getDeclaredMethods();
         for (Method m : methods) {
             String name = m.getName();
             // check whether there are methods that are nether set nor get
-            if (!name.startsWith("set") && !name.startsWith("get") && !name.startsWith("is")) {
+            // Fix the problem when test with jacoco, it will add extra field to the class with the name starting with $
+            if (!name.startsWith("set") && !name.startsWith("get") && !name.startsWith("is") && !name.startsWith("$")) {
                 flag = false;
             }
         }
         return flag;
+    }
+
+    /**
+     * Check whether the class is a java bean class
+     */
+    private Field[] getLegalBeanFields(Class<?> clazz) {
+        Field[] fields = clazz.getDeclaredFields();
+        List<Field> legalFields = new ArrayList<Field>(fields.length);
+        for (int i = 0; i < fields.length; i++) {
+            // Fix the problem when test with jacoco, it will add extra field to the class with the name starting with $
+            if (!fields[i].getName().startsWith("$")) {
+                legalFields.add(fields[i]);
+            }
+        }
+        return legalFields.toArray(new Field[legalFields.size()]);
     }
 
 }

@@ -95,7 +95,7 @@ public class ObjectsTest {
         Assert.assertFalse(pojo == Objects.deepClone(pojo));
         Assert.assertTrue(0 == pojo.getIn());
         Assert.assertTrue(1 == pojo.getIns()[0]);
-        Assert.assertTrue("aa".equals(pojo.getStr()) );
+        Assert.assertTrue("aa".equals(pojo.getStr()));
         Assert.assertTrue(10 == pojo.getBytes()[9]);
     }
 
@@ -145,56 +145,57 @@ public class ObjectsTest {
         pojo.getBytes()[2] = 1;
         String xml = Objects.Xml.toString(pojo);
         System.out.println(xml);
-        PoJo pojo2=Objects.Xml.toObject(xml, PoJo.class);
+        PoJo pojo2 = Objects.Xml.toObject(xml, PoJo.class);
         Assert.assertTrue(0 == pojo2.getIn());
         Assert.assertTrue(1 == pojo2.getIns()[0]);
-        Assert.assertTrue("aa".equals(pojo2.getStr()) );
+        Assert.assertTrue("aa".equals(pojo2.getStr()));
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
-        
-        ObjectsXml xmlConvertor=Objects.Xml.custom(null, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        xml=xmlConvertor.toString(pojo);
+
+        ObjectsXml xmlConvertor = Objects.Xml.custom(null, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        xml = xmlConvertor.toString(pojo);
         System.out.println(xml);
-        pojo2=xmlConvertor.toObject(xml, PoJo.class);
+        pojo2 = xmlConvertor.toObject(xml, PoJo.class);
         Assert.assertTrue(0 == pojo2.getIn());
         Assert.assertTrue(1 == pojo2.getIns()[0]);
-        Assert.assertTrue("aa".equals(pojo2.getStr()) );
+        Assert.assertTrue("aa".equals(pojo2.getStr()));
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
     }
 
     @Test
     public void testText() throws ReflectiveOperationException {
-        TextPoJo pojo=new TextPoJo();
+        TextPoJo pojo = new TextPoJo();
         pojo.setF1("a");
         pojo.setF3("b");
-        String text = Objects.Text.toString(pojo);
+        String text = null;
+        text = Objects.Text.toString(pojo);
+
         System.out.println(text);
-        TextPoJo pojo2=Objects.Text.toObject(text, TextPoJo.class);
-        Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
-        Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
-        
-        ObjectsText convertor=Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
-        text=convertor.toString(pojo);
+        TextPoJo pojo2 = Objects.Text.toObject(text, TextPoJo.class);
+        Assert.assertTrue(pojo2.getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
+        Assert.assertTrue(pojo2.getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
+
+        ObjectsText convertor = Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
+        text = convertor.toString(pojo);
         System.out.println(text);
-        pojo2=convertor.toObject(text, TextPoJo.class);
-        Assert.assertTrue(pojo2.getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
-        Assert.assertTrue(pojo2.getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
-        
-        TextPoJo2 textPoJo2=new TextPoJo2();
+        pojo2 = convertor.toObject(text, TextPoJo.class);
+        Assert.assertTrue(pojo2.getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
+        Assert.assertTrue(pojo2.getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
+
+        TextPoJo2 textPoJo2 = new TextPoJo2();
         textPoJo2.setList(new ArrayList<TextPoJo>());
         textPoJo2.getList().add(pojo2);
         textPoJo2.getList().add(pojo);
         textPoJo2.getList().add(pojo);
-        text=Objects.Text.toString(textPoJo2);
+        text = Objects.Text.toString(textPoJo2);
         System.out.println(text);
-        TextPoJo2 textPoJo3=Objects.Text.toObject(text, TextPoJo2.class);
-        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
-        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
-        
-        text=convertor.toString(textPoJo2);
+        TextPoJo2 textPoJo3 = Objects.Text.toObject(text, TextPoJo2.class);
+        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
+        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
+        text = convertor.toString(textPoJo2);
         System.out.println(text);
-        textPoJo3=convertor.toObject(text, TextPoJo2.class);
-        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1()&&pojo2.getF1().equals("a"));
-        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3()&&pojo2.getF3().equals("b"));
+        textPoJo3 = convertor.toObject(text, TextPoJo2.class);
+        Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
+        Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
     }
 
 }

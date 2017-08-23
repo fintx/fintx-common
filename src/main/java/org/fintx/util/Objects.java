@@ -6,7 +6,6 @@ import net.sf.cglib.beans.BeanCopier;
 import net.sf.cglib.core.Converter;
 
 import java.lang.reflect.Array;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -57,7 +56,7 @@ public class Objects {
 
     private static ConcurrentMap<String, BeanCopier> beanCopiers = new ConcurrentHashMap<String, BeanCopier>();
     private static final Set<Class<?>> WRAPPER_TYPES = new HashSet<Class<?>>(
-            Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
+            java.util.Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
 
     public static boolean isWrapperType(Class<?> clazz) {
         return WRAPPER_TYPES.contains(clazz);
@@ -66,6 +65,7 @@ public class Objects {
     /**
      * Make sure there is #no cycle reference# in the from parameter
      * 
+     * @param <T> the type of source object
      * @param from the object to be clone (make sure no cycle reference in the object)
      * @return the clone object
      */
@@ -143,13 +143,13 @@ public class Objects {
     /**
      * Returns {@code true} if the arguments are deeply equal to each other and {@code false} otherwise.
      *
-     * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in {@link Arrays#deepEquals(Object[], Object[]) Arrays.deepEquals}
+     * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in {@link java.util.Arrays#deepEquals(Object[], Object[]) java.util.Arrays.deepEquals}
      * is used to determine equality. Otherwise, equality is determined by using the {@link Object#equals equals} method of the first argument.
      *
      * @param a an object
      * @param b an object to be compared with {@code a} for deep equality
      * @return {@code true} if the arguments are deeply equal to each other and {@code false} otherwise
-     * @see Arrays#deepEquals(Object[], Object[])
+     * @see java.util.Arrays#deepEquals(Object[], Object[])
      * @see java.util.Objects#equals(Object, Object)
      */
     public static boolean deepEquals(Object a, Object b) {
@@ -169,7 +169,7 @@ public class Objects {
 
     /**
      * Generates a hash code for a sequence of input values. The hash code is generated as if all the input values were placed into an array, and that array
-     * were hashed by calling {@link Arrays#hashCode(Object[])}.
+     * were hashed by calling {@link java.util.Arrays#hashCode(Object[])}.
      *
      * <p>
      * This method is useful for implementing {@link Object#hashCode()} on objects containing multiple fields. For example, if an object that has three fields,
@@ -192,7 +192,7 @@ public class Objects {
      *
      * @param values the values to be hashed
      * @return a hash value of the sequence of input values
-     * @see Arrays#hashCode(Object[])
+     * @see java.util.Arrays#hashCode(Object[])
      * @see List#hashCode
      */
     public static int hash(Object...values) {
@@ -367,8 +367,7 @@ public class Objects {
             return convertor.toObject(xml, clazz);
         }
 
-        public static ObjectsXml custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment,
-                String headers) {
+        public static ObjectsXml custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment, String headers) {
             return new ObjectsXml(namespacePrefixMapper, formatted, encoding, fragment, headers);
         }
 
