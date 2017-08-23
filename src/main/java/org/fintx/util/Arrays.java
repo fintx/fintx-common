@@ -54,7 +54,7 @@ public class Arrays {
      * 
      * <pre>
      * // Create a Map mapping colors.
-     * Map colorMap = ArrayUtils.toMap(new String[][] { { "RED", "#FF0000" }, { "GREEN", "#00FF00" }, { "BLUE", "#0000FF" } });
+     * Map colorMap = org.fintx.Arrays.toMap(new String[][] { { "RED", "#FF0000" }, { "GREEN", "#00FF00" }, { "BLUE", "#0000FF" } });
      * </pre>
      *
      * <p>
@@ -111,8 +111,8 @@ public class Arrays {
      * Therefore new arrays of generic types can be created with this method. For example, an array of Strings can be created:
      *
      * <pre>
-     * String[] array = ArrayUtils.toArray("1", "2");
-     * String[] emptyArray = ArrayUtils.&lt;String&gt; toArray();
+     * String[] array = org.fintx.Arrays.toArray("1", "2");
+     * String[] emptyArray = org.fintx.Arrays.&lt;String&gt; toArray();
      * </pre>
      *
      * <p>
@@ -121,13 +121,12 @@ public class Arrays {
      * <p>
      * Note, this method makes only sense to provide arguments of the same type so that the compiler can deduce the type of the array itself. While it is
      * possible to select the type explicitly like in
-     * <code>Number[] array = ArrayUtils.&lt;Number&gt;toArray(Integer.valueOf(42), Double.valueOf(Math.PI))</code>, there is no real advantage when compared to
-     * <code>new Number[] {Integer.valueOf(42), Double.valueOf(Math.PI)}</code>.
+     * <code>Number[] array = org.fintx.Arrays.&lt;Number&gt;toArray(Integer.valueOf(42), Double.valueOf(Math.PI))</code>, there is no real advantage when
+     * compared to <code>new Number[] {Integer.valueOf(42), Double.valueOf(Math.PI)}</code>.
      *
      * @param <T> the array's element type
      * @param items the varargs array items, null allowed
      * @return the array, not null unless a null array is passed in
-     * @since 3.0
      */
     public static <T> T[] toArray(final T...items) {
         return items;
@@ -143,13 +142,12 @@ public class Arrays {
      * <p>
      * The start index is inclusive, the end index exclusive. Null array input produces null output.
      *
+     * @param <T> the type of array eg:String[]
      * @param array the array
      * @param startIndexInclusive the starting index. Undervalue (&lt;0) is promoted to 0, overvalue (&gt;array.length) results in an empty array.
      * @param endIndexExclusive elements up to endIndex-1 are present in the returned subarray. Undervalue (&lt; startIndex) produces empty array, overvalue
      *            (&gt;array.length) is demoted to array length.
      * @return a new array containing the elements between the start and end indices.
-     * @since 2.1
-     * @see Arrays#copyOfRange(long[], int, int)
      */
     public static <T> T subarray(final T array, int startIndexInclusive, int endIndexExclusive) {
         if (array == null) {
@@ -186,6 +184,8 @@ public class Arrays {
      * <p>
      * Any multi-dimensional aspects of the arrays are ignored.
      *
+     * @param <E> E the type of array eg:String[] F the type of array2 eg:Object[]
+     * @param <F> F the type of array2 eg:Object[]
      * @param array1 the first array, may be {@code null}
      * @param array2 the second array, may be {@code null}
      * @return {@code true} if length of arrays matches, treating {@code null} as an empty array
@@ -208,18 +208,17 @@ public class Arrays {
      * If the input array is {@code null}, {@code 0} is returned.
      *
      * <pre>
-     * ArrayUtils.getLength(null)            = 0
-     * ArrayUtils.getLength([])              = 0
-     * ArrayUtils.getLength([null])          = 1
-     * ArrayUtils.getLength([true, false])   = 2
-     * ArrayUtils.getLength([1, 2, 3])       = 3
-     * ArrayUtils.getLength(["a", "b", "c"]) = 3
+     * org.fintx.Arrays.getLength(null)            = 0
+     * org.fintx.Arrays.getLength([])              = 0
+     * org.fintx.Arrays.getLength([null])          = 1
+     * org.fintx.Arrays.getLength([true, false])   = 2
+     * org.fintx.Arrays.getLength([1, 2, 3])       = 3
+     * org.fintx.Arrays.getLength(["a", "b", "c"]) = 3
      * </pre>
      *
+     * @param <T> the type of array eg:String[]
      * @param array the array to retrieve the length from, may be null
      * @return The length of the array, or {@code 0} if the array is {@code null}
-     * @throws IllegalArgumentException if the object argument is not an array.
-     * @since 2.1
      */
     public static <T> int getLength(final T array) {
         if (array == null) {
@@ -234,7 +233,9 @@ public class Arrays {
     /**
      * <p>
      * Checks whether two arrays are the same type taking into account multi-dimensional arrays.
-     *
+     * 
+     * @param <E> E the type of array eg:String[] F the type of array2 eg:Object[]
+     * @param <F> F the type of array2 eg:Object[]
      * @param array1 the first array, must not be {@code null}
      * @param array2 the second array, must not be {@code null}
      * @return {@code true} if type of arrays matches
@@ -261,12 +262,12 @@ public class Arrays {
      *
      * <p>
      * This method does nothing for a {@code null} input array.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to reverse, may be {@code null}
      * @param startIndexInclusive the starting index. Under value (&lt;0) is promoted to 0, over value (&gt;array.length) results in no change.
      * @param endIndexExclusive elements up to endIndex-1 are reversed in the array. Under value (&lt; start index) results in no change. Over value
      *            (&gt;array.length) is demoted to array length.
-     * @since 3.2
      */
     public static <T> void reverse(final T array, final int startIndexInclusive, final int endIndexExclusive) {
         if (array == null) {
@@ -304,18 +305,18 @@ public class Arrays {
      *
      * Examples:
      * <ul>
-     * <li>ArrayUtils.swap(["1", "2", "3", "4"], 0, 2, 1) -&gt; ["3", "2", "1", "4"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3", "4"], 0, 0, 1) -&gt; ["1", "2", "3", "4"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3", "4"], 2, 0, 2) -&gt; ["3", "4", "1", "2"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3", "4"], -3, 2, 2) -&gt; ["3", "4", "1", "2"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3", "4"], 0, 3, 3) -&gt; ["4", "2", "3", "1"]</li>
+     * <li>org.fintx.Arrays.swap(["1", "2", "3", "4"], 0, 2, 1) -&gt; ["3", "2", "1", "4"]</li>
+     * <li>org.fintx.Arrays.swap(["1", "2", "3", "4"], 0, 0, 1) -&gt; ["1", "2", "3", "4"]</li>
+     * <li>org.fintx.Arrays.swap(["1", "2", "3", "4"], 2, 0, 2) -&gt; ["3", "4", "1", "2"]</li>
+     * <li>org.fintx.Arrays.swap(["1", "2", "3", "4"], -3, 2, 2) -&gt; ["3", "4", "1", "2"]</li>
+     * <li>org.fintx.Arrays.swap(["1", "2", "3", "4"], 0, 3, 3) -&gt; ["4", "2", "3", "1"]</li>
      * </ul>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to swap, may be {@code null}
      * @param offset1 the index of the first element in the series to swap
      * @param offset2 the index of the second element in the series to swap
      * @param len the number of elements to swap starting with the given indices
-     * @since 3.5
      */
     public static <T> void swap(final T array, int offset1, int offset2, int len) {
         if (array == null) {
@@ -355,7 +356,8 @@ public class Arrays {
      * <p>
      * There is no special handling for multi-dimensional arrays. This method does nothing for {@code null} or empty input arrays.
      * </p>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to shift, may be {@code null}
      * @param startIndexInclusive the starting index. Undervalue (&lt;0) is promoted to 0, overvalue (&gt;array.length) results in no change.
      * @param endIndexExclusive elements up to endIndex-1 are shifted in the array. Undervalue (&lt; start index) results in no change. Overvalue
@@ -420,7 +422,8 @@ public class Arrays {
      *
      * <p>
      * A negative startIndex is treated as zero. A startIndex larger than the array length will return {@link #INDEX_NOT_FOUND} ({@code -1}).
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to search through for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @param startIndex the index to start searching at
@@ -439,7 +442,8 @@ public class Arrays {
      *
      * <p>
      * A negative startIndex is treated as zero. A startIndex larger than the array length will return {@link #INDEX_NOT_FOUND} ({@code -1}).
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to search through for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @param startIndex the index to start searching at
@@ -484,7 +488,8 @@ public class Arrays {
      *
      * <p>
      * A negative startIndex will return {@link #INDEX_NOT_FOUND} ({@code -1}). A startIndex larger than the array length will search from the end of the array.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to traverse for looking for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @param startIndex the start index to traverse backwards from
@@ -503,7 +508,8 @@ public class Arrays {
      *
      * <p>
      * A negative startIndex will return {@link #INDEX_NOT_FOUND} ({@code -1}). A startIndex larger than the array length will search from the end of the array.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to traverse for looking for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @param startIndex the start index to traverse backwards from
@@ -547,7 +553,8 @@ public class Arrays {
      *
      * <p>
      * The method returns {@code false} if a {@code null} array is passed in.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to search through
      * @param objectToFind the object to find
      * @return {@code true} if the array contains the object
@@ -562,7 +569,8 @@ public class Arrays {
      *
      * <p>
      * The method returns {@code false} if a {@code null} array is passed in.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to search through
      * @param objectToFind the object to find
      * @return {@code true} if the array contains the object
@@ -578,10 +586,10 @@ public class Arrays {
     /**
      * <p>
      * Checks if an array of Objects is empty or {@code null}.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to test
      * @return {@code true} if the array is empty or {@code null}
-     * @since 2.1
      */
     public static <T> boolean isEmpty(final T array) {
         return getLength(array) == 0;
@@ -595,7 +603,6 @@ public class Arrays {
      * @param <T> the component type of the array
      * @param array the array to test
      * @return {@code true} if the array is not empty and not {@code null}
-     * @since 2.5
      */
     public static <T> boolean isNotEmpty(final T array) {
         return !isEmpty(array);
@@ -609,12 +616,12 @@ public class Arrays {
      * array.
      *
      * <pre>
-     * ArrayUtils.addAll(null, null)     = null
-     * ArrayUtils.addAll(array1, null)   = cloned copy of array1
-     * ArrayUtils.addAll(null, array2)   = cloned copy of array2
-     * ArrayUtils.addAll([], [])         = []
-     * ArrayUtils.addAll([null], [null]) = [null, null]
-     * ArrayUtils.addAll(["a", "b", "c"], ["1", "2", "3"]) = ["a", "b", "c", "1", "2", "3"]
+     * org.fintx.Arrays.addAll(null, null)     = null
+     * org.fintx.Arrays.addAll(array1, null)   = cloned copy of array1
+     * org.fintx.Arrays.addAll(null, array2)   = cloned copy of array2
+     * org.fintx.Arrays.addAll([], [])         = []
+     * org.fintx.Arrays.addAll([null], [null]) = [null, null]
+     * org.fintx.Arrays.addAll(["a", "b", "c"], ["1", "2", "3"]) = ["a", "b", "c", "1", "2", "3"]
      * </pre>
      *
      * @param <T> the component type of the array
@@ -622,7 +629,6 @@ public class Arrays {
      * @param array2 the second array whose elements are added to the new array, may be {@code null}
      * @return The new array, {@code null} if both arrays are {@code null}. The type of the new array is the type of the first array, unless the first array is
      *         null, in which case the type is the same as the second array.
-     * @since 2.1
      * @throws IllegalArgumentException if the array types are incompatible
      */
     public static <T> T[] addAll(final T[] array1, final T...array2) {
@@ -637,12 +643,12 @@ public class Arrays {
      * array.
      *
      * <pre>
-     * ArrayUtils.addAll(null, null)     = null
-     * ArrayUtils.addAll(array1, null)   = cloned copy of array1
-     * ArrayUtils.addAll(null, array2)   = cloned copy of array2
-     * ArrayUtils.addAll([], [])         = []
-     * ArrayUtils.addAll([null], [null]) = [null, null]
-     * ArrayUtils.addAll(["a", "b", "c"], ["1", "2", "3"]) = ["a", "b", "c", "1", "2", "3"]
+     * org.fintx.Arrays.addAll(null, null)     = null
+     * org.fintx.Arrays.addAll(array1, null)   = cloned copy of array1
+     * org.fintx.Arrays.addAll(null, array2)   = cloned copy of array2
+     * org.fintx.Arrays.addAll([], [])         = []
+     * org.fintx.Arrays.addAll([null], [null]) = [null, null]
+     * org.fintx.Arrays.addAll(["a", "b", "c"], ["1", "2", "3"]) = ["a", "b", "c", "1", "2", "3"]
      * </pre>
      *
      * @param <T> the component type of the array
@@ -650,7 +656,6 @@ public class Arrays {
      * @param array2 the second array whose elements are added to the new array, may be {@code null}
      * @return The new array, {@code null} if both arrays are {@code null}. The type of the new array is the type of the first array, unless the first array is
      *         null, in which case the type is the same as the second array.
-     * @since 2.1
      * @throws IllegalArgumentException if the array types are incompatible
      */
     public static <T> T addAll(final T array1, final T array2) {
@@ -696,11 +701,11 @@ public class Arrays {
      * null, in which case the return type is Object[]
      *
      * <pre>
-     * ArrayUtils.add(null, null)      = IllegalArgumentException
-     * ArrayUtils.add(null, "a")       = ["a"]
-     * ArrayUtils.add(["a"], null)     = ["a", null]
-     * ArrayUtils.add(["a"], "b")      = ["a", "b"]
-     * ArrayUtils.add(["a", "b"], "c") = ["a", "b", "c"]
+     * org.fintx.Arrays.add(null, null)      = IllegalArgumentException
+     * org.fintx.Arrays.add(null, "a")       = ["a"]
+     * org.fintx.Arrays.add(["a"], null)     = ["a", null]
+     * org.fintx.Arrays.add(["a"], "b")      = ["a", "b"]
+     * org.fintx.Arrays.add(["a", "b"], "c") = ["a", "b", "c"]
      * </pre>
      *
      * @param <T> the component type of the array
@@ -738,11 +743,12 @@ public class Arrays {
      * If the input array is {@code null}, a new one element array is returned whose component type is the same as the element.
      *
      * <pre>
-     * ArrayUtils.add(null, true)          = [true]
-     * ArrayUtils.add([true], false)       = [true, false]
-     * ArrayUtils.add([true, false], true) = [true, false, true]
+     * org.fintx.Arrays.add(null, true)          = [true]
+     * org.fintx.Arrays.add([true], false)       = [true, false]
+     * org.fintx.Arrays.add([true, false], true) = [true, false, true]
      * </pre>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to copy and add the element to, may be {@code null}
      * @param element the object to add at the last index of the new array
      * @return A new array containing the existing elements plus the new element
@@ -821,13 +827,14 @@ public class Arrays {
      * returned array is always the same as that of the input array.
      *
      * <pre>
-     * ArrayUtils.removeElement(null, 1)      = null
-     * ArrayUtils.removeElement([], 1)        = []
-     * ArrayUtils.removeElement([1], 2)       = [1]
-     * ArrayUtils.removeElement([1, 3], 1)    = [3]
-     * ArrayUtils.removeElement([1, 3, 1], 1) = [3, 1]
+     * org.fintx.Arrays.removeElement(null, 1)      = null
+     * org.fintx.Arrays.removeElement([], 1)        = []
+     * org.fintx.Arrays.removeElement([1], 2)       = [1]
+     * org.fintx.Arrays.removeElement([1, 3], 1)    = [3]
+     * org.fintx.Arrays.removeElement([1, 3, 1], 1) = [3, 1]
      * </pre>
-     *
+     * 
+     * @param <T> the element type of array
      * @param array the array to remove the element from, may be {@code null}
      * @param element the element to be removed
      * @return A new array containing the existing elements except the first occurrence of the specified element.
@@ -848,17 +855,17 @@ public class Arrays {
      * returned array is always the same as that of the input array.
      *
      * <pre>
-     * ArrayUtils.removeElement(null, 1)      = null
-     * ArrayUtils.removeElement([], 1)        = []
-     * ArrayUtils.removeElement([1], 2)       = [1]
-     * ArrayUtils.removeElement([1, 3], 1)    = [3]
-     * ArrayUtils.removeElement([1, 3, 1], 1) = [3, 1]
+     * org.fintx.Arrays.removeElement(null, 1)      = null
+     * org.fintx.Arrays.removeElement([], 1)        = []
+     * org.fintx.Arrays.removeElement([1], 2)       = [1]
+     * org.fintx.Arrays.removeElement([1, 3], 1)    = [3]
+     * org.fintx.Arrays.removeElement([1, 3, 1], 1) = [3, 1]
      * </pre>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to remove the element from, may be {@code null}
      * @param element the element to be removed
      * @return A new array containing the existing elements except the first occurrence of the specified element.
-     * @since 2.1
      */
     public static <T> T removeElement(final T array, final Object element) {
         final int index = indexOf(array, element, 0);
@@ -879,12 +886,12 @@ public class Arrays {
      *
      * <p>
      * If the input array is {@code null}, an IndexOutOfBoundsException will be thrown, because in that case no valid index can be specified.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to remove the element from, may not be {@code null}
      * @param index the position of the element to be removed
      * @return A new array containing the existing elements except the element at the specified position.
      * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= array.length), or if the array is {@code null}.
-     * @since 2.1
      */
     private static <T> T remove(final T array, final int index) {
         final int length = getLength(array);
@@ -904,10 +911,10 @@ public class Arrays {
     /**
      * Removes multiple array elements specified by index.
      * 
+     * @param <T> the type of array eg:String[]
      * @param array source
      * @param indices to remove
      * @return new array of same type minus elements specified by unique values of {@code indices}
-     * @since 3.0.1
      */
     // package protected for access by unit tests
     static <T> T removeAll(final T array, final int...indices) {
@@ -957,11 +964,11 @@ public class Arrays {
 
     /**
      * Removes multiple array elements specified by indices.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array source
      * @param indices to remove
      * @return new array of same type minus elements specified by the set bits in {@code indices}
-     * @since 3.2
      */
     // package protected for access by unit tests
     static <T> T removeAll(final T array, final BitSet indices) {
@@ -995,65 +1002,15 @@ public class Arrays {
 
     /**
      * <p>
-     * This method checks whether the provided array is sorted according to the class's {@code compareTo} method.
-     *
-     * @param array the array to check
-     * @param <T> the datatype of the array to check, it must implement {@code Comparable}
-     * @return whether the array is sorted
-     * @since 3.4
-     */
-    public static <T extends Comparable<? super T>> boolean isSorted(final T[] array) {
-        return isSorted(array, new Comparator<T>() {
-            @Override
-            public int compare(final T o1, final T o2) {
-                return o1.compareTo(o2);
-            }
-        });
-    }
-
-    /**
-     * <p>
-     * This method checks whether the provided array is sorted according to the provided {@code Comparator}.
-     *
-     * @param array the array to check
-     * @param comparator the {@code Comparator} to compare over
-     * @param <T> the datatype of the array
-     * @return whether the array is sorted
-     * @since 3.4
-     */
-    public static <T> boolean isSorted(final T[] array, final Comparator<T> comparator) {
-        if (comparator == null) {
-            throw new IllegalArgumentException("Comparator should not be null.");
-        }
-
-        if (array == null || array.length < 2) {
-            return true;
-        }
-
-        T previous = array[0];
-        final int n = array.length;
-        for (int i = 1; i < n; i++) {
-            final T current = array[i];
-            if (comparator.compare(previous, current) > 0) {
-                return false;
-            }
-
-            previous = current;
-        }
-        return true;
-    }
-
-    /**
-     * <p>
      * This method checks whether the provided array is sorted according to natural ordering.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to check
      * @return whether the array is sorted according to natural ordering
-     * @since 3.4
      */
     public static <T> boolean isSorted(final T array) {
-        if (array == null || array.getClass().isArray()) {
-            throw new IllegalArgumentException("Comparator should not be null.");
+        if (array == null || !array.getClass().isArray()) {
+            throw new IllegalArgumentException("Argument array should not be null or not a array.");
         }
         int length = getLength(array);
         if (length < 2) {
@@ -1078,16 +1035,15 @@ public class Arrays {
      *
      * @param array the array to check
      * @param comparator the {@code Comparator} to compare over
-     * @param <T> the datatype of the array
+     * @param <T> the type of array eg:String[]
      * @return whether the array is sorted
-     * @since 3.4
      */
     public static <T> boolean isSorted(final T array, final Comparator comparator) {
         if (comparator == null) {
             throw new IllegalArgumentException("Comparator should not be null.");
         }
 
-        if (array == null || array.getClass().isArray()) {
+        if (array == null || !array.getClass().isArray()) {
             throw new IllegalArgumentException("Argument array should not be null and must be Array.");
         }
         int length = getLength(array);
@@ -1150,9 +1106,7 @@ public class Arrays {
      * @param <T> the type of object in the array
      * @param element the element to remove
      * @param array the input array
-     *
      * @return A new array containing the existing elements except the occurrences of the specified element.
-     * @since 3.5
      */
     public static <T> T removeAllOccurences(final T array, final Object element) {
         int index = indexOf(array, element, 0);
@@ -1171,8 +1125,6 @@ public class Arrays {
         return removeAll(array, java.util.Arrays.copyOf(indices, count));
     }
 
-  
-
     /**
      * <p>
      * Returns an array containing the string representation of each element in the argument array handling {@code null} elements.
@@ -1181,44 +1133,14 @@ public class Arrays {
      * <p>
      * This method returns {@code null} for a {@code null} input array.
      * </p>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the Object[] to be processed, may be null
      * @param valueForNullElements the value to insert if {@code null} is found
      * @return a {@code String} array, {@code null} if null array input
-     * @since 3.6
-     */
-    public static <T> String[] toStringArray(final T[] array, final String valueForNullElements) {
-        if (null == array) {
-            return null;
-        } else if (array.length == 0) {
-            return EMPTY_STRING_ARRAY;
-        }
-
-        final String[] result = new String[array.length];
-        for (int i = 0; i < array.length; i++) {
-            final Object object = array[i];
-            result[i] = (object == null ? valueForNullElements : object.toString());
-        }
-
-        return result;
-    }
-    
-    /**
-     * <p>
-     * Returns an array containing the string representation of each element in the argument array handling {@code null} elements.
-     * </p>
-     *
-     * <p>
-     * This method returns {@code null} for a {@code null} input array.
-     * </p>
-     *
-     * @param array the Object[] to be processed, may be null
-     * @param valueForNullElements the value to insert if {@code null} is found
-     * @return a {@code String} array, {@code null} if null array input
-     * @since 3.6
      */
     public static <T> String[] toStringArray(final T array, final String valueForNullElements) {
-        int length=getLength(array);
+        int length = getLength(array);
         if (null == array) {
             return null;
         } else if (length == 0) {
@@ -1244,29 +1166,29 @@ public class Arrays {
      * </p>
      *
      * <pre>
-     * ArrayUtils.insert(index, null, null)      = null
-     * ArrayUtils.insert(index, array, null)     = cloned copy of 'array'
-     * ArrayUtils.insert(index, null, values)    = null
+     * org.fintx.Arrays.insert(index, null, null)      = null
+     * org.fintx.Arrays.insert(index, array, null)     = cloned copy of 'array'
+     * org.fintx.Arrays.insert(index, null, values)    = null
      * </pre>
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param index the position within {@code array} to insert the new values
      * @param array the array to insert the values into, may be {@code null}
      * @param values the new values to insert, may be {@code null}
      * @return The new array.
      * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
-     * @since 3.6
      */
     public static <T> T insert(final int index, final T array, final Object...values) {
         if (array == null) {
             return null;
         }
-        if (array.getClass().isArray()) {
+        if (!array.getClass().isArray()) {
             throw new IllegalArgumentException("Argument array should not be null and must be Array.");
         }
         if (values == null || values.length == 0) {
             return Objects.deepClone(array);
         }
-        int length=getLength(array);
+        int length = getLength(array);
         if (index < 0 || index > length) {
             throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + length);
         }
@@ -1293,9 +1215,9 @@ public class Arrays {
      * </p>
      *
      * <pre>
-     * ArrayUtils.insert(index, null, null)      = null
-     * ArrayUtils.insert(index, array, null)     = cloned copy of 'array'
-     * ArrayUtils.insert(index, null, values)    = null
+     * org.fintx.Arrays.insert(index, null, null)      = null
+     * org.fintx.Arrays.insert(index, array, null)     = cloned copy of 'array'
+     * org.fintx.Arrays.insert(index, null, values)    = null
      * </pre>
      *
      * @param <T> The type of elements in {@code array} and {@code values}
@@ -1304,7 +1226,6 @@ public class Arrays {
      * @param values the new values to insert, may be {@code null}
      * @return The new array.
      * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
-     * @since 3.6
      */
     @SafeVarargs
     public static <T> T[] insert(final int index, final T[] array, final T...values) {
@@ -1341,30 +1262,8 @@ public class Arrays {
 
     /**
      * Randomly permutes the elements of the specified array using the Fisher-Yates algorithm.
-     *
-     * @param array the array to shuffle
-     * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle algorithm</a>
-     */
-    public static<T> void shuffle(T[] array) {
-        shuffle(array, new Random());
-    }
-
-    /**
-     * Randomly permutes the elements of the specified array using the Fisher-Yates algorithm.
-     *
-     * @param array the array to shuffle
-     * @param random the source of randomness used to permute the elements
-     * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle algorithm</a>
-     */
-    public static<T> void shuffle(T[] array, Random random) {
-        for (int i = array.length; i > 1; i--) {
-            swap(array, i - 1, random.nextInt(i), 1);
-        }
-    }
-
-    /**
-     * Randomly permutes the elements of the specified array using the Fisher-Yates algorithm.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to shuffle
      * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle algorithm</a>
      */
@@ -1374,7 +1273,8 @@ public class Arrays {
 
     /**
      * Randomly permutes the elements of the specified array using the Fisher-Yates algorithm.
-     *
+     * 
+     * @param <T> the type of array eg:String[]
      * @param array the array to shuffle
      * @param random the source of randomness used to permute the elements
      * @see <a href="https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle">Fisher-Yates shuffle algorithm</a>

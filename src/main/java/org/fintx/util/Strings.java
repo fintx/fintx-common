@@ -219,8 +219,7 @@ public class Strings {
      * </p>
      *
      * <p>
-     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by {@link Character#isWhitespace(char)}. Alternatively use
-     * {@link #strip(String)}.
+     * If the stripChars String is <code>null</code>, whitespace is stripped as defined by {@link Character#isWhitespace(char)}.
      * </p>
      *
      * <pre>
@@ -1276,12 +1275,13 @@ public class Strings {
      *
      * @param str the String to parse, may be {@code null}
      * @param separatorChar the separate character
-     * @param preserveAllTokens if {@code true}, adjacent separators are treated as empty token separators; if {@code false}, adjacent separators are treated as
-     *            one separator.
      * @return an array of parsed Strings, {@code null} if null String input
      */
     public static String[] split(final String str, final char separatorChar) {
         // Performance tuned for 2.0 (JDK1.4)
+
+        // preserveAllTokens if {@code true}, adjacent separators are treated as empty token separators; if {@code false}, adjacent separators are treated as
+        // one separator.
         boolean preserveAllTokens = true;
         if (str == null) {
             return null;
