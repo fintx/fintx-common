@@ -33,10 +33,10 @@ import java.time.format.DateTimeFormatter;
  */
 public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
     public BaseTypeObjectStringConvertor(Encoding encoding) {
-        this.encoding=encoding;
+        this.encoding = encoding;
     }
 
-    private  Encoding encoding = Encoding.UTF_8;
+    private Encoding encoding = Encoding.UTF_8;
 
     public <T> String toString(T obj) throws ReflectiveOperationException {
         if (null == obj) {
@@ -111,7 +111,8 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             }
             return sb.toString();
         } else {
-            throw new ReflectiveOperationException("Unsupport type:" + type);
+            throw new ReflectiveOperationException("Unsupport type class name:" + obj.getClass().getName() + " class canonical name:"
+                    + obj.getClass().getCanonicalName() + " value:" + String.valueOf(obj));
         }
     }
 
@@ -191,7 +192,8 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             }
             return (T) blob;
         } else {
-            throw new ReflectiveOperationException("Unsupport type:" + type);
+            throw new ReflectiveOperationException(
+                    "Unsupport type class name:" + clazz.getName() + " class canonical name:" + clazz.getCanonicalName() + " value:" + String.valueOf(text));
         }
     }
 }
