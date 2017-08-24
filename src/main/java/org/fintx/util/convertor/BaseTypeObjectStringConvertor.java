@@ -51,8 +51,6 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return obj.toString();
         } else if (type.equals("int") || type.equals("java.lang.Integer")) {
             return obj.toString();
-        } else if (type.equals("byte[]")) {
-            return new String((byte[]) obj);
         } else if (type.equals("float") || type.equals("java.lang.Float")) {
             return obj.toString();
         } else if (type.equals("double") || type.equals("java.lang.Double")) {
@@ -61,7 +59,14 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return obj.toString();
         } else if (type.equals("boolean") || type.equals("java.lang.Boolean")) {
             return obj.toString();
-        } else if (type.equals("java.math.BigDecimal")) {
+        }  else if (type.equals("short") || type.equals("java.lang.Short")) {
+            return obj.toString();
+        }else if (type.equals("byte") || type.equals("java.lang.Byte")) {
+            // TODO ??
+            return obj.toString();
+        } else if (type.equals("byte[]")) {
+            return new String((byte[]) obj);
+        }  else if (type.equals("java.math.BigDecimal")) {
             return obj.toString();
         } else if (type.equals("java.sql.Timestamp")) {
             return LocalDateTime.ofInstant(((java.sql.Timestamp) obj).toInstant(), ZoneId.systemDefault())
@@ -72,12 +77,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return LocalDateTime.ofInstant(((java.sql.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.BASIC_ISO_DATE);
         } else if (type.equals("java.util.Date")) {
             return LocalDateTime.ofInstant(((java.util.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        } else if (type.equals("byte") || type.equals("java.lang.Byte")) {
-            // TODO ??
-            return obj.toString();
-        } else if (type.equals("short") || type.equals("java.lang.Short")) {
-            return obj.toString();
-        } else if (type.equals("java.math.BigInteger")) {
+        }else if (type.equals("java.math.BigInteger")) {
             return obj.toString();
         } else if (type.equals("java.util.Calendar")) {
             return LocalDateTime.ofInstant((((java.util.Calendar) obj).getTime()).toInstant(), ZoneId.systemDefault())
