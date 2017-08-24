@@ -46,6 +46,9 @@ public class Ips {
      * @return String the remote IP
      */
     public static String getRemoteAddress(HttpServletRequest request) {
+        if(null==request) {
+            throw new IllegalArgumentException("Argument request should not be null!");
+        }
         String ip = request.getHeader("X-Forwarded-For");
         if (!Strings.isBlank(ip) && !"unKnown".equalsIgnoreCase(ip)) {
             // If there are proxies, the first IP is the real IP.
