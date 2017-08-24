@@ -16,7 +16,7 @@ env:
     - MAVEN_OPTS="-Xmx2G"
 
 before_script:
-	- echo $JAVA_HOME
+  - echo $JAVA_HOME
   - echo $JAVA_OPTS
   - echo $MAVEN_OPTS
   
