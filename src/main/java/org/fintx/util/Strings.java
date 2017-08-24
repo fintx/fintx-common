@@ -16,9 +16,9 @@
  */
 package org.fintx.util;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * <p>
@@ -52,7 +52,7 @@ import java.util.Locale;
  * </ul>
  *
  * <p>
- * The <code>StringUtils</code> class defines certain words related to String handling.
+ * The <code>Strings</code> class defines certain words related to String handling.
  * </p>
  *
  * <ul>
@@ -64,13 +64,13 @@ import java.util.Locale;
  * </ul>
  *
  * <p>
- * <code>StringUtils</code> handles <code>null</code> input Strings quietly. That is to say that a <code>null</code> input will return <code>null</code>. Where
- * a <code>boolean</code> or <code>int</code> is being returned details vary by method.
+ * <code>Strings</code> handles <code>null</code> input Strings quietly. That is to say that a <code>null</code> input will return <code>null</code>. Where a
+ * <code>boolean</code> or <code>int</code> is being returned details vary by method.
  * </p>
  *
  * <p>
- * A side effect of the <code>null</code> handling is that a <code>NullPointerException</code> should be considered a bug in <code>StringUtils</code> (except
- * for deprecated methods).
+ * A side effect of the <code>null</code> handling is that a <code>NullPointerException</code> should be considered a bug in <code>Strings</code> (except for
+ * deprecated methods).
  * </p>
  *
  * <p>
@@ -102,7 +102,7 @@ import java.util.Locale;
  * @author Chris Hyzer
  * @author Scott Johnson
  * @since 1.0
- * @version $Id: StringUtils.java 1058365 2011-01-13 00:04:49Z niallp $
+ * @version $Id: Strings.java 1058365 2011-01-13 00:04:49Z niallp $
  */
 // @Immutable
 public class Strings {
@@ -151,8 +151,8 @@ public class Strings {
 
     /**
      * <p>
-     * <code>StringUtils</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
-     * <code>StringUtils.trim(" foo ");</code>.
+     * <code>Strings</code> instances should NOT be constructed in standard programming. Instead, the class should be used as
+     * <code>Strings.trim(" foo ");</code>.
      * </p>
      *
      * <p>
@@ -184,11 +184,11 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isBlank(null)      = true
-     * StringUtils.isBlank("")        = true
-     * StringUtils.isBlank(" ")       = true
-     * StringUtils.isBlank("bob")     = false
-     * StringUtils.isBlank("  bob  ") = false
+     * Strings.isBlank(null)      = true
+     * Strings.isBlank("")        = true
+     * Strings.isBlank(" ")       = true
+     * Strings.isBlank("bob")     = false
+     * Strings.isBlank("  bob  ") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -208,6 +208,62 @@ public class Strings {
         return true;
     }
 
+    public static <T> String join(final T array) {
+        return join(array, null, 0,Integer.MAX_VALUE);
+    }
+
+    /**
+     * <p>
+     * Joins the elements of the provided array into a single String containing the provided list of elements.
+     * </p>
+     *
+     * <p>
+     * No delimiter is added before or after the list. Null objects or empty strings within the array are represented by empty strings.
+     * </p>
+     *
+     * <pre>
+     * Strings.join(null, *)               = null
+     * Strings.join([], *)                 = ""
+     * Strings.join([null], *)             = ""
+     * Strings.join(["a", "b", "c"], ';')  = "a;b;c"
+     * Strings.join(["a", "b", "c"], null) = "abc"
+     * Strings.join([null, "", "a"], ';')  = ";;a"
+     * </pre>
+     *
+     * @param <T> the type of array eg:int[]
+     * @param array the array of values to join together, may be null
+     * @param separator the separator character to use
+     * @param startIndex the first index to start joining from. It is an error to pass in an end index past the end of the array
+     * @param endIndex the index to stop joining from (exclusive). It is an error to pass in an end index past the end of the array
+     * @return the joined String, {@code null} if null array input
+     */
+    public static <T> String join(final T array, final Object separator, final int startIndex, final int endIndex) {
+        if (array == null) {
+            throw new NullPointerException("Argument array should not be null");
+        }
+        if (!array.getClass().isArray()) {
+            throw new IllegalArgumentException("Argument array should be a array");
+        }
+        int length = Array.getLength(array);
+        final int noOfItems = length > endIndex ? (endIndex - startIndex) : (length - startIndex);
+        if (noOfItems <= 0) {
+            return EMPTY;
+        }
+        final StringBuilder buf = new StringBuilder(noOfItems * 16);
+        for (int i = startIndex; i < endIndex; i++) {
+            if (i > startIndex) {
+                buf.append(separator);
+            }
+            Object temp = java.lang.reflect.Array.get(array, i);
+            if (temp != null) {
+                buf.append(temp);
+            }
+        }
+        return buf.toString();
+    }
+
+   
+
     /**
      * <p>
      * Strips any of a set of characters from the start and end of a String. This is similar to {@link String#trim()} but allows the characters to be stripped
@@ -223,13 +279,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.strip(null, *)          = null
-     * StringUtils.strip("", *)            = ""
-     * StringUtils.strip("abc", null)      = "abc"
-     * StringUtils.strip("  abc", null)    = "abc"
-     * StringUtils.strip("abc  ", null)    = "abc"
-     * StringUtils.strip(" abc ", null)    = "abc"
-     * StringUtils.strip("  abcyx", "xyz") = "  abc"
+     * Strings.strip(null, *)          = null
+     * Strings.strip("", *)            = ""
+     * Strings.strip("abc", null)      = "abc"
+     * Strings.strip("  abc", null)    = "abc"
+     * Strings.strip("abc  ", null)    = "abc"
+     * Strings.strip(" abc ", null)    = "abc"
+     * Strings.strip("  abcyx", "xyz") = "  abc"
      * </pre>
      *
      * @param str the String to remove characters from, may be null
@@ -258,14 +314,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.stripStart(null, *)          = null
-     * StringUtils.stripStart("", *)            = ""
-     * StringUtils.stripStart("abc", "")        = "abc"
-     * StringUtils.stripStart("abc", null)      = "abc"
-     * StringUtils.stripStart("  abc", null)    = "abc"
-     * StringUtils.stripStart("abc  ", null)    = "abc  "
-     * StringUtils.stripStart(" abc ", null)    = "abc "
-     * StringUtils.stripStart("yxabc  ", "xyz") = "abc  "
+     * Strings.stripStart(null, *)          = null
+     * Strings.stripStart("", *)            = ""
+     * Strings.stripStart("abc", "")        = "abc"
+     * Strings.stripStart("abc", null)      = "abc"
+     * Strings.stripStart("  abc", null)    = "abc"
+     * Strings.stripStart("abc  ", null)    = "abc  "
+     * Strings.stripStart(" abc ", null)    = "abc "
+     * Strings.stripStart("yxabc  ", "xyz") = "abc  "
      * </pre>
      *
      * @param str the String to remove characters from, may be null
@@ -306,15 +362,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.stripEnd(null, *)          = null
-     * StringUtils.stripEnd("", *)            = ""
-     * StringUtils.stripEnd("abc", "")        = "abc"
-     * StringUtils.stripEnd("abc", null)      = "abc"
-     * StringUtils.stripEnd("  abc", null)    = "  abc"
-     * StringUtils.stripEnd("abc  ", null)    = "abc"
-     * StringUtils.stripEnd(" abc ", null)    = " abc"
-     * StringUtils.stripEnd("  abcyx", "xyz") = "  abc"
-     * StringUtils.stripEnd("120.00", ".0")   = "12"
+     * Strings.stripEnd(null, *)          = null
+     * Strings.stripEnd("", *)            = ""
+     * Strings.stripEnd("abc", "")        = "abc"
+     * Strings.stripEnd("abc", null)      = "abc"
+     * Strings.stripEnd("  abc", null)    = "  abc"
+     * Strings.stripEnd("abc  ", null)    = "abc"
+     * Strings.stripEnd(" abc ", null)    = " abc"
+     * Strings.stripEnd("  abcyx", "xyz") = "  abc"
+     * Strings.stripEnd("120.00", ".0")   = "12"
      * </pre>
      *
      * @param str the String to remove characters from, may be null
@@ -355,12 +411,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.stripAll(null, *)                = null
-     * StringUtils.stripAll([], *)                  = []
-     * StringUtils.stripAll(["abc", "  abc"], null) = ["abc", "abc"]
-     * StringUtils.stripAll(["abc  ", null], null)  = ["abc", null]
-     * StringUtils.stripAll(["abc  ", null], "yz")  = ["abc  ", null]
-     * StringUtils.stripAll(["yabcz", null], "yz")  = ["abc", null]
+     * Strings.stripAll(null, *)                = null
+     * Strings.stripAll([], *)                  = []
+     * Strings.stripAll(["abc", "  abc"], null) = ["abc", "abc"]
+     * Strings.stripAll(["abc  ", null], null)  = ["abc", null]
+     * Strings.stripAll(["abc  ", null], "yz")  = ["abc  ", null]
+     * Strings.stripAll(["yabcz", null], "yz")  = ["abc", null]
      * </pre>
      *
      * @param strs the array to remove characters from, may be null
@@ -391,11 +447,11 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.equals(null, null)   = true
-     * StringUtils.equals(null, "abc")  = false
-     * StringUtils.equals("abc", null)  = false
-     * StringUtils.equals("abc", "abc") = true
-     * StringUtils.equals("abc", "ABC") = false
+     * Strings.equals(null, null)   = true
+     * Strings.equals(null, "abc")  = false
+     * Strings.equals("abc", null)  = false
+     * Strings.equals("abc", "abc") = true
+     * Strings.equals("abc", "ABC") = false
      * </pre>
      *
      * @see java.lang.String#equals(Object)
@@ -418,12 +474,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.indexOf(null, *, *)          = -1
-     * StringUtils.indexOf("", *, *)            = -1
-     * StringUtils.indexOf("aabaabaa", 'b', 0)  = 2
-     * StringUtils.indexOf("aabaabaa", 'b', 3)  = 5
-     * StringUtils.indexOf("aabaabaa", 'b', 9)  = -1
-     * StringUtils.indexOf("aabaabaa", 'b', -1) = 2
+     * Strings.indexOf(null, *, *)          = -1
+     * Strings.indexOf("", *, *)            = -1
+     * Strings.indexOf("aabaabaa", 'b', 0)  = 2
+     * Strings.indexOf("aabaabaa", 'b', 3)  = 5
+     * Strings.indexOf("aabaabaa", 'b', 9)  = -1
+     * Strings.indexOf("aabaabaa", 'b', -1) = 2
      * </pre>
      *
      * @param str the String to check, may be null
@@ -449,17 +505,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.ordinalIndexOf(null, *, *)          = -1
-     * StringUtils.ordinalIndexOf(*, null, *)          = -1
-     * StringUtils.ordinalIndexOf("", "", *)           = 0
-     * StringUtils.ordinalIndexOf("aabaabaa", "a", 1)  = 0
-     * StringUtils.ordinalIndexOf("aabaabaa", "a", 2)  = 1
-     * StringUtils.ordinalIndexOf("aabaabaa", "b", 1)  = 2
-     * StringUtils.ordinalIndexOf("aabaabaa", "b", 2)  = 5
-     * StringUtils.ordinalIndexOf("aabaabaa", "ab", 1) = 1
-     * StringUtils.ordinalIndexOf("aabaabaa", "ab", 2) = 4
-     * StringUtils.ordinalIndexOf("aabaabaa", "", 1)   = 0
-     * StringUtils.ordinalIndexOf("aabaabaa", "", 2)   = 0
+     * Strings.ordinalIndexOf(null, *, *)          = -1
+     * Strings.ordinalIndexOf(*, null, *)          = -1
+     * Strings.ordinalIndexOf("", "", *)           = 0
+     * Strings.ordinalIndexOf("aabaabaa", "a", 1)  = 0
+     * Strings.ordinalIndexOf("aabaabaa", "a", 2)  = 1
+     * Strings.ordinalIndexOf("aabaabaa", "b", 1)  = 2
+     * Strings.ordinalIndexOf("aabaabaa", "b", 2)  = 5
+     * Strings.ordinalIndexOf("aabaabaa", "ab", 1) = 1
+     * Strings.ordinalIndexOf("aabaabaa", "ab", 2) = 4
+     * Strings.ordinalIndexOf("aabaabaa", "", 1)   = 0
+     * Strings.ordinalIndexOf("aabaabaa", "", 2)   = 0
      * </pre>
      *
      * <p>
@@ -530,18 +586,18 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.indexOf(null, *, *)          = -1
-     * StringUtils.indexOf(*, null, *)          = -1
-     * StringUtils.indexOf("", "", 0)           = 0
-     * StringUtils.indexOf("", *, 0)            = -1 (except when * = "")
-     * StringUtils.indexOf("aabaabaa", "a", 0)  = 0
-     * StringUtils.indexOf("aabaabaa", "b", 0)  = 2
-     * StringUtils.indexOf("aabaabaa", "ab", 0) = 1
-     * StringUtils.indexOf("aabaabaa", "b", 3)  = 5
-     * StringUtils.indexOf("aabaabaa", "b", 9)  = -1
-     * StringUtils.indexOf("aabaabaa", "b", -1) = 2
-     * StringUtils.indexOf("aabaabaa", "", 2)   = 2
-     * StringUtils.indexOf("abc", "", 9)        = 3
+     * Strings.indexOf(null, *, *)          = -1
+     * Strings.indexOf(*, null, *)          = -1
+     * Strings.indexOf("", "", 0)           = 0
+     * Strings.indexOf("", *, 0)            = -1 (except when * = "")
+     * Strings.indexOf("aabaabaa", "a", 0)  = 0
+     * Strings.indexOf("aabaabaa", "b", 0)  = 2
+     * Strings.indexOf("aabaabaa", "ab", 0) = 1
+     * Strings.indexOf("aabaabaa", "b", 3)  = 5
+     * Strings.indexOf("aabaabaa", "b", 9)  = -1
+     * Strings.indexOf("aabaabaa", "b", -1) = 2
+     * Strings.indexOf("aabaabaa", "", 2)   = 2
+     * Strings.indexOf("abc", "", 9)        = 3
      * </pre>
      *
      * @param str the String to check, may be null
@@ -572,17 +628,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.indexOfIgnoreCase(null, *, *)          = -1
-     * StringUtils.indexOfIgnoreCase(*, null, *)          = -1
-     * StringUtils.indexOfIgnoreCase("", "", 0)           = 0
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "A", 0)  = 0
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 0)  = 2
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "AB", 0) = 1
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 3)  = 5
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "B", 9)  = -1
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "B", -1) = 2
-     * StringUtils.indexOfIgnoreCase("aabaabaa", "", 2)   = 2
-     * StringUtils.indexOfIgnoreCase("abc", "", 9)        = 3
+     * Strings.indexOfIgnoreCase(null, *, *)          = -1
+     * Strings.indexOfIgnoreCase(*, null, *)          = -1
+     * Strings.indexOfIgnoreCase("", "", 0)           = 0
+     * Strings.indexOfIgnoreCase("aabaabaa", "A", 0)  = 0
+     * Strings.indexOfIgnoreCase("aabaabaa", "B", 0)  = 2
+     * Strings.indexOfIgnoreCase("aabaabaa", "AB", 0) = 1
+     * Strings.indexOfIgnoreCase("aabaabaa", "B", 3)  = 5
+     * Strings.indexOfIgnoreCase("aabaabaa", "B", 9)  = -1
+     * Strings.indexOfIgnoreCase("aabaabaa", "B", -1) = 2
+     * Strings.indexOfIgnoreCase("aabaabaa", "", 2)   = 2
+     * Strings.indexOfIgnoreCase("abc", "", 9)        = 3
      * </pre>
      *
      * @param str the String to check, may be null
@@ -624,14 +680,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.lastIndexOf(null, *, *)          = -1
-     * StringUtils.lastIndexOf("", *,  *)           = -1
-     * StringUtils.lastIndexOf("aabaabaa", 'b', 8)  = 5
-     * StringUtils.lastIndexOf("aabaabaa", 'b', 4)  = 2
-     * StringUtils.lastIndexOf("aabaabaa", 'b', 0)  = -1
-     * StringUtils.lastIndexOf("aabaabaa", 'b', 9)  = 5
-     * StringUtils.lastIndexOf("aabaabaa", 'b', -1) = -1
-     * StringUtils.lastIndexOf("aabaabaa", 'a', 0)  = 0
+     * Strings.lastIndexOf(null, *, *)          = -1
+     * Strings.lastIndexOf("", *,  *)           = -1
+     * Strings.lastIndexOf("aabaabaa", 'b', 8)  = 5
+     * Strings.lastIndexOf("aabaabaa", 'b', 4)  = 2
+     * Strings.lastIndexOf("aabaabaa", 'b', 0)  = -1
+     * Strings.lastIndexOf("aabaabaa", 'b', 9)  = 5
+     * Strings.lastIndexOf("aabaabaa", 'b', -1) = -1
+     * Strings.lastIndexOf("aabaabaa", 'a', 0)  = 0
      * </pre>
      *
      * @param str the String to check, may be null
@@ -657,17 +713,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.lastOrdinalIndexOf(null, *, *)          = -1
-     * StringUtils.lastOrdinalIndexOf(*, null, *)          = -1
-     * StringUtils.lastOrdinalIndexOf("", "", *)           = 0
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "a", 1)  = 7
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "a", 2)  = 6
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "b", 1)  = 5
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "b", 2)  = 2
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "ab", 1) = 4
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "ab", 2) = 1
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "", 1)   = 8
-     * StringUtils.lastOrdinalIndexOf("aabaabaa", "", 2)   = 8
+     * Strings.lastOrdinalIndexOf(null, *, *)          = -1
+     * Strings.lastOrdinalIndexOf(*, null, *)          = -1
+     * Strings.lastOrdinalIndexOf("", "", *)           = 0
+     * Strings.lastOrdinalIndexOf("aabaabaa", "a", 1)  = 7
+     * Strings.lastOrdinalIndexOf("aabaabaa", "a", 2)  = 6
+     * Strings.lastOrdinalIndexOf("aabaabaa", "b", 1)  = 5
+     * Strings.lastOrdinalIndexOf("aabaabaa", "b", 2)  = 2
+     * Strings.lastOrdinalIndexOf("aabaabaa", "ab", 1) = 4
+     * Strings.lastOrdinalIndexOf("aabaabaa", "ab", 2) = 1
+     * Strings.lastOrdinalIndexOf("aabaabaa", "", 1)   = 8
+     * Strings.lastOrdinalIndexOf("aabaabaa", "", 2)   = 8
      * </pre>
      *
      * <p>
@@ -699,15 +755,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.lastIndexOf(null, *, *)          = -1
-     * StringUtils.lastIndexOf(*, null, *)          = -1
-     * StringUtils.lastIndexOf("aabaabaa", "a", 8)  = 7
-     * StringUtils.lastIndexOf("aabaabaa", "b", 8)  = 5
-     * StringUtils.lastIndexOf("aabaabaa", "ab", 8) = 4
-     * StringUtils.lastIndexOf("aabaabaa", "b", 9)  = 5
-     * StringUtils.lastIndexOf("aabaabaa", "b", -1) = -1
-     * StringUtils.lastIndexOf("aabaabaa", "a", 0)  = 0
-     * StringUtils.lastIndexOf("aabaabaa", "b", 0)  = -1
+     * Strings.lastIndexOf(null, *, *)          = -1
+     * Strings.lastIndexOf(*, null, *)          = -1
+     * Strings.lastIndexOf("aabaabaa", "a", 8)  = 7
+     * Strings.lastIndexOf("aabaabaa", "b", 8)  = 5
+     * Strings.lastIndexOf("aabaabaa", "ab", 8) = 4
+     * Strings.lastIndexOf("aabaabaa", "b", 9)  = 5
+     * Strings.lastIndexOf("aabaabaa", "b", -1) = -1
+     * Strings.lastIndexOf("aabaabaa", "a", 0)  = 0
+     * Strings.lastIndexOf("aabaabaa", "b", 0)  = -1
      * </pre>
      *
      * @param str the String to check, may be null
@@ -734,15 +790,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.lastIndexOfIgnoreCase(null, *, *)          = -1
-     * StringUtils.lastIndexOfIgnoreCase(*, null, *)          = -1
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "A", 8)  = 7
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "B", 8)  = 5
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "AB", 8) = 4
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "B", 9)  = 5
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "B", -1) = -1
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "A", 0)  = 0
-     * StringUtils.lastIndexOfIgnoreCase("aabaabaa", "B", 0)  = -1
+     * Strings.lastIndexOfIgnoreCase(null, *, *)          = -1
+     * Strings.lastIndexOfIgnoreCase(*, null, *)          = -1
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "A", 8)  = 7
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "B", 8)  = 5
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "AB", 8) = 4
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "B", 9)  = 5
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "B", -1) = -1
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "A", 0)  = 0
+     * Strings.lastIndexOfIgnoreCase("aabaabaa", "B", 0)  = -1
      * </pre>
      *
      * @param str the String to check, may be null
@@ -785,10 +841,10 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.contains(null, *)    = false
-     * StringUtils.contains("", *)      = false
-     * StringUtils.contains("abc", 'a') = true
-     * StringUtils.contains("abc", 'z') = false
+     * Strings.contains(null, *)    = false
+     * Strings.contains("", *)      = false
+     * Strings.contains("abc", 'a') = true
+     * Strings.contains("abc", 'z') = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -813,12 +869,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.contains(null, *)     = false
-     * StringUtils.contains(*, null)     = false
-     * StringUtils.contains("", "")      = true
-     * StringUtils.contains("abc", "")   = true
-     * StringUtils.contains("abc", "a")  = true
-     * StringUtils.contains("abc", "z")  = false
+     * Strings.contains(null, *)     = false
+     * Strings.contains(*, null)     = false
+     * Strings.contains("", "")      = true
+     * Strings.contains("abc", "")   = true
+     * Strings.contains("abc", "a")  = true
+     * Strings.contains("abc", "z")  = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -833,6 +889,145 @@ public class Strings {
         return str.indexOf(searchStr) >= 0;
     }
 
+    
+    // Difference
+    //-----------------------------------------------------------------------
+    /**
+     * <p>Compares two Strings, and returns the portion where they differ.
+     * More precisely, return the remainder of the second String,
+     * starting from where it's different from the first. This means that
+     * the difference between "abc" and "ab" is the empty String and not "c". </p>
+     *
+     * <p>For example,
+     * {@code difference("i am a machine", "i am a robot") -> "robot"}.</p>
+     *
+     * <pre>
+     * Strings.difference(null, null) = null
+     * Strings.difference("", "") = ""
+     * Strings.difference("", "abc") = "abc"
+     * Strings.difference("abc", "") = ""
+     * Strings.difference("abc", "abc") = ""
+     * Strings.difference("abc", "ab") = ""
+     * Strings.difference("ab", "abxyz") = "xyz"
+     * Strings.difference("abcde", "abxyz") = "xyz"
+     * Strings.difference("abcde", "xyz") = "xyz"
+     * </pre>
+     *
+     * @param str1  the first String, may be null
+     * @param str2  the second String, may be null
+     * @return the portion of str2 where it differs from str1; returns the
+     * empty String if they are equal
+     * @see #indexOfDifference(CharSequence,CharSequence)
+     * @since 2.0
+     */
+    public static String difference(final String str1, final String str2) {
+        if (str1 == null) {
+            return str2;
+        }
+        if (str2 == null) {
+            return str1;
+        }
+        final int at = indexOfDifference(str1, str2);
+        if (at == INDEX_NOT_FOUND) {
+            return EMPTY;
+        }
+        return str2.substring(at);
+    }
+
+   
+
+    /**
+     * <p>Compares all CharSequences in an array and returns the index at which the
+     * CharSequences begin to differ.</p>
+     *
+     * <p>For example,
+     * <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -&gt; 7</code></p>
+     *
+     * <pre>
+     * Strings.indexOfDifference(null) = -1
+     * Strings.indexOfDifference(new String[] {}) = -1
+     * Strings.indexOfDifference(new String[] {"abc"}) = -1
+     * Strings.indexOfDifference(new String[] {null, null}) = -1
+     * Strings.indexOfDifference(new String[] {"", ""}) = -1
+     * Strings.indexOfDifference(new String[] {"", null}) = 0
+     * Strings.indexOfDifference(new String[] {"abc", null, null}) = 0
+     * Strings.indexOfDifference(new String[] {null, null, "abc"}) = 0
+     * Strings.indexOfDifference(new String[] {"", "abc"}) = 0
+     * Strings.indexOfDifference(new String[] {"abc", ""}) = 0
+     * Strings.indexOfDifference(new String[] {"abc", "abc"}) = -1
+     * Strings.indexOfDifference(new String[] {"abc", "a"}) = 1
+     * Strings.indexOfDifference(new String[] {"ab", "abxyz"}) = 2
+     * Strings.indexOfDifference(new String[] {"abcde", "abxyz"}) = 2
+     * Strings.indexOfDifference(new String[] {"abcde", "xyz"}) = 0
+     * Strings.indexOfDifference(new String[] {"xyz", "abcde"}) = 0
+     * Strings.indexOfDifference(new String[] {"i am a machine", "i am a robot"}) = 7
+     * </pre>
+     *
+     * @param css  array of CharSequences, entries may be null
+     * @return the index where the strings begin to differ; -1 if they are all equal
+     * @since 2.4
+     * @since 3.0 Changed signature from indexOfDifference(String...) to indexOfDifference(CharSequence...)
+     */
+    public static int indexOfDifference(final CharSequence... css) {
+        if (css == null || css.length <= 1) {
+            return INDEX_NOT_FOUND;
+        }
+        boolean anyStringNull = false;
+        boolean allStringsNull = true;
+        final int arrayLen = css.length;
+        int shortestStrLen = Integer.MAX_VALUE;
+        int longestStrLen = 0;
+
+        // find the min and max string lengths; this avoids checking to make
+        // sure we are not exceeding the length of the string each time through
+        // the bottom loop.
+        for (CharSequence cs : css) {
+            if (cs == null) {
+                anyStringNull = true;
+                shortestStrLen = 0;
+            } else {
+                allStringsNull = false;
+                shortestStrLen = Math.min(cs.length(), shortestStrLen);
+                longestStrLen = Math.max(cs.length(), longestStrLen);
+            }
+        }
+
+        // handle lists containing all nulls or all empty strings
+        if (allStringsNull || longestStrLen == 0 && !anyStringNull) {
+            return INDEX_NOT_FOUND;
+        }
+
+        // handle lists containing some nulls or some empty strings
+        if (shortestStrLen == 0) {
+            return 0;
+        }
+
+        // find the position with the first difference across all strings
+        int firstDiff = -1;
+        for (int stringPos = 0; stringPos < shortestStrLen; stringPos++) {
+            final char comparisonChar = css[0].charAt(stringPos);
+            for (int arrayPos = 1; arrayPos < arrayLen; arrayPos++) {
+                if (css[arrayPos].charAt(stringPos) != comparisonChar) {
+                    firstDiff = stringPos;
+                    break;
+                }
+            }
+            if (firstDiff != -1) {
+                break;
+            }
+        }
+
+        if (firstDiff == -1 && shortestStrLen != longestStrLen) {
+            // we compared all of the characters up to the length of the
+            // shortest string and didn't find a match, but the string lengths
+            // vary, so return the length of the shortest string.
+            return shortestStrLen;
+        }
+        return firstDiff;
+    }
+    
+    
+    
     /**
      * <p>
      * Gets a substring from the specified String avoiding exceptions.
@@ -853,15 +1048,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substring(null, *, *)    = null
-     * StringUtils.substring("", * ,  *)    = "";
-     * StringUtils.substring("abc", 0, 2)   = "ab"
-     * StringUtils.substring("abc", 2, 0)   = ""
-     * StringUtils.substring("abc", 2, 4)   = "c"
-     * StringUtils.substring("abc", 4, 6)   = ""
-     * StringUtils.substring("abc", 2, 2)   = ""
-     * StringUtils.substring("abc", -2, -1) = "b"
-     * StringUtils.substring("abc", -4, 2)  = "ab"
+     * Strings.substring(null, *, *)    = null
+     * Strings.substring("", * ,  *)    = "";
+     * Strings.substring("abc", 0, 2)   = "ab"
+     * Strings.substring("abc", 2, 0)   = ""
+     * Strings.substring("abc", 2, 4)   = "c"
+     * Strings.substring("abc", 4, 6)   = ""
+     * Strings.substring("abc", 2, 2)   = ""
+     * Strings.substring("abc", -2, -1) = "b"
+     * Strings.substring("abc", -4, 2)  = "ab"
      * </pre>
      *
      * @param str the String to get the substring from, may be null
@@ -915,12 +1110,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.left(null, *)    = null
-     * StringUtils.left(*, -ve)     = ""
-     * StringUtils.left("", *)      = ""
-     * StringUtils.left("abc", 0)   = ""
-     * StringUtils.left("abc", 2)   = "ab"
-     * StringUtils.left("abc", 4)   = "abc"
+     * Strings.left(null, *)    = null
+     * Strings.left(*, -ve)     = ""
+     * Strings.left("", *)      = ""
+     * Strings.left("abc", 0)   = ""
+     * Strings.left("abc", 2)   = "ab"
+     * Strings.left("abc", 4)   = "abc"
      * </pre>
      *
      * @param str the String to get the leftmost characters from, may be null
@@ -951,12 +1146,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.right(null, *)    = null
-     * StringUtils.right(*, -ve)     = ""
-     * StringUtils.right("", *)      = ""
-     * StringUtils.right("abc", 0)   = ""
-     * StringUtils.right("abc", 2)   = "bc"
-     * StringUtils.right("abc", 4)   = "abc"
+     * Strings.right(null, *)    = null
+     * Strings.right(*, -ve)     = ""
+     * Strings.right("", *)      = ""
+     * Strings.right("abc", 0)   = ""
+     * Strings.right("abc", 2)   = "bc"
+     * Strings.right("abc", 4)   = "abc"
      * </pre>
      *
      * @param str the String to get the rightmost characters from, may be null
@@ -987,14 +1182,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.mid(null, *, *)    = null
-     * StringUtils.mid(*, *, -ve)     = ""
-     * StringUtils.mid("", 0, *)      = ""
-     * StringUtils.mid("abc", 0, 2)   = "ab"
-     * StringUtils.mid("abc", 0, 4)   = "abc"
-     * StringUtils.mid("abc", 2, 4)   = "c"
-     * StringUtils.mid("abc", 4, 2)   = ""
-     * StringUtils.mid("abc", -2, 2)  = "ab"
+     * Strings.mid(null, *, *)    = null
+     * Strings.mid(*, *, -ve)     = ""
+     * Strings.mid("", 0, *)      = ""
+     * Strings.mid("abc", 0, 2)   = "ab"
+     * Strings.mid("abc", 0, 4)   = "abc"
+     * Strings.mid("abc", 2, 4)   = "c"
+     * Strings.mid("abc", 4, 2)   = ""
+     * Strings.mid("abc", -2, 2)  = "ab"
      * </pre>
      *
      * @param str the String to get the characters from, may be null
@@ -1035,14 +1230,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substringBefore(null, *)      = null
-     * StringUtils.substringBefore("", *)        = ""
-     * StringUtils.substringBefore("abc", "a")   = ""
-     * StringUtils.substringBefore("abcba", "b") = "a"
-     * StringUtils.substringBefore("abc", "c")   = "ab"
-     * StringUtils.substringBefore("abc", "d")   = "abc"
-     * StringUtils.substringBefore("abc", "")    = ""
-     * StringUtils.substringBefore("abc", null)  = "abc"
+     * Strings.substringBefore(null, *)      = null
+     * Strings.substringBefore("", *)        = ""
+     * Strings.substringBefore("abc", "a")   = ""
+     * Strings.substringBefore("abcba", "b") = "a"
+     * Strings.substringBefore("abc", "c")   = "ab"
+     * Strings.substringBefore("abc", "d")   = "abc"
+     * Strings.substringBefore("abc", "")    = ""
+     * Strings.substringBefore("abc", null)  = "abc"
      * </pre>
      *
      * @param str the String to get a substring from, may be null
@@ -1079,14 +1274,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substringAfter(null, *)      = null
-     * StringUtils.substringAfter("", *)        = ""
-     * StringUtils.substringAfter(*, null)      = ""
-     * StringUtils.substringAfter("abc", "a")   = "bc"
-     * StringUtils.substringAfter("abcba", "b") = "cba"
-     * StringUtils.substringAfter("abc", "c")   = ""
-     * StringUtils.substringAfter("abc", "d")   = ""
-     * StringUtils.substringAfter("abc", "")    = "abc"
+     * Strings.substringAfter(null, *)      = null
+     * Strings.substringAfter("", *)        = ""
+     * Strings.substringAfter(*, null)      = ""
+     * Strings.substringAfter("abc", "a")   = "bc"
+     * Strings.substringAfter("abcba", "b") = "cba"
+     * Strings.substringAfter("abc", "c")   = ""
+     * Strings.substringAfter("abc", "d")   = ""
+     * Strings.substringAfter("abc", "")    = "abc"
      * </pre>
      *
      * @param str the String to get a substring from, may be null
@@ -1123,14 +1318,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substringBeforeLast(null, *)      = null
-     * StringUtils.substringBeforeLast("", *)        = ""
-     * StringUtils.substringBeforeLast("abcba", "b") = "abc"
-     * StringUtils.substringBeforeLast("abc", "c")   = "ab"
-     * StringUtils.substringBeforeLast("a", "a")     = ""
-     * StringUtils.substringBeforeLast("a", "z")     = "a"
-     * StringUtils.substringBeforeLast("a", null)    = "a"
-     * StringUtils.substringBeforeLast("a", "")      = "a"
+     * Strings.substringBeforeLast(null, *)      = null
+     * Strings.substringBeforeLast("", *)        = ""
+     * Strings.substringBeforeLast("abcba", "b") = "abc"
+     * Strings.substringBeforeLast("abc", "c")   = "ab"
+     * Strings.substringBeforeLast("a", "a")     = ""
+     * Strings.substringBeforeLast("a", "z")     = "a"
+     * Strings.substringBeforeLast("a", null)    = "a"
+     * Strings.substringBeforeLast("a", "")      = "a"
      * </pre>
      *
      * @param str the String to get a substring from, may be null
@@ -1164,15 +1359,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substringAfterLast(null, *)      = null
-     * StringUtils.substringAfterLast("", *)        = ""
-     * StringUtils.substringAfterLast(*, "")        = ""
-     * StringUtils.substringAfterLast(*, null)      = ""
-     * StringUtils.substringAfterLast("abc", "a")   = "bc"
-     * StringUtils.substringAfterLast("abcba", "b") = "a"
-     * StringUtils.substringAfterLast("abc", "c")   = ""
-     * StringUtils.substringAfterLast("a", "a")     = ""
-     * StringUtils.substringAfterLast("a", "z")     = ""
+     * Strings.substringAfterLast(null, *)      = null
+     * Strings.substringAfterLast("", *)        = ""
+     * Strings.substringAfterLast(*, "")        = ""
+     * Strings.substringAfterLast(*, null)      = ""
+     * Strings.substringAfterLast("abc", "a")   = "bc"
+     * Strings.substringAfterLast("abcba", "b") = "a"
+     * Strings.substringAfterLast("abc", "c")   = ""
+     * Strings.substringAfterLast("a", "a")     = ""
+     * Strings.substringAfterLast("a", "z")     = ""
      * </pre>
      *
      * @param str the String to get a substring from, may be null
@@ -1205,16 +1400,16 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.substringBetween("wx[b]yz", "[", "]") = "b"
-     * StringUtils.substringBetween(null, *, *)          = null
-     * StringUtils.substringBetween(*, null, *)          = null
-     * StringUtils.substringBetween(*, *, null)          = null
-     * StringUtils.substringBetween("", "", "")          = ""
-     * StringUtils.substringBetween("", "", "]")         = null
-     * StringUtils.substringBetween("", "[", "]")        = null
-     * StringUtils.substringBetween("yabcz", "", "")     = ""
-     * StringUtils.substringBetween("yabcz", "y", "z")   = "abc"
-     * StringUtils.substringBetween("yabczyabcz", "y", "z")   = "abc"
+     * Strings.substringBetween("wx[b]yz", "[", "]") = "b"
+     * Strings.substringBetween(null, *, *)          = null
+     * Strings.substringBetween(*, null, *)          = null
+     * Strings.substringBetween(*, *, null)          = null
+     * Strings.substringBetween("", "", "")          = ""
+     * Strings.substringBetween("", "", "]")         = null
+     * Strings.substringBetween("", "[", "]")        = null
+     * Strings.substringBetween("yabcz", "", "")     = ""
+     * Strings.substringBetween("yabcz", "y", "z")   = "abc"
+     * Strings.substringBetween("yabczyabcz", "y", "z")   = "abc"
      * </pre>
      *
      * @param str the String containing the substring, may be null
@@ -1243,10 +1438,10 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.deleteWhitespace(null)         = null
-     * StringUtils.deleteWhitespace("")           = ""
-     * StringUtils.deleteWhitespace("abc")        = "abc"
-     * StringUtils.deleteWhitespace("   ab  c  ") = "abc"
+     * Strings.deleteWhitespace(null)         = null
+     * Strings.deleteWhitespace("")           = ""
+     * Strings.deleteWhitespace("abc")        = "abc"
+     * Strings.deleteWhitespace("   ab  c  ") = "abc"
      * </pre>
      *
      * @param str the String to delete whitespace from, may be null
@@ -1327,13 +1522,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.removeStart(null, *)      = null
-     * StringUtils.removeStart("", *)        = ""
-     * StringUtils.removeStart(*, null)      = *
-     * StringUtils.removeStart("www.domain.com", "www.")   = "domain.com"
-     * StringUtils.removeStart("domain.com", "www.")       = "domain.com"
-     * StringUtils.removeStart("www.domain.com", "domain") = "www.domain.com"
-     * StringUtils.removeStart("abc", "")    = "abc"
+     * Strings.removeStart(null, *)      = null
+     * Strings.removeStart("", *)        = ""
+     * Strings.removeStart(*, null)      = *
+     * Strings.removeStart("www.domain.com", "www.")   = "domain.com"
+     * Strings.removeStart("domain.com", "www.")       = "domain.com"
+     * Strings.removeStart("www.domain.com", "domain") = "www.domain.com"
+     * Strings.removeStart("abc", "")    = "abc"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -1362,14 +1557,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.removeStartIgnoreCase(null, *)      = null
-     * StringUtils.removeStartIgnoreCase("", *)        = ""
-     * StringUtils.removeStartIgnoreCase(*, null)      = *
-     * StringUtils.removeStartIgnoreCase("www.domain.com", "www.")   = "domain.com"
-     * StringUtils.removeStartIgnoreCase("www.domain.com", "WWW.")   = "domain.com"
-     * StringUtils.removeStartIgnoreCase("domain.com", "www.")       = "domain.com"
-     * StringUtils.removeStartIgnoreCase("www.domain.com", "domain") = "www.domain.com"
-     * StringUtils.removeStartIgnoreCase("abc", "")    = "abc"
+     * Strings.removeStartIgnoreCase(null, *)      = null
+     * Strings.removeStartIgnoreCase("", *)        = ""
+     * Strings.removeStartIgnoreCase(*, null)      = *
+     * Strings.removeStartIgnoreCase("www.domain.com", "www.")   = "domain.com"
+     * Strings.removeStartIgnoreCase("www.domain.com", "WWW.")   = "domain.com"
+     * Strings.removeStartIgnoreCase("domain.com", "www.")       = "domain.com"
+     * Strings.removeStartIgnoreCase("www.domain.com", "domain") = "www.domain.com"
+     * Strings.removeStartIgnoreCase("abc", "")    = "abc"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -1398,13 +1593,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.removeEnd(null, *)      = null
-     * StringUtils.removeEnd("", *)        = ""
-     * StringUtils.removeEnd(*, null)      = *
-     * StringUtils.removeEnd("www.domain.com", ".com.")  = "www.domain.com"
-     * StringUtils.removeEnd("www.domain.com", ".com")   = "www.domain"
-     * StringUtils.removeEnd("www.domain.com", "domain") = "www.domain.com"
-     * StringUtils.removeEnd("abc", "")    = "abc"
+     * Strings.removeEnd(null, *)      = null
+     * Strings.removeEnd("", *)        = ""
+     * Strings.removeEnd(*, null)      = *
+     * Strings.removeEnd("www.domain.com", ".com.")  = "www.domain.com"
+     * Strings.removeEnd("www.domain.com", ".com")   = "www.domain"
+     * Strings.removeEnd("www.domain.com", "domain") = "www.domain.com"
+     * Strings.removeEnd("abc", "")    = "abc"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -1433,15 +1628,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.removeEndIgnoreCase(null, *)      = null
-     * StringUtils.removeEndIgnoreCase("", *)        = ""
-     * StringUtils.removeEndIgnoreCase(*, null)      = *
-     * StringUtils.removeEndIgnoreCase("www.domain.com", ".com.")  = "www.domain.com"
-     * StringUtils.removeEndIgnoreCase("www.domain.com", ".com")   = "www.domain"
-     * StringUtils.removeEndIgnoreCase("www.domain.com", "domain") = "www.domain.com"
-     * StringUtils.removeEndIgnoreCase("abc", "")    = "abc"
-     * StringUtils.removeEndIgnoreCase("www.domain.com", ".COM") = "www.domain")
-     * StringUtils.removeEndIgnoreCase("www.domain.COM", ".com") = "www.domain")
+     * Strings.removeEndIgnoreCase(null, *)      = null
+     * Strings.removeEndIgnoreCase("", *)        = ""
+     * Strings.removeEndIgnoreCase(*, null)      = *
+     * Strings.removeEndIgnoreCase("www.domain.com", ".com.")  = "www.domain.com"
+     * Strings.removeEndIgnoreCase("www.domain.com", ".com")   = "www.domain"
+     * Strings.removeEndIgnoreCase("www.domain.com", "domain") = "www.domain.com"
+     * Strings.removeEndIgnoreCase("abc", "")    = "abc"
+     * Strings.removeEndIgnoreCase("www.domain.com", ".COM") = "www.domain")
+     * Strings.removeEndIgnoreCase("www.domain.COM", ".com") = "www.domain")
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -1469,10 +1664,10 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.remove(null, *)       = null
-     * StringUtils.remove("", *)         = ""
-     * StringUtils.remove("queued", 'u') = "qeed"
-     * StringUtils.remove("queued", 'z') = "queued"
+     * Strings.remove(null, *)       = null
+     * Strings.remove("", *)         = ""
+     * Strings.remove("queued", 'u') = "qeed"
+     * Strings.remove("queued", 'z') = "queued"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -1500,9 +1695,9 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.padding(0, 'e')  = ""
-     * StringUtils.padding(3, 'e')  = "eee"
-     * StringUtils.padding(-2, 'e') = IndexOutOfBoundsException
+     * Strings.padding(0, 'e')  = ""
+     * Strings.padding(3, 'e')  = "eee"
+     * Strings.padding(-2, 'e') = IndexOutOfBoundsException
      * </pre>
      *
      * <p>
@@ -1538,12 +1733,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.rightPad(null, *, *)     = null
-     * StringUtils.rightPad("", 3, 'z')     = "zzz"
-     * StringUtils.rightPad("bat", 3, 'z')  = "bat"
-     * StringUtils.rightPad("bat", 5, 'z')  = "batzz"
-     * StringUtils.rightPad("bat", 1, 'z')  = "bat"
-     * StringUtils.rightPad("bat", -1, 'z') = "bat"
+     * Strings.rightPad(null, *, *)     = null
+     * Strings.rightPad("", 3, 'z')     = "zzz"
+     * Strings.rightPad("bat", 3, 'z')  = "bat"
+     * Strings.rightPad("bat", 5, 'z')  = "batzz"
+     * Strings.rightPad("bat", 1, 'z')  = "bat"
+     * Strings.rightPad("bat", -1, 'z') = "bat"
      * </pre>
      *
      * @param str the String to pad out, may be null
@@ -1576,15 +1771,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.rightPad(null, *, *)      = null
-     * StringUtils.rightPad("", 3, "z")      = "zzz"
-     * StringUtils.rightPad("bat", 3, "yz")  = "bat"
-     * StringUtils.rightPad("bat", 5, "yz")  = "batyz"
-     * StringUtils.rightPad("bat", 8, "yz")  = "batyzyzy"
-     * StringUtils.rightPad("bat", 1, "yz")  = "bat"
-     * StringUtils.rightPad("bat", -1, "yz") = "bat"
-     * StringUtils.rightPad("bat", 5, null)  = "bat  "
-     * StringUtils.rightPad("bat", 5, "")    = "bat  "
+     * Strings.rightPad(null, *, *)      = null
+     * Strings.rightPad("", 3, "z")      = "zzz"
+     * Strings.rightPad("bat", 3, "yz")  = "bat"
+     * Strings.rightPad("bat", 5, "yz")  = "batyz"
+     * Strings.rightPad("bat", 8, "yz")  = "batyzyzy"
+     * Strings.rightPad("bat", 1, "yz")  = "bat"
+     * Strings.rightPad("bat", -1, "yz") = "bat"
+     * Strings.rightPad("bat", 5, null)  = "bat  "
+     * Strings.rightPad("bat", 5, "")    = "bat  "
      * </pre>
      *
      * @param str the String to pad out, may be null
@@ -1633,12 +1828,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.leftPad(null, *, *)     = null
-     * StringUtils.leftPad("", 3, 'z')     = "zzz"
-     * StringUtils.leftPad("bat", 3, 'z')  = "bat"
-     * StringUtils.leftPad("bat", 5, 'z')  = "zzbat"
-     * StringUtils.leftPad("bat", 1, 'z')  = "bat"
-     * StringUtils.leftPad("bat", -1, 'z') = "bat"
+     * Strings.leftPad(null, *, *)     = null
+     * Strings.leftPad("", 3, 'z')     = "zzz"
+     * Strings.leftPad("bat", 3, 'z')  = "bat"
+     * Strings.leftPad("bat", 5, 'z')  = "zzbat"
+     * Strings.leftPad("bat", 1, 'z')  = "bat"
+     * Strings.leftPad("bat", -1, 'z') = "bat"
      * </pre>
      *
      * @param str the String to pad out, may be null
@@ -1671,15 +1866,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.leftPad(null, *, *)      = null
-     * StringUtils.leftPad("", 3, "z")      = "zzz"
-     * StringUtils.leftPad("bat", 3, "yz")  = "bat"
-     * StringUtils.leftPad("bat", 5, "yz")  = "yzbat"
-     * StringUtils.leftPad("bat", 8, "yz")  = "yzyzybat"
-     * StringUtils.leftPad("bat", 1, "yz")  = "bat"
-     * StringUtils.leftPad("bat", -1, "yz") = "bat"
-     * StringUtils.leftPad("bat", 5, null)  = "  bat"
-     * StringUtils.leftPad("bat", 5, "")    = "  bat"
+     * Strings.leftPad(null, *, *)      = null
+     * Strings.leftPad("", 3, "z")      = "zzz"
+     * Strings.leftPad("bat", 3, "yz")  = "bat"
+     * Strings.leftPad("bat", 5, "yz")  = "yzbat"
+     * Strings.leftPad("bat", 8, "yz")  = "yzyzybat"
+     * Strings.leftPad("bat", 1, "yz")  = "bat"
+     * Strings.leftPad("bat", -1, "yz") = "bat"
+     * Strings.leftPad("bat", 5, null)  = "  bat"
+     * Strings.leftPad("bat", 5, "")    = "  bat"
      * </pre>
      *
      * @param str the String to pad out, may be null
@@ -1729,13 +1924,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.center(null, *, *)     = null
-     * StringUtils.center("", 4, ' ')     = "    "
-     * StringUtils.center("ab", -1, ' ')  = "ab"
-     * StringUtils.center("ab", 4, ' ')   = " ab"
-     * StringUtils.center("abcd", 2, ' ') = "abcd"
-     * StringUtils.center("a", 4, ' ')    = " a  "
-     * StringUtils.center("a", 4, 'y')    = "yayy"
+     * Strings.center(null, *, *)     = null
+     * Strings.center("", 4, ' ')     = "    "
+     * Strings.center("ab", -1, ' ')  = "ab"
+     * Strings.center("ab", 4, ' ')   = " ab"
+     * Strings.center("abcd", 2, ' ') = "abcd"
+     * Strings.center("a", 4, ' ')    = " a  "
+     * Strings.center("a", 4, 'y')    = "yayy"
      * </pre>
      *
      * @param str the String to center, may be null
@@ -1769,15 +1964,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.center(null, *, *)     = null
-     * StringUtils.center("", 4, " ")     = "    "
-     * StringUtils.center("ab", -1, " ")  = "ab"
-     * StringUtils.center("ab", 4, " ")   = " ab"
-     * StringUtils.center("abcd", 2, " ") = "abcd"
-     * StringUtils.center("a", 4, " ")    = " a  "
-     * StringUtils.center("a", 4, "yz")   = "yayz"
-     * StringUtils.center("abc", 7, null) = "  abc  "
-     * StringUtils.center("abc", 7, "")   = "  abc  "
+     * Strings.center(null, *, *)     = null
+     * Strings.center("", 4, " ")     = "    "
+     * Strings.center("ab", -1, " ")  = "ab"
+     * Strings.center("ab", 4, " ")   = " ab"
+     * Strings.center("abcd", 2, " ") = "abcd"
+     * Strings.center("a", 4, " ")    = " a  "
+     * Strings.center("a", 4, "yz")   = "yayz"
+     * Strings.center("abc", 7, null) = "  abc  "
+     * Strings.center("abc", 7, "")   = "  abc  "
      * </pre>
      *
      * @param str the String to center, may be null
@@ -1815,13 +2010,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.countMatches(null, *)       = 0
-     * StringUtils.countMatches("", *)         = 0
-     * StringUtils.countMatches("abba", null)  = 0
-     * StringUtils.countMatches("abba", "")    = 0
-     * StringUtils.countMatches("abba", "a")   = 2
-     * StringUtils.countMatches("abba", "ab")  = 1
-     * StringUtils.countMatches("abba", "xxx") = 0
+     * Strings.countMatches(null, *)       = 0
+     * Strings.countMatches("", *)         = 0
+     * Strings.countMatches("abba", null)  = 0
+     * Strings.countMatches("abba", "")    = 0
+     * Strings.countMatches("abba", "a")   = 2
+     * Strings.countMatches("abba", "ab")  = 1
+     * Strings.countMatches("abba", "xxx") = 0
      * </pre>
      *
      * @param str the String to check, may be null
@@ -1853,12 +2048,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAlpha(null)   = false
-     * StringUtils.isAlpha("")     = true
-     * StringUtils.isAlpha("  ")   = false
-     * StringUtils.isAlpha("abc")  = true
-     * StringUtils.isAlpha("ab2c") = false
-     * StringUtils.isAlpha("ab-c") = false
+     * Strings.isAlpha(null)   = false
+     * Strings.isAlpha("")     = true
+     * Strings.isAlpha("  ")   = false
+     * Strings.isAlpha("abc")  = true
+     * Strings.isAlpha("ab2c") = false
+     * Strings.isAlpha("ab-c") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -1887,13 +2082,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAlphaSpace(null)   = false
-     * StringUtils.isAlphaSpace("")     = true
-     * StringUtils.isAlphaSpace("  ")   = true
-     * StringUtils.isAlphaSpace("abc")  = true
-     * StringUtils.isAlphaSpace("ab c") = true
-     * StringUtils.isAlphaSpace("ab2c") = false
-     * StringUtils.isAlphaSpace("ab-c") = false
+     * Strings.isAlphaSpace(null)   = false
+     * Strings.isAlphaSpace("")     = true
+     * Strings.isAlphaSpace("  ")   = true
+     * Strings.isAlphaSpace("abc")  = true
+     * Strings.isAlphaSpace("ab c") = true
+     * Strings.isAlphaSpace("ab2c") = false
+     * Strings.isAlphaSpace("ab-c") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -1922,13 +2117,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAlphanumeric(null)   = false
-     * StringUtils.isAlphanumeric("")     = true
-     * StringUtils.isAlphanumeric("  ")   = false
-     * StringUtils.isAlphanumeric("abc")  = true
-     * StringUtils.isAlphanumeric("ab c") = false
-     * StringUtils.isAlphanumeric("ab2c") = true
-     * StringUtils.isAlphanumeric("ab-c") = false
+     * Strings.isAlphanumeric(null)   = false
+     * Strings.isAlphanumeric("")     = true
+     * Strings.isAlphanumeric("  ")   = false
+     * Strings.isAlphanumeric("abc")  = true
+     * Strings.isAlphanumeric("ab c") = false
+     * Strings.isAlphanumeric("ab2c") = true
+     * Strings.isAlphanumeric("ab-c") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -1957,13 +2152,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAlphanumeric(null)   = false
-     * StringUtils.isAlphanumeric("")     = true
-     * StringUtils.isAlphanumeric("  ")   = true
-     * StringUtils.isAlphanumeric("abc")  = true
-     * StringUtils.isAlphanumeric("ab c") = true
-     * StringUtils.isAlphanumeric("ab2c") = true
-     * StringUtils.isAlphanumeric("ab-c") = false
+     * Strings.isAlphanumeric(null)   = false
+     * Strings.isAlphanumeric("")     = true
+     * Strings.isAlphanumeric("  ")   = true
+     * Strings.isAlphanumeric("abc")  = true
+     * Strings.isAlphanumeric("ab c") = true
+     * Strings.isAlphanumeric("ab2c") = true
+     * Strings.isAlphanumeric("ab-c") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -1992,14 +2187,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isNumeric(null)   = false
-     * StringUtils.isNumeric("")     = true
-     * StringUtils.isNumeric("  ")   = false
-     * StringUtils.isNumeric("123")  = true
-     * StringUtils.isNumeric("12 3") = false
-     * StringUtils.isNumeric("ab2c") = false
-     * StringUtils.isNumeric("12-3") = false
-     * StringUtils.isNumeric("12.3") = false
+     * Strings.isNumeric(null)   = false
+     * Strings.isNumeric("")     = true
+     * Strings.isNumeric("  ")   = false
+     * Strings.isNumeric("123")  = true
+     * Strings.isNumeric("12 3") = false
+     * Strings.isNumeric("ab2c") = false
+     * Strings.isNumeric("12-3") = false
+     * Strings.isNumeric("12.3") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -2028,14 +2223,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isNumeric(null)   = false
-     * StringUtils.isNumeric("")     = true
-     * StringUtils.isNumeric("  ")   = true
-     * StringUtils.isNumeric("123")  = true
-     * StringUtils.isNumeric("12 3") = true
-     * StringUtils.isNumeric("ab2c") = false
-     * StringUtils.isNumeric("12-3") = false
-     * StringUtils.isNumeric("12.3") = false
+     * Strings.isNumeric(null)   = false
+     * Strings.isNumeric("")     = true
+     * Strings.isNumeric("  ")   = true
+     * Strings.isNumeric("123")  = true
+     * Strings.isNumeric("12 3") = true
+     * Strings.isNumeric("ab2c") = false
+     * Strings.isNumeric("12-3") = false
+     * Strings.isNumeric("12.3") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -2064,12 +2259,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isWhitespace(null)   = false
-     * StringUtils.isWhitespace("")     = true
-     * StringUtils.isWhitespace("  ")   = true
-     * StringUtils.isWhitespace("abc")  = false
-     * StringUtils.isWhitespace("ab2c") = false
-     * StringUtils.isWhitespace("ab-c") = false
+     * Strings.isWhitespace(null)   = false
+     * Strings.isWhitespace("")     = true
+     * Strings.isWhitespace("  ")   = true
+     * Strings.isWhitespace("abc")  = false
+     * Strings.isWhitespace("ab2c") = false
+     * Strings.isWhitespace("ab-c") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -2099,11 +2294,11 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAllLowerCase(null)   = false
-     * StringUtils.isAllLowerCase("")     = false
-     * StringUtils.isAllLowerCase("  ")   = false
-     * StringUtils.isAllLowerCase("abc")  = true
-     * StringUtils.isAllLowerCase("abC") = false
+     * Strings.isAllLowerCase(null)   = false
+     * Strings.isAllLowerCase("")     = false
+     * Strings.isAllLowerCase("  ")   = false
+     * Strings.isAllLowerCase("abc")  = true
+     * Strings.isAllLowerCase("abC") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -2133,11 +2328,11 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isAllUpperCase(null)   = false
-     * StringUtils.isAllUpperCase("")     = false
-     * StringUtils.isAllUpperCase("  ")   = false
-     * StringUtils.isAllUpperCase("ABC")  = true
-     * StringUtils.isAllUpperCase("aBC") = false
+     * Strings.isAllUpperCase(null)   = false
+     * Strings.isAllUpperCase("")     = false
+     * Strings.isAllUpperCase("  ")   = false
+     * Strings.isAllUpperCase("ABC")  = true
+     * Strings.isAllUpperCase("aBC") = false
      * </pre>
      *
      * @param str the String to check, may be null
@@ -2157,139 +2352,9 @@ public class Strings {
         return true;
     }
 
-    // Difference
-    // -----------------------------------------------------------------------
-    /**
-     * <p>
-     * Compares two Strings, and returns the portion where they differ. (More precisely, return the remainder of the second String, starting from where it's
-     * different from the first.)
-     * </p>
-     *
-     * <p>
-     * For example, <code>difference("i am a machine", "i am a robot") -- "robot"</code>.
-     * </p>
-     *
-     * <pre>
-     * StringUtils.difference(null, null) = null
-     * StringUtils.difference("", "") = ""
-     * StringUtils.difference("", "abc") = "abc"
-     * StringUtils.difference("abc", "") = ""
-     * StringUtils.difference("abc", "abc") = ""
-     * StringUtils.difference("ab", "abxyz") = "xyz"
-     * StringUtils.difference("abcde", "abxyz") = "xyz"
-     * StringUtils.difference("abcde", "xyz") = "xyz"
-     * </pre>
-     *
-     * @param str1 the first String, may be null
-     * @param str2 the second String, may be null
-     * @return the portion of str2 where it differs from str1; returns the empty String if they are equal
-     * @since 2.0
-     */
-    public static String difference(String str1, String str2) {
-        if (str1 == null) {
-            return str2;
-        }
-        if (str2 == null) {
-            return str1;
-        }
-        int at = indexOfDifference(str1, str2);
-        if (at == INDEX_NOT_FOUND) {
-            return EMPTY;
-        }
-        return str2.substring(at);
-    }
+   
 
-    /**
-     * <p>
-     * Compares all Strings in an array and returns the index at which the Strings begin to differ.
-     * </p>
-     *
-     * <p>
-     * For example, <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -- 7</code>
-     * </p>
-     *
-     * <pre>
-     * StringUtils.indexOfDifference(null) = -1
-     * StringUtils.indexOfDifference(new String[] {}) = -1
-     * StringUtils.indexOfDifference(new String[] {"abc"}) = -1
-     * StringUtils.indexOfDifference(new String[] {null, null}) = -1
-     * StringUtils.indexOfDifference(new String[] {"", ""}) = -1
-     * StringUtils.indexOfDifference(new String[] {"", null}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", null, null}) = 0
-     * StringUtils.indexOfDifference(new String[] {null, null, "abc"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"", "abc"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", ""}) = 0
-     * StringUtils.indexOfDifference(new String[] {"abc", "abc"}) = -1
-     * StringUtils.indexOfDifference(new String[] {"abc", "a"}) = 1
-     * StringUtils.indexOfDifference(new String[] {"ab", "abxyz"}) = 2
-     * StringUtils.indexOfDifference(new String[] {"abcde", "abxyz"}) = 2
-     * StringUtils.indexOfDifference(new String[] {"abcde", "xyz"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"xyz", "abcde"}) = 0
-     * StringUtils.indexOfDifference(new String[] {"i am a machine", "i am a robot"}) = 7
-     * </pre>
-     *
-     * @param strs array of strings, entries may be null
-     * @return the index where the strings begin to differ; -1 if they are all equal
-     * @since 2.4
-     */
-    public static int indexOfDifference(String...strs) {
-        if (strs == null || strs.length <= 1) {
-            return INDEX_NOT_FOUND;
-        }
-        boolean anyStringNull = false;
-        boolean allStringsNull = true;
-        int arrayLen = strs.length;
-        int shortestStrLen = Integer.MAX_VALUE;
-        int longestStrLen = 0;
-
-        // find the min and max string lengths; this avoids checking to make
-        // sure we are not exceeding the length of the string each time through
-        // the bottom loop.
-        for (int i = 0; i < arrayLen; i++) {
-            if (strs[i] == null) {
-                anyStringNull = true;
-                shortestStrLen = 0;
-            } else {
-                allStringsNull = false;
-                shortestStrLen = Math.min(strs[i].length(), shortestStrLen);
-                longestStrLen = Math.max(strs[i].length(), longestStrLen);
-            }
-        }
-
-        // handle lists containing all nulls or all empty strings
-        if (allStringsNull || (longestStrLen == 0 && !anyStringNull)) {
-            return INDEX_NOT_FOUND;
-        }
-
-        // handle lists containing some nulls or some empty strings
-        if (shortestStrLen == 0) {
-            return 0;
-        }
-
-        // find the position with the first difference across all strings
-        int firstDiff = -1;
-        for (int stringPos = 0; stringPos < shortestStrLen; stringPos++) {
-            char comparisonChar = strs[0].charAt(stringPos);
-            for (int arrayPos = 1; arrayPos < arrayLen; arrayPos++) {
-                if (strs[arrayPos].charAt(stringPos) != comparisonChar) {
-                    firstDiff = stringPos;
-                    break;
-                }
-            }
-            if (firstDiff != -1) {
-                break;
-            }
-        }
-
-        if (firstDiff == -1 && shortestStrLen != longestStrLen) {
-            // we compared all of the characters up to the length of the
-            // shortest string and didn't find a match, but the string lengths
-            // vary, so return the length of the shortest string.
-            return shortestStrLen;
-        }
-        return firstDiff;
-    }
-
+  
     /**
      * <p>
      * Compares all Strings in an array and returns the initial sequence of characters that is common to all of them.
@@ -2300,23 +2365,23 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.getCommonPrefix(null) = ""
-     * StringUtils.getCommonPrefix(new String[] {}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc"}) = "abc"
-     * StringUtils.getCommonPrefix(new String[] {null, null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", ""}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", null, null}) = ""
-     * StringUtils.getCommonPrefix(new String[] {null, null, "abc"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"", "abc"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", ""}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"abc", "abc"}) = "abc"
-     * StringUtils.getCommonPrefix(new String[] {"abc", "a"}) = "a"
-     * StringUtils.getCommonPrefix(new String[] {"ab", "abxyz"}) = "ab"
-     * StringUtils.getCommonPrefix(new String[] {"abcde", "abxyz"}) = "ab"
-     * StringUtils.getCommonPrefix(new String[] {"abcde", "xyz"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"xyz", "abcde"}) = ""
-     * StringUtils.getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) = "i am a "
+     * Strings.getCommonPrefix(null) = ""
+     * Strings.getCommonPrefix(new String[] {}) = ""
+     * Strings.getCommonPrefix(new String[] {"abc"}) = "abc"
+     * Strings.getCommonPrefix(new String[] {null, null}) = ""
+     * Strings.getCommonPrefix(new String[] {"", ""}) = ""
+     * Strings.getCommonPrefix(new String[] {"", null}) = ""
+     * Strings.getCommonPrefix(new String[] {"abc", null, null}) = ""
+     * Strings.getCommonPrefix(new String[] {null, null, "abc"}) = ""
+     * Strings.getCommonPrefix(new String[] {"", "abc"}) = ""
+     * Strings.getCommonPrefix(new String[] {"abc", ""}) = ""
+     * Strings.getCommonPrefix(new String[] {"abc", "abc"}) = "abc"
+     * Strings.getCommonPrefix(new String[] {"abc", "a"}) = "a"
+     * Strings.getCommonPrefix(new String[] {"ab", "abxyz"}) = "ab"
+     * Strings.getCommonPrefix(new String[] {"abcde", "abxyz"}) = "ab"
+     * Strings.getCommonPrefix(new String[] {"abcde", "xyz"}) = ""
+     * Strings.getCommonPrefix(new String[] {"xyz", "abcde"}) = ""
+     * Strings.getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) = "i am a "
      * </pre>
      *
      * @param strs array of String objects, entries may be null
@@ -2369,17 +2434,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.getLevenshteinDistance(null, *)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance(*, null)             = IllegalArgumentException
-     * StringUtils.getLevenshteinDistance("","")               = 0
-     * StringUtils.getLevenshteinDistance("","a")              = 1
-     * StringUtils.getLevenshteinDistance("aaapppp", "")       = 7
-     * StringUtils.getLevenshteinDistance("frog", "fog")       = 1
-     * StringUtils.getLevenshteinDistance("fly", "ant")        = 3
-     * StringUtils.getLevenshteinDistance("elephant", "hippo") = 7
-     * StringUtils.getLevenshteinDistance("hippo", "elephant") = 7
-     * StringUtils.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
-     * StringUtils.getLevenshteinDistance("hello", "hallo")    = 1
+     * Strings.getLevenshteinDistance(null, *)             = IllegalArgumentException
+     * Strings.getLevenshteinDistance(*, null)             = IllegalArgumentException
+     * Strings.getLevenshteinDistance("","")               = 0
+     * Strings.getLevenshteinDistance("","a")              = 1
+     * Strings.getLevenshteinDistance("aaapppp", "")       = 7
+     * Strings.getLevenshteinDistance("frog", "fog")       = 1
+     * Strings.getLevenshteinDistance("fly", "ant")        = 3
+     * Strings.getLevenshteinDistance("elephant", "hippo") = 7
+     * Strings.getLevenshteinDistance("hippo", "elephant") = 7
+     * Strings.getLevenshteinDistance("hippo", "zzzzzzzz") = 8
+     * Strings.getLevenshteinDistance("hello", "hallo")    = 1
      * </pre>
      *
      * @param s the first String, must not be null
