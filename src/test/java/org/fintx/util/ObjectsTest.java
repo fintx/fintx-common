@@ -19,6 +19,7 @@ import static org.junit.Assert.*;
 
 import org.fintx.lang.Encoding;
 
+import net.sf.cglib.beans.BeanCopier;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Assert;
@@ -27,6 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -38,37 +40,19 @@ import javax.xml.bind.JAXBException;
  */
 public class ObjectsTest {
 
-    /**
-     * @throws java.lang.Exception
-     */
-    @BeforeClass
-    public static void setUpBeforeClass() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @AfterClass
-    public static void tearDownAfterClass() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-    }
-
-    /**
-     * @throws java.lang.Exception
-     */
-    @After
-    public void tearDown() throws Exception {
-    }
+   
 
     @Test
     public void testDeepClone() {
-
+        BeanCopier bc=BeanCopier.create(String.class, String.class, false);
+        String str=null;
+        bc.copy("", str, null);
+        Assert.assertTrue(String.class.equals("a".getClass()));
+        Assert.assertTrue(Objects.isBaseType("a".getClass()));
+        Assert.assertTrue(Objects.isBaseType(String.class));
+        Assert.assertTrue(Objects.isBaseType(Date.class));
+        Assert.assertFalse(Objects.isWrapperType("a".getClass()));
+        Assert.assertTrue(Objects.isWrapperType(new Boolean(false).getClass()));
         // String a="a";
         // String b="a";
         // String c=new String("a");
@@ -97,6 +81,9 @@ public class ObjectsTest {
         Assert.assertTrue(1 == pojo.getIns()[0]);
         Assert.assertTrue("aa".equals(pojo.getStr()));
         Assert.assertTrue(10 == pojo.getBytes()[9]);
+        Assert.assertTrue(Objects.deepClone("a").equals("a"));
+        String[] strs=Objects.deepClone(new String[] {"a","b"});
+        Assert.assertTrue(strs[0].equals("a"));
     }
 
     @Test
@@ -196,6 +183,64 @@ public class ObjectsTest {
         textPoJo3 = convertor.toObject(text, TextPoJo2.class);
         Assert.assertTrue(textPoJo2.getList().get(0).getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
         Assert.assertTrue(textPoJo2.getList().get(0).getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
+    }
+    
+    @Test
+    public void testHashAndHashCode() {
+        System.out.println(Objects.hash());
+        System.out.println(Objects.hash(null));
+        Objects.hashCode(null);
+        
+        System.out.println(Objects.hash(new Object()));
+        Objects.hashCode(new Object());
+        
+        System.out.println(Objects.hash(new Object[] {}));
+        Objects.hashCode(new Object[] {});
+        
+        System.out.println(Objects.hash(new Object[] {new Object()}));
+        Objects.hashCode(new Object[] {new Object()});
+        
+        System.out.println(Objects.hash(new int[] {}));
+        Objects.hashCode(new int[] {});
+        
+        System.out.println(Objects.hash(new int[] {0}));
+        Objects.hashCode(new int[] {0});
+        
+        System.out.println(Objects.hash(new long[] {}));
+        Objects.hashCode(new long[] {});
+        
+        System.out.println(Objects.hash(new long[] {0}));
+        Objects.hashCode(new long[] {0});
+        
+        System.out.println(Objects.hash(new double[] {}));
+        Objects.hashCode(new double[] {});
+        
+        System.out.println(Objects.hash(new double[] {0}));
+        Objects.hashCode(new double[] {0});
+        
+        System.out.println(Objects.hash(new float[] {}));
+        Objects.hashCode(new float[] {});
+        
+        System.out.println(Objects.hash(new float[] {0}));
+        Objects.hashCode(new float[] {0});
+        
+        System.out.println(Objects.hash(new short[] {}));
+        Objects.hashCode(new short[] {});
+        
+        System.out.println(Objects.hash(new short[] {0}));
+        Objects.hashCode(new short[] {0});
+        
+        System.out.println(Objects.hash(new boolean[] {}));
+        Objects.hashCode(new boolean[] {});
+        
+        System.out.println(Objects.hash(new boolean[] {true}));
+        Objects.hashCode(new boolean[] {false});
+        
+        System.out.println(Objects.hash(new byte[] {}));
+        Objects.hashCode(new byte[] {});
+        
+        System.out.println(Objects.hash(new byte[] {(byte) 0xff}));
+        Objects.hashCode(new byte[] {(byte) 0xff});
     }
 
 }

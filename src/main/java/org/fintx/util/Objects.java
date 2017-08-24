@@ -58,7 +58,25 @@ public class Objects {
     private static final Set<Class<?>> WRAPPER_TYPES = new HashSet<Class<?>>(
             java.util.Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
 
+    private static final Set<Class<?>> BASE_TYPES =
+            new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.String.class, java.math.BigDecimal.class, java.sql.Timestamp.class, java.sql.Time.class,
+                    java.sql.Date.class, java.util.Date.class, java.math.BigInteger.class, java.util.Calendar.class, java.sql.Clob.class, java.sql.Blob.class));
+
+    public static void addBaseTypeClass(Class<?> clazz) {
+        BASE_TYPES.add(clazz);
+    }
+    
+    public static boolean isBaseType(Class<?> clazz) {
+        if(null==clazz) {
+            throw new NullPointerException() ;
+        }
+        return clazz.isPrimitive()||isWrapperType(clazz)||BASE_TYPES.contains(clazz);
+    }
+
     public static boolean isWrapperType(Class<?> clazz) {
+        if(null==clazz) {
+            throw new NullPointerException() ;
+        }
         return WRAPPER_TYPES.contains(clazz);
     }
 
@@ -70,12 +88,13 @@ public class Objects {
      * @return the clone object
      */
     public static <T> T deepClone(T from) {
+
+        if (null == from) {
+            return null;
+        }
         try {
-            if (null == from) {
-                return null;
-            }
-            BeanCopier copier = getCopier(from.getClass(), from.getClass());
-            if (from.getClass().isArray()) {
+            Class<?> clazz=from.getClass();
+            if (clazz.isArray()) {
                 int length = Array.getLength(from);
                 @SuppressWarnings("unchecked")
                 T clone = (T) Array.newInstance(from.getClass().getComponentType(), length);
@@ -83,21 +102,41 @@ public class Objects {
                     Array.set(clone, i, deepClone(Array.get(from, i)));
                 }
                 return clone;
-            } else if (isWrapperType(from.getClass())) {
+            } else if (isBaseType(clazz)) {
                 return from;
             } else {
+                
                 @SuppressWarnings("unchecked")
-                T clone = (T) from.getClass().newInstance();
+                T clone = (T) clazz.newInstance();
+                BeanCopier copier = getCopier(clazz, clazz);
                 copier.copy(from, clone, new Converter() {
                     @Override
-                    public Object convert(Object pojo, @SuppressWarnings("rawtypes") Class fieldType, Object fieldName) {
-                        return deepClone(pojo);
+                    public Object convert(Object value, @SuppressWarnings("rawtypes") Class target, Object context) {
+                        return deepClone(value);
                     }
                 });
                 return clone;
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("From class:" + from.getClass().getCanonicalName() + " value" + from, e);
+        }
+    }
+
+    private static class ObjectContainer<T> {
+        private T object;
+
+        /**
+         * @return the object
+         */
+        public T getObject() {
+            return object;
+        }
+
+        /**
+         * @param object the object to set
+         */
+        public void setObject(T object) {
+            this.object = object;
         }
     }
 
@@ -143,8 +182,9 @@ public class Objects {
     /**
      * Returns {@code true} if the arguments are deeply equal to each other and {@code false} otherwise.
      *
-     * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in {@link java.util.Arrays#deepEquals(Object[], Object[]) java.util.Arrays.deepEquals}
-     * is used to determine equality. Otherwise, equality is determined by using the {@link Object#equals equals} method of the first argument.
+     * Two {@code null} values are deeply equal. If both arguments are arrays, the algorithm in {@link java.util.Arrays#deepEquals(Object[], Object[])
+     * java.util.Arrays.deepEquals} is used to determine equality. Otherwise, equality is determined by using the {@link Object#equals equals} method of the
+     * first argument.
      *
      * @param a an object
      * @param b an object to be compared with {@code a} for deep equality
@@ -163,8 +203,33 @@ public class Objects {
      * @return the hash code of a non-{@code null} argument and 0 for a {@code null} argument
      * @see Object#hashCode
      */
-    public static int hashCode(Object o) {
-        return java.util.Objects.hashCode(o);
+    public static <T> int hashCode(T o) {
+        if (null == o || !o.getClass().isArray()) {
+            return java.util.Objects.hashCode(o);
+        } else {
+            String canonicalName = o.getClass().getCanonicalName();
+            if (canonicalName.equals("int[]")) {
+                return java.util.Arrays.hashCode((int[]) o);
+            } else if (canonicalName.equals("short[]")) {
+                return java.util.Arrays.hashCode((short[]) o);
+            } else if (canonicalName.equals("long[]")) {
+                return java.util.Arrays.hashCode((long[]) o);
+            } else if (canonicalName.equals("float[]")) {
+                return java.util.Arrays.hashCode((float[]) o);
+            } else if (canonicalName.equals("double[]")) {
+                return java.util.Arrays.hashCode((double[]) o);
+            } else if (canonicalName.equals("boolean[]")) {
+                return java.util.Arrays.hashCode((boolean[]) o);
+            } else if (canonicalName.equals("char[]")) {
+                return java.util.Arrays.hashCode((char[]) o);
+            } else if (canonicalName.equals("byte[]")) {
+                return java.util.Arrays.hashCode((byte[]) o);
+            } else {
+                return java.util.Arrays.hashCode((Object[]) o);
+            }
+
+        }
+
     }
 
     /**
