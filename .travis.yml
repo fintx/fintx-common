@@ -1,5 +1,7 @@
 language: java
 
+dist: trusty
+
 branches:
   only:
     - master
@@ -9,10 +11,12 @@ jdk:
 
 env:
   global:
+    - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
     - JAVA_OPTS="-Xmx2G"
     - MAVEN_OPTS="-Xmx2G"
 
 before_script:
+	- echo $JAVA_HOME
   - echo $JAVA_OPTS
   - echo $MAVEN_OPTS
   
