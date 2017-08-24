@@ -1,13 +1,23 @@
 language: java
 
-sudo: false
-
-dist: precise
+branches:
+  only:
+    - master
 
 jdk:
   - oraclejdk8
 
-script: "mvn cobertura:cobertura"
+env:
+  global:
+    - JAVA_OPTS="-Xmx2G"
+    - MAVEN_OPTS="-Xmx2G"
+
+before_script:
+  - echo $JAVA_OPTS
+  - echo $MAVEN_OPTS
+  
+script:
+  - mvn test
 
 after_success:
-- bash <(curl -s https://codecov.io/bash)
+  - mvn coveralls:report -Ptravis

@@ -6,6 +6,8 @@
 [![Join the chat at https://gitter.im/fintx/fintx-common](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/fintx/fintx-common?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Build Status](https://travis-ci.org/fintx/fintx-common.svg?branch=master)](https://travis-ci.org/fintx/fintx-common)
 [![Coverage Status](https://coveralls.io/repos/github/fintx/fintx-common/badge.svg)](https://coveralls.io/github/fintx/fintx-common)
+[![Dependency Status](https://www.versioneye.com/user/projects/598c0fc3368b08388f34135b/badge.svg?style=flat)](https://www.versioneye.com/user/projects/598c0fc3368b08388f34135b)
+
 
 # FinTx[1]
 
