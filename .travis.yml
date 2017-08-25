@@ -11,7 +11,6 @@ jdk:
 
 env:
   global:
-    - JAVA_HOME="/usr/lib/jvm/java-8-oracle"
     - JAVA_OPTS="-Xmx2G"
     - MAVEN_OPTS="-Xmx2G"
 

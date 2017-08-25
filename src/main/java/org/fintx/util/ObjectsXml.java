@@ -26,8 +26,8 @@ import javax.xml.bind.*;
 import org.fintx.lang.Encoding;
 import org.fintx.util.convertor.ObjectStringConvertor;
 
-import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
-import com.sun.xml.internal.bind.v2.WellKnownNamespace;
+import com.sun.xml.bind.marshaller.NamespacePrefixMapper;
+import com.sun.xml.bind.v2.WellKnownNamespace;
 import lombok.AllArgsConstructor;
 
 /**
@@ -91,7 +91,7 @@ public final class ObjectsXml implements ObjectStringConvertor {
             // reslove the namespace prefix problem
             if(null!=namespacePrefixMapper) {
                 NamespacePrefixMapper mapper = new DefaultNamespacePrefixMapper(namespacePrefixMapper);
-                marshaller.setProperty("com.sun.xml.internal.bind.namespacePrefixMapper", mapper);
+                marshaller.setProperty("com.sun.xml.bind.namespacePrefixMapper", mapper);
             }
            
         } catch (PropertyException e) {

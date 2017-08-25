@@ -31,6 +31,9 @@ import java.lang.reflect.Array;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBException;
 
@@ -50,7 +53,7 @@ public class ObjectsTest {
         Assert.assertTrue(String.class.equals("a".getClass()));
         Assert.assertTrue(Objects.isBaseType("a".getClass()));
         Assert.assertTrue(Objects.isBaseType(String.class));
-        Assert.assertTrue(Objects.isBaseType(Date.class));
+        Assert.assertFalse(Objects.isBaseType(Date.class));
         Assert.assertFalse(Objects.isWrapperType("a".getClass()));
         Assert.assertTrue(Objects.isWrapperType(new Boolean(false).getClass()));
         // String a="a";
@@ -130,6 +133,10 @@ public class ObjectsTest {
         bytes[9] = 10;
         pojo.setBytes(bytes);
         pojo.getBytes()[2] = 1;
+        List<String> list=new ArrayList<String>();
+        list.add("a");
+        list.add("b");
+        pojo.setList(list);
         String xml = Objects.Xml.toString(pojo);
         System.out.println(xml);
         PoJo pojo2 = Objects.Xml.toObject(xml, PoJo.class);
@@ -137,8 +144,11 @@ public class ObjectsTest {
         Assert.assertTrue(1 == pojo2.getIns()[0]);
         Assert.assertTrue("aa".equals(pojo2.getStr()));
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
+        Assert.assertTrue("b".equals(pojo2.getList().get(1)) );
 
-        ObjectsXml xmlConvertor = Objects.Xml.custom(null, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        Map<String,String> mapper=new HashMap<String,String>();
+        mapper.put("http://www.w3.org/2001/XMLSchema-instance", "mynsprefix");
+        ObjectsXml xmlConvertor = Objects.Xml.custom(mapper, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         xml = xmlConvertor.toString(pojo);
         System.out.println(xml);
         pojo2 = xmlConvertor.toObject(xml, PoJo.class);
@@ -146,6 +156,8 @@ public class ObjectsTest {
         Assert.assertTrue(1 == pojo2.getIns()[0]);
         Assert.assertTrue("aa".equals(pojo2.getStr()));
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
+        Assert.assertTrue("b".equals(pojo2.getList().get(1)) );
+
     }
 
     @Test
