@@ -39,13 +39,14 @@ public class IpsTest {
 
     @Test
     public void test() {
-        System.out.println(Ips.getLocalAddress());
+        Ips.getLocalAddress();
         Request request=new Request();
         Ips.getRemoteAddress(request);
+        Request2 request2=new Request2();
+        Ips.getRemoteAddress(request2);
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Argument should not be null!");
+        thrown.expectMessage("Argument request should not be null!");
         Ips.getRemoteAddress(null);
-        
     }
 
 }
