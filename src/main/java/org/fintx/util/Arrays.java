@@ -35,9 +35,77 @@ public class Arrays {
     public static final int INDEX_NOT_FOUND = -1;
 
     /**
+     * An empty immutable {@code Object} array.
+     */
+    public static final Object[] EMPTY_OBJECT_ARRAY = new Object[0];
+    /**
+     * An empty immutable {@code Class} array.
+     */
+    public static final Class<?>[] EMPTY_CLASS_ARRAY = new Class[0];
+    /**
      * An empty immutable {@code String} array.
      */
     public static final String[] EMPTY_STRING_ARRAY = new String[0];
+    /**
+     * An empty immutable {@code long} array.
+     */
+    public static final long[] EMPTY_LONG_ARRAY = new long[0];
+    /**
+     * An empty immutable {@code Long} array.
+     */
+    public static final Long[] EMPTY_LONG_OBJECT_ARRAY = new Long[0];
+    /**
+     * An empty immutable {@code int} array.
+     */
+    public static final int[] EMPTY_INT_ARRAY = new int[0];
+    /**
+     * An empty immutable {@code Integer} array.
+     */
+    public static final Integer[] EMPTY_INTEGER_OBJECT_ARRAY = new Integer[0];
+    /**
+     * An empty immutable {@code short} array.
+     */
+    public static final short[] EMPTY_SHORT_ARRAY = new short[0];
+    /**
+     * An empty immutable {@code Short} array.
+     */
+    public static final Short[] EMPTY_SHORT_OBJECT_ARRAY = new Short[0];
+    /**
+     * An empty immutable {@code byte} array.
+     */
+    public static final byte[] EMPTY_BYTE_ARRAY = new byte[0];
+    /**
+     * An empty immutable {@code Byte} array.
+     */
+    public static final Byte[] EMPTY_BYTE_OBJECT_ARRAY = new Byte[0];
+    /**
+     * An empty immutable {@code double} array.
+     */
+    public static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
+    /**
+     * An empty immutable {@code Double} array.
+     */
+    public static final Double[] EMPTY_DOUBLE_OBJECT_ARRAY = new Double[0];
+    /**
+     * An empty immutable {@code float} array.
+     */
+    public static final float[] EMPTY_FLOAT_ARRAY = new float[0];
+    /**
+     * An empty immutable {@code Float} array.
+     */
+    public static final Float[] EMPTY_FLOAT_OBJECT_ARRAY = new Float[0];
+    /**
+     * An empty immutable {@code boolean} array.
+     */
+    public static final boolean[] EMPTY_BOOLEAN_ARRAY = new boolean[0];
+    /**
+     * An empty immutable {@code Boolean} array.
+     */
+    public static final Boolean[] EMPTY_BOOLEAN_OBJECT_ARRAY = new Boolean[0];
+    /**
+     * An empty immutable {@code char} array.
+     */
+    public static final char[] EMPTY_CHAR_ARRAY = new char[0];
 
     private Arrays() {
     }
@@ -156,17 +224,45 @@ public class Arrays {
         if (!array.getClass().isArray()) {
             throw new IllegalArgumentException("Argument array is not a Array!");
         }
+        int length = getLength(array);
+        if (0 == length) {
+            return array;
+        }
         if (startIndexInclusive < 0) {
             startIndexInclusive = 0;
         }
-        if (endIndexExclusive > Array.getLength(array)) {
-            endIndexExclusive = Array.getLength(array);
+        if (endIndexExclusive < 0) {
+            endIndexExclusive = 0;
+        }
+
+        if (endIndexExclusive > length) {
+            endIndexExclusive = length;
+        }
+        if (startIndexInclusive > endIndexExclusive) {
+            startIndexInclusive = endIndexExclusive;
         }
         final int newSize = endIndexExclusive - startIndexInclusive;
-        if (newSize < 0) {
-            throw new IllegalArgumentException("Argument endIndexExclusive should not less then argument startIndexInclusive!");
-        } else if (newSize == 0) {
-            return (T) Array.newInstance(array.getClass().getComponentType(), 0);
+        if (newSize == 0) {
+            String className = array.getClass().getComponentType().getName();
+            if (className.equals("int")) {
+                return (T) EMPTY_INT_ARRAY;
+            } else if (className.equals("short")) {
+                return (T) EMPTY_SHORT_ARRAY;
+            } else if (className.equals("long")) {
+                return (T) EMPTY_LONG_ARRAY;
+            } else if (className.equals("float")) {
+                return (T) EMPTY_FLOAT_ARRAY;
+            } else if (className.equals("double")) {
+                return (T) EMPTY_DOUBLE_ARRAY;
+            } else if (className.equals("boolean")) {
+                return (T) EMPTY_BOOLEAN_ARRAY;
+            } else if (className.equals("char")) {
+                return (T) EMPTY_CHAR_ARRAY;
+            } else if (className.equals("byte")) {
+                return (T) EMPTY_BYTE_ARRAY;
+            } else {
+                return (T) Array.newInstance(array.getClass().getComponentType(), 0);
+            }
         } else {
             T subarray = (T) Array.newInstance(array.getClass().getComponentType(), newSize);
             System.arraycopy(array, startIndexInclusive, subarray, 0, newSize);
@@ -191,11 +287,7 @@ public class Arrays {
      * @return {@code true} if length of arrays matches, treating {@code null} as an empty array
      */
     public static <E, F> boolean isSameLength(final E array1, final F array2) {
-        if (array1.getClass().isArray() && array2.getClass().isArray()) {
-            return getLength(array1) == getLength(array2);
-        } else {
-            throw new IllegalArgumentException("Argument array1 and array2 must both be Array!");
-        }
+        return getLength(array1) == getLength(array2);
 
     }
 
@@ -265,6 +357,20 @@ public class Arrays {
      * 
      * @param <T> the type of array eg:String[]
      * @param array the array to reverse, may be {@code null}
+     */
+    public static <T> void reverse(final T array) {
+        reverse(array, 0, getLength(array));
+    }
+
+    /**
+     * <p>
+     * Reverses the order of the given array in the given range.
+     *
+     * <p>
+     * This method does nothing for a {@code null} input array.
+     * 
+     * @param <T> the type of array eg:String[]
+     * @param array the array to reverse, may be {@code null}
      * @param startIndexInclusive the starting index. Under value (&lt;0) is promoted to 0, over value (&gt;array.length) results in no change.
      * @param endIndexExclusive elements up to endIndex-1 are reversed in the array. Under value (&lt; start index) results in no change. Over value
      *            (&gt;array.length) is demoted to array length.
@@ -294,6 +400,31 @@ public class Arrays {
 
     // Swap
     // -----------------------------------------------------------------------
+    /**
+     * Swaps two elements in the given array.
+     *
+     * <p>
+     * There is no special handling for multi-dimensional arrays. This method does nothing for a {@code null} or empty input array or for overflow indices.
+     * Negative indices are promoted to 0(zero).
+     * </p>
+     *
+     * Examples:
+     * <ul>
+     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 2) -&gt; ["3", "2", "1"]</li>
+     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 0) -&gt; ["1", "2", "3"]</li>
+     * <li>ArrayUtils.swap(["1", "2", "3"], 1, 0) -&gt; ["2", "1", "3"]</li>
+     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 5) -&gt; ["1", "2", "3"]</li>
+     * <li>ArrayUtils.swap(["1", "2", "3"], -1, 1) -&gt; ["2", "1", "3"]</li>
+     * </ul>
+     *
+     * @param array the array to swap, may be {@code null}
+     * @param offset1 the index of the first element to swap
+     * @param offset2 the index of the second element to swap
+     * @since 3.5
+     */
+    public static <T> void swap(final T array, final int offset1, final int offset2) {
+        swap(array, offset1, offset2, 1);
+    }
 
     /**
      * Swaps a series of elements in the given array.
@@ -349,6 +480,20 @@ public class Arrays {
 
     // Shift
     // -----------------------------------------------------------------------
+    /**
+     * Shifts the order of the given array.
+     *
+     * <p>
+     * There is no special handling for multi-dimensional arrays. This method does nothing for {@code null} or empty input arrays.
+     * </p>
+     *
+     * @param array the array to shift, may be {@code null}
+     * @param offset The number of positions to rotate the elements. If the offset is larger than the number of elements to rotate, than the effective offset is
+     *            modulo the number of elements to rotate.
+     */
+    public static <T> void shift(final T array, final int offset) {
+        shift(array, 0, Integer.MAX_VALUE, offset);
+    }
 
     /**
      * Shifts the order of a series of elements in the given array.
@@ -415,22 +560,17 @@ public class Arrays {
     // ----------------------------------------------------------------------
     /**
      * <p>
-     * Finds the index of the given object in the array starting at the given index.
+     * Finds the index of the given object in the array.
      *
      * <p>
      * This method returns {@link #INDEX_NOT_FOUND} ({@code -1}) for a {@code null} input array.
      *
-     * <p>
-     * A negative startIndex is treated as zero. A startIndex larger than the array length will return {@link #INDEX_NOT_FOUND} ({@code -1}).
-     * 
-     * @param <T> the type of array eg:String[]
      * @param array the array to search through for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
-     * @param startIndex the index to start searching at
-     * @return the index of the object within the array starting at the index, {@link #INDEX_NOT_FOUND} ({@code -1}) if not found or {@code null} array input
+     * @return the index of the object within the array, {@link #INDEX_NOT_FOUND} ({@code -1}) if not found or {@code null} array input
      */
-    public static <T> int indexOf(final T[] array, final T objectToFind, int startIndex) {
-        return indexOf(array, objectToFind, startIndex);
+    public static <T> int indexOf(final T array, final Object objectToFind) {
+        return indexOf(array, objectToFind, 0);
     }
 
     /**
@@ -481,22 +621,17 @@ public class Arrays {
 
     /**
      * <p>
-     * Finds the last index of the given object in the array starting at the given index.
+     * Finds the last index of the given object within the array.
      *
      * <p>
      * This method returns {@link #INDEX_NOT_FOUND} ({@code -1}) for a {@code null} input array.
      *
-     * <p>
-     * A negative startIndex will return {@link #INDEX_NOT_FOUND} ({@code -1}). A startIndex larger than the array length will search from the end of the array.
-     * 
-     * @param <T> the type of array eg:String[]
-     * @param array the array to traverse for looking for the object, may be {@code null}
+     * @param array the array to traverse backwards looking for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
-     * @param startIndex the start index to traverse backwards from
      * @return the last index of the object within the array, {@link #INDEX_NOT_FOUND} ({@code -1}) if not found or {@code null} array input
      */
-    public static <T> int lastIndexOf(final T[] array, final T objectToFind, int startIndex) {
-        return lastIndexOf(array, objectToFind, startIndex);
+    public static <T> int lastIndexOf(final T array, final Object objectToFind) {
+        return lastIndexOf(array, objectToFind, Integer.MAX_VALUE);
     }
 
     /**
@@ -537,7 +672,7 @@ public class Arrays {
                     return i;
                 }
             }
-        } else if (array.getClass().getComponentType().isInstance(objectToFind)) {
+        } else {
             for (int i = startIndex; i >= 0; i--) {
                 if (objectToFind.equals(Array.get(array, i))) {
                     return i;
@@ -545,22 +680,6 @@ public class Arrays {
             }
         }
         return INDEX_NOT_FOUND;
-    }
-
-    /**
-     * <p>
-     * Checks if the object is in the given array.
-     *
-     * <p>
-     * The method returns {@code false} if a {@code null} array is passed in.
-     * 
-     * @param <T> the type of array eg:String[]
-     * @param array the array to search through
-     * @param objectToFind the object to find
-     * @return {@code true} if the array contains the object
-     */
-    public static <T> boolean contains(final T[] array, final T objectToFind) {
-        return indexOf(array, objectToFind, 0) != INDEX_NOT_FOUND;
     }
 
     /**
@@ -630,40 +749,17 @@ public class Arrays {
      * @return The new array, {@code null} if both arrays are {@code null}. The type of the new array is the type of the first array, unless the first array is
      *         null, in which case the type is the same as the second array.
      * @throws IllegalArgumentException if the array types are incompatible
+     * @throws NullPointerException if array is null
      */
-    public static <T> T[] addAll(final T[] array1, final T...array2) {
-        return addAll(array1, array2);
-    }
+    // TODO different from commons-lang3
+    public static <T> T add(final T array1, final Object...array2) {
 
-    /**
-     * <p>
-     * Adds all the elements of the given arrays into a new array.
-     * <p>
-     * The new array contains all of the element of {@code array1} followed by all of the elements {@code array2}. When an array is returned, it is always a new
-     * array.
-     *
-     * <pre>
-     * org.fintx.Arrays.addAll(null, null)     = null
-     * org.fintx.Arrays.addAll(array1, null)   = cloned copy of array1
-     * org.fintx.Arrays.addAll(null, array2)   = cloned copy of array2
-     * org.fintx.Arrays.addAll([], [])         = []
-     * org.fintx.Arrays.addAll([null], [null]) = [null, null]
-     * org.fintx.Arrays.addAll(["a", "b", "c"], ["1", "2", "3"]) = ["a", "b", "c", "1", "2", "3"]
-     * </pre>
-     *
-     * @param <T> the component type of the array
-     * @param array1 the first array whose elements are added to the new array, may be {@code null}
-     * @param array2 the second array whose elements are added to the new array, may be {@code null}
-     * @return The new array, {@code null} if both arrays are {@code null}. The type of the new array is the type of the first array, unless the first array is
-     *         null, in which case the type is the same as the second array.
-     * @throws IllegalArgumentException if the array types are incompatible
-     */
-    public static <T> T addAll(final T array1, final T array2) {
+        if (null == array1) {
+            throw new NullPointerException("Argument array1 should not be both null!");
+        }
         int length1 = getLength(array1);
         int length2 = getLength(array2);
-        if (array1 == null || length1 == 0) {
-            return Objects.deepClone(array2);
-        } else if (array2 == null || length2 == 0) {
+        if (array2 == null || length2 == 0) {
             return Objects.deepClone(array1);
         }
 
@@ -672,14 +768,21 @@ public class Arrays {
         final T joinedArray = (T) Array.newInstance(type1, length1 + length2);
         System.arraycopy(array1, 0, joinedArray, 0, length1);
         try {
-            System.arraycopy(array2, 0, joinedArray, length1, length2);
+            // System.arraycopy did not use autoboxing but Array use autoboxing for primitive type
+            if (type1.isPrimitive()) {
+                for (int i = 0; i < length2; i++) {
+                    Array.set(joinedArray, length1 + i, Array.get(array2, i));
+                }
+            } else {
+                System.arraycopy(array2, 0, joinedArray, length1, length2);
+            }
         } catch (final ArrayStoreException ase) {
             // Check if problem was due to incompatible types
             /*
              * We do this here, rather than before the copy because: - it would be a wasted check most of the time - safer, in case check turns out to be too
              * strict
              */
-            final Class<?> type2 = array2.getClass().getComponentType();
+            final Class<?> type2 = array2[0].getClass();
             if (!type1.isAssignableFrom(type2)) {
                 throw new IllegalArgumentException("Cannot store " + type2.getName() + " in an array of " + type1.getName(), ase);
             }
@@ -688,162 +791,54 @@ public class Arrays {
         return joinedArray;
     }
 
-    /**
-     * <p>
-     * Copies the given array and adds the given element at the end of the new array.
-     *
-     * <p>
-     * The new array contains the same elements of the input array plus the given element in the last position. The component type of the new array is the same
-     * as that of the input array.
-     *
-     * <p>
-     * If the input array is {@code null}, a new one element array is returned whose component type is the same as the element, unless the element itself is
-     * null, in which case the return type is Object[]
-     *
-     * <pre>
-     * org.fintx.Arrays.add(null, null)      = IllegalArgumentException
-     * org.fintx.Arrays.add(null, "a")       = ["a"]
-     * org.fintx.Arrays.add(["a"], null)     = ["a", null]
-     * org.fintx.Arrays.add(["a"], "b")      = ["a", "b"]
-     * org.fintx.Arrays.add(["a", "b"], "c") = ["a", "b", "c"]
-     * </pre>
-     *
-     * @param <T> the component type of the array
-     * @param array the array to "add" the element to, may be {@code null}
-     * @param element the object to add, may be {@code null}
-     * @return A new array containing the existing elements plus the new element The returned array type will be that of the input array (unless null), in which
-     *         case it will have the same type as the element. If both are null, an IllegalArgumentException is thrown
-     * @since 2.1
-     * @throws IllegalArgumentException if both arguments are null
-     */
-    public static <T> T[] add(final T[] array, final T element) {
-        Class<?> type;
-        if (array != null) {
-            type = array.getClass().getComponentType();
-        } else if (element != null) {
-            type = element.getClass();
-        } else {
-            throw new IllegalArgumentException("Arguments cannot both be null");
-        }
-        @SuppressWarnings("unchecked") // type must be T
-        final T[] newArray = (T[]) copyArrayGrow1(array, type);
-        newArray[newArray.length - 1] = element;
-        return newArray;
-    }
+    // /**
+    // * Returns a copy of the given array of size 1 greater than the argument. The last value of the array is left to the default value.
+    // *
+    // * @param array The array to copy, must not be {@code null}.
+    // * @param newArrayComponentType If {@code array} is {@code null}, create a size 1 array of this type.
+    // * @return A new copy of the array of size 1 greater than the input.
+    // */
+    // private static Object copyArrayGrow1(final Object array, final Class<?> newArrayComponentType) {
+    // if (array != null) {
+    // final int arrayLength = Array.getLength(array);
+    // final Object newArray = Array.newInstance(array.getClass().getComponentType(), arrayLength + 1);
+    // System.arraycopy(array, 0, newArray, 0, arrayLength);
+    // return newArray;
+    // }
+    // return Array.newInstance(newArrayComponentType, 1);
+    // }
 
-    /**
-     * <p>
-     * Copies the given array and adds the given element at the end of the new array.
-     *
-     * <p>
-     * The new array contains the same elements of the input array plus the given element in the last position. The component type of the new array is the same
-     * as that of the input array.
-     *
-     * <p>
-     * If the input array is {@code null}, a new one element array is returned whose component type is the same as the element.
-     *
-     * <pre>
-     * org.fintx.Arrays.add(null, true)          = [true]
-     * org.fintx.Arrays.add([true], false)       = [true, false]
-     * org.fintx.Arrays.add([true, false], true) = [true, false, true]
-     * </pre>
-     * 
-     * @param <T> the type of array eg:String[]
-     * @param array the array to copy and add the element to, may be {@code null}
-     * @param element the object to add at the last index of the new array
-     * @return A new array containing the existing elements plus the new element
-     * @since 2.1
-     */
-    public static <T> T add(final T array, final Object element) {
-        Class<?> type;
-        if (array != null && array.getClass().isArray()) {
-            type = array.getClass().getComponentType();
-        } else if (element != null) {
-            type = element.getClass();
-        } else {
-            throw new IllegalArgumentException("Arguments cannot both be null and argument array must be an Array!");
-        }
-        final T newArray = (T) copyArrayGrow1(array, element.getClass());
-        Array.set(newArray, getLength(newArray) - 1, element);
-        return newArray;
-    }
-
-    /**
-     * Returns a copy of the given array of size 1 greater than the argument. The last value of the array is left to the default value.
-     *
-     * @param array The array to copy, must not be {@code null}.
-     * @param newArrayComponentType If {@code array} is {@code null}, create a size 1 array of this type.
-     * @return A new copy of the array of size 1 greater than the input.
-     */
-    private static Object copyArrayGrow1(final Object array, final Class<?> newArrayComponentType) {
-        if (array != null) {
-            final int arrayLength = Array.getLength(array);
-            final Object newArray = Array.newInstance(array.getClass().getComponentType(), arrayLength + 1);
-            System.arraycopy(array, 0, newArray, 0, arrayLength);
-            return newArray;
-        }
-        return Array.newInstance(newArrayComponentType, 1);
-    }
-
-    /**
-     * Underlying implementation of add(array, index, element) methods. The last parameter is the class, which may not equal element.getClass for primitives.
-     *
-     * @param array the array to add the element to, may be {@code null}
-     * @param index the position of the new object
-     * @param element the object to add
-     * @param clss the type of the element being added
-     * @return A new array containing the existing elements and the new element
-     */
-    private static Object add(final Object array, final int index, final Object element, final Class<?> clss) {
-        if (array == null) {
-            if (index != 0) {
-                throw new IndexOutOfBoundsException("Index: " + index + ", Length: 0");
-            }
-            final Object joinedArray = Array.newInstance(clss, 1);
-            Array.set(joinedArray, 0, element);
-            return joinedArray;
-        }
-
-        final int length = Array.getLength(array);
-        if (index > length || index < 0) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + length);
-        }
-        final Object result = Array.newInstance(clss, length + 1);
-        System.arraycopy(array, 0, result, 0, index);
-        Array.set(result, index, element);
-        if (index < length) {
-            System.arraycopy(array, index, result, index + 1, length - index);
-        }
-        return result;
-    }
-
-    /**
-     * <p>
-     * Removes the first occurrence of the specified element from the specified array. All subsequent elements are shifted to the left (subtracts one from their
-     * indices). If the array doesn't contains such an element, no elements are removed from the array.
-     *
-     * <p>
-     * This method returns a new array with the same elements of the input array except the first occurrence of the specified element. The component type of the
-     * returned array is always the same as that of the input array.
-     *
-     * <pre>
-     * org.fintx.Arrays.removeElement(null, 1)      = null
-     * org.fintx.Arrays.removeElement([], 1)        = []
-     * org.fintx.Arrays.removeElement([1], 2)       = [1]
-     * org.fintx.Arrays.removeElement([1, 3], 1)    = [3]
-     * org.fintx.Arrays.removeElement([1, 3, 1], 1) = [3, 1]
-     * </pre>
-     * 
-     * @param <T> the element type of array
-     * @param array the array to remove the element from, may be {@code null}
-     * @param element the element to be removed
-     * @return A new array containing the existing elements except the first occurrence of the specified element.
-     * @since 2.1
-     */
-    public static <T> T[] removeElement(final T[] array, final T element) {
-
-        return removeElement(array, element);
-    }
+    // /**
+    // * Underlying implementation of add(array, index, element) methods. The last parameter is the class, which may not equal element.getClass for primitives.
+    // *
+    // * @param array the array to add the element to, may be {@code null}
+    // * @param index the position of the new object
+    // * @param element the object to add
+    // * @param clss the type of the element being added
+    // * @return A new array containing the existing elements and the new element
+    // */
+    // private static Object add(final Object array, final int index, final Object element, final Class<?> clss) {
+    // if (array == null) {
+    // if (index != 0) {
+    // throw new IndexOutOfBoundsException("Index: " + index + ", Length: 0");
+    // }
+    // final Object joinedArray = Array.newInstance(clss, 1);
+    // Array.set(joinedArray, 0, element);
+    // return joinedArray;
+    // }
+    //
+    // final int length = Array.getLength(array);
+    // if (index > length || index < 0) {
+    // throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + length);
+    // }
+    // final Object result = Array.newInstance(clss, length + 1);
+    // System.arraycopy(array, 0, result, 0, index);
+    // Array.set(result, index, element);
+    // if (index < length) {
+    // System.arraycopy(array, index, result, index + 1, length - index);
+    // }
+    // return result;
+    // }
 
     /**
      * <p>
@@ -876,39 +871,6 @@ public class Arrays {
     }
 
     /**
-     * <p>
-     * Removes the element at the specified position from the specified array. All subsequent elements are shifted to the left (subtracts one from their
-     * indices).
-     *
-     * <p>
-     * This method returns a new array with the same elements of the input array except the element on the specified position. The component type of the
-     * returned array is always the same as that of the input array.
-     *
-     * <p>
-     * If the input array is {@code null}, an IndexOutOfBoundsException will be thrown, because in that case no valid index can be specified.
-     * 
-     * @param <T> the type of array eg:String[]
-     * @param array the array to remove the element from, may not be {@code null}
-     * @param index the position of the element to be removed
-     * @return A new array containing the existing elements except the element at the specified position.
-     * @throws IndexOutOfBoundsException if the index is out of range (index &lt; 0 || index &gt;= array.length), or if the array is {@code null}.
-     */
-    private static <T> T remove(final T array, final int index) {
-        final int length = getLength(array);
-        if (index < 0 || index >= length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + length);
-        }
-
-        final T result = (T) Array.newInstance(array.getClass().getComponentType(), length - 1);
-        System.arraycopy(array, 0, result, 0, index);
-        if (index < length - 1) {
-            System.arraycopy(array, index + 1, result, index, length - index - 1);
-        }
-
-        return result;
-    }
-
-    /**
      * Removes multiple array elements specified by index.
      * 
      * @param <T> the type of array eg:String[]
@@ -917,7 +879,7 @@ public class Arrays {
      * @return new array of same type minus elements specified by unique values of {@code indices}
      */
     // package protected for access by unit tests
-    static <T> T removeAll(final T array, final int...indices) {
+    static <T> T remove(final T array, final int...indices) {
         final int length = getLength(array);
         int diff = 0; // number of distinct indexes, i.e. number of entries that will be removed
         final int[] clonedIndices = Objects.deepClone(indices);
@@ -1023,6 +985,73 @@ public class Arrays {
                     return o1.compareTo(o2);
                 }
             });
+        } else if (array.getClass().getComponentType().isPrimitive()) {
+
+            // String className = array.getClass().getComponentType().getName();
+            // if (className.equals("int")) {
+            // return isSorted(array, new Comparator<Integer>() {
+            // @Override
+            // public int compare(final Integer o1, final Integer o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("short")) {
+            // return isSorted(array, new Comparator<Short>() {
+            // @Override
+            // public int compare(final Short o1, final Short o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("long")) {
+            // return isSorted(array, new Comparator<Long>() {
+            // @Override
+            // public int compare(final Long o1, final Long o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("float")) {
+            // return isSorted(array, new Comparator<Float>() {
+            // @Override
+            // public int compare(final Float o1, final Float o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("double")) {
+            // return isSorted(array, new Comparator<Double>() {
+            // @Override
+            // public int compare(final Double o1, final Double o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("boolean")) {
+            // return isSorted(array, new Comparator<Boolean>() {
+            // @Override
+            // public int compare(final Boolean o1, final Boolean o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else if (className.equals("char")) {
+            // return isSorted(array, new Comparator<Character>() {
+            // @Override
+            // public int compare(final Character o1, final Character o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // } else {//className.equals("byte")
+            // return isSorted(array, new Comparator<Byte>() {
+            // @Override
+            // public int compare(final Byte o1, final Byte o2) {
+            // return o1.compareTo(o2);
+            // }
+            // });
+            // }
+            return isSorted(array, new Comparator() {
+                @Override
+                public int compare(final Object o1, final Object o2) {
+                    return ((Comparable) o1).compareTo(o2);
+                }
+            });
+
         } else {
             throw new IllegalArgumentException("Araument array can not use default comparator.");
         }
@@ -1076,7 +1105,6 @@ public class Arrays {
      * @param array the input array
      *
      * @return A new array containing the existing elements except the occurrences of the specified element.
-     * @since 3.5
      */
     public static <T> T[] removeAllOccurences(final T[] array, final T element) {
         int index = indexOf(array, element, 0);
@@ -1092,7 +1120,7 @@ public class Arrays {
             indices[count++] = index;
         }
 
-        return (T[]) removeAll(array, java.util.Arrays.copyOf(indices, count));
+        return (T[]) remove(array, java.util.Arrays.copyOf(indices, count));
     }
 
     /**
@@ -1122,7 +1150,25 @@ public class Arrays {
             indices[count++] = index;
         }
 
-        return removeAll(array, java.util.Arrays.copyOf(indices, count));
+        return remove(array, java.util.Arrays.copyOf(indices, count));
+    }
+
+    /**
+     * <p>
+     * Returns an array containing the string representation of each element in the argument array.
+     * </p>
+     *
+     * <p>
+     * This method returns {@code null} for a {@code null} input array.
+     * </p>
+     *
+     * @param array the {@code Object[]} to be processed, may be null
+     * @return {@code String[]} of the same size as the source with its element's string representation, {@code null} if null array input
+     * @throws NullPointerException if array contains {@code null}
+     */
+    // TODO different from commons-lang3
+    public static <T> String[] toStringArray(final T array) {
+        return toStringArray(array, null);
     }
 
     /**
@@ -1177,10 +1223,12 @@ public class Arrays {
      * @param values the new values to insert, may be {@code null}
      * @return The new array.
      * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
+     * @throws Null
      */
-    public static <T> T insert(final int index, final T array, final Object...values) {
-        if (array == null) {
-            return null;
+    // TODO different from commons-lang3
+    public static <T> T insert(final T array, final int index, final Object...values) {
+        if (null == array) {
+            throw new NullPointerException("Argument array should not be both null!");
         }
         if (!array.getClass().isArray()) {
             throw new IllegalArgumentException("Argument array should not be null and must be Array.");
@@ -1194,71 +1242,92 @@ public class Arrays {
         }
 
         T result = (T) Array.newInstance(array.getClass().getComponentType(), length + values.length);
+        if (array.getClass().getComponentType().isPrimitive()) {
+            // System.arraycopy(values, 0, result, index, values.length);
+            for (int i = 0; i < values.length; i++) {
+                Array.set(result, index + i, Array.get(values, i));
+            }
+            if (index > 0) {
+                // System.arraycopy(array, 0, result, 0, index);
+                for (int i = 0; i < index; i++) {
+                    Array.set(result, i, Array.get(array, i));
+                }
+            }
+            if (index < length) {
+                int size = length - index;
+                int resultStartPosition = index + values.length;
+                // System.arraycopy(array, index, result,resultStartPosition , size);
+                for (int i = 0; i < size; i++) {
+                    Array.set(result, resultStartPosition + i, Array.get(array, index + i));
+                }
+            }
+        } else {
+            System.arraycopy(values, 0, result, index, values.length);
+            if (index > 0) {
+                System.arraycopy(array, 0, result, 0, index);
+            }
+            if (index < length) {
+                System.arraycopy(array, index, result, index + values.length, length - index);
+            }
+        }
 
-        System.arraycopy(values, 0, result, index, values.length);
-        if (index > 0) {
-            System.arraycopy(array, 0, result, 0, index);
-        }
-        if (index < length) {
-            System.arraycopy(array, index, result, index + values.length, length - index);
-        }
         return result;
     }
 
-    /**
-     * <p>
-     * Inserts elements into an array at the given index (starting from zero).
-     * </p>
-     *
-     * <p>
-     * When an array is returned, it is always a new array.
-     * </p>
-     *
-     * <pre>
-     * org.fintx.Arrays.insert(index, null, null)      = null
-     * org.fintx.Arrays.insert(index, array, null)     = cloned copy of 'array'
-     * org.fintx.Arrays.insert(index, null, values)    = null
-     * </pre>
-     *
-     * @param <T> The type of elements in {@code array} and {@code values}
-     * @param index the position within {@code array} to insert the new values
-     * @param array the array to insert the values into, may be {@code null}
-     * @param values the new values to insert, may be {@code null}
-     * @return The new array.
-     * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
-     */
-    @SafeVarargs
-    public static <T> T[] insert(final int index, final T[] array, final T...values) {
-        /*
-         * Note on use of @SafeVarargs:
-         *
-         * By returning null when 'array' is null, we avoid returning the vararg array to the caller. We also avoid relying on the type of the vararg array, by
-         * inspecting the component type of 'array'.
-         */
-
-        if (array == null) {
-            return null;
-        }
-        if (values == null || values.length == 0) {
-            return Objects.deepClone(array);
-        }
-        if (index < 0 || index > array.length) {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + array.length);
-        }
-
-        final Class<?> type = array.getClass().getComponentType();
-        @SuppressWarnings("unchecked") // OK, because array and values are of type T
-        T[] result = (T[]) Array.newInstance(type, array.length + values.length);
-
-        System.arraycopy(values, 0, result, index, values.length);
-        if (index > 0) {
-            System.arraycopy(array, 0, result, 0, index);
-        }
-        if (index < array.length) {
-            System.arraycopy(array, index, result, index + values.length, array.length - index);
-        }
-        return result;
-    }
+    // /**
+    // * <p>
+    // * Inserts elements into an array at the given index (starting from zero).
+    // * </p>
+    // *
+    // * <p>
+    // * When an array is returned, it is always a new array.
+    // * </p>
+    // *
+    // * <pre>
+    // * org.fintx.Arrays.insert(index, null, null) = null
+    // * org.fintx.Arrays.insert(index, array, null) = cloned copy of 'array'
+    // * org.fintx.Arrays.insert(index, null, values) = null
+    // * </pre>
+    // *
+    // * @param <T> The type of elements in {@code array} and {@code values}
+    // * @param index the position within {@code array} to insert the new values
+    // * @param array the array to insert the values into, may be {@code null}
+    // * @param values the new values to insert, may be {@code null}
+    // * @return The new array.
+    // * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
+    // */
+    // @SafeVarargs
+    // public static <T> T[] insert(final T[] array, final int index, final T...values) {
+    // /*
+    // * Note on use of @SafeVarargs:
+    // *
+    // * By returning null when 'array' is null, we avoid returning the vararg array to the caller. We also avoid relying on the type of the vararg array, by
+    // * inspecting the component type of 'array'.
+    // */
+    //
+    // if (array == null) {
+    // return null;
+    // }
+    // if (values == null || values.length == 0) {
+    // return Objects.deepClone(array);
+    // }
+    // if (index < 0 || index > array.length) {
+    // throw new IndexOutOfBoundsException("Index: " + index + ", Length: " + array.length);
+    // }
+    //
+    // final Class<?> type = array.getClass().getComponentType();
+    // @SuppressWarnings("unchecked") // OK, because array and values are of type T
+    // T[] result = (T[]) Array.newInstance(type, array.length + values.length);
+    //
+    // System.arraycopy(values, 0, result, index, values.length);
+    // if (index > 0) {
+    // System.arraycopy(array, 0, result, 0, index);
+    // }
+    // if (index < array.length) {
+    // System.arraycopy(array, index, result, index + values.length, array.length - index);
+    // }
+    // return result;
+    // }
 
     /**
      * Randomly permutes the elements of the specified array using the Fisher-Yates algorithm.
@@ -1284,4 +1353,5 @@ public class Arrays {
             swap(array, i - 1, random.nextInt(i), 1);
         }
     }
+
 }

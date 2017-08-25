@@ -209,7 +209,7 @@ public class Strings {
     }
 
     public static <T> String join(final T array) {
-        return join(array, null, 0,Integer.MAX_VALUE);
+        return join(array, null, 0, Integer.MAX_VALUE);
     }
 
     /**
@@ -237,7 +237,7 @@ public class Strings {
      * @param endIndex the index to stop joining from (exclusive). It is an error to pass in an end index past the end of the array
      * @return the joined String, {@code null} if null array input
      */
-    public static <T> String join(final T array, final Object separator, final int startIndex, final int endIndex) {
+    public static <T> String join(final T array, final Object separator, int startIndex, int endIndex) {
         if (array == null) {
             throw new NullPointerException("Argument array should not be null");
         }
@@ -245,13 +245,29 @@ public class Strings {
             throw new IllegalArgumentException("Argument array should be a array");
         }
         int length = Array.getLength(array);
+        if (0 == length) {
+            return EMPTY;
+        }
+        if (startIndex < 0) {
+            startIndex = 0;
+        }
+        if (endIndex < 0) {
+            endIndex = 0;
+        }
+
+        if (endIndex > length) {
+            endIndex = length;
+        }
+        if (startIndex > endIndex) {
+            startIndex = endIndex;
+        }
         final int noOfItems = length > endIndex ? (endIndex - startIndex) : (length - startIndex);
         if (noOfItems <= 0) {
             return EMPTY;
         }
         final StringBuilder buf = new StringBuilder(noOfItems * 16);
         for (int i = startIndex; i < endIndex; i++) {
-            if (i > startIndex) {
+            if (i > startIndex && null != separator) {
                 buf.append(separator);
             }
             Object temp = java.lang.reflect.Array.get(array, i);
@@ -261,8 +277,6 @@ public class Strings {
         }
         return buf.toString();
     }
-
-   
 
     /**
      * <p>
@@ -889,17 +903,17 @@ public class Strings {
         return str.indexOf(searchStr) >= 0;
     }
 
-    
     // Difference
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     /**
-     * <p>Compares two Strings, and returns the portion where they differ.
-     * More precisely, return the remainder of the second String,
-     * starting from where it's different from the first. This means that
-     * the difference between "abc" and "ab" is the empty String and not "c". </p>
+     * <p>
+     * Compares two Strings, and returns the portion where they differ. More precisely, return the remainder of the second String, starting from where it's
+     * different from the first. This means that the difference between "abc" and "ab" is the empty String and not "c".
+     * </p>
      *
-     * <p>For example,
-     * {@code difference("i am a machine", "i am a robot") -> "robot"}.</p>
+     * <p>
+     * For example, {@code difference("i am a machine", "i am a robot") -> "robot"}.
+     * </p>
      *
      * <pre>
      * Strings.difference(null, null) = null
@@ -913,10 +927,9 @@ public class Strings {
      * Strings.difference("abcde", "xyz") = "xyz"
      * </pre>
      *
-     * @param str1  the first String, may be null
-     * @param str2  the second String, may be null
-     * @return the portion of str2 where it differs from str1; returns the
-     * empty String if they are equal
+     * @param str1 the first String, may be null
+     * @param str2 the second String, may be null
+     * @return the portion of str2 where it differs from str1; returns the empty String if they are equal
      * @see #indexOfDifference(CharSequence,CharSequence)
      * @since 2.0
      */
@@ -934,14 +947,14 @@ public class Strings {
         return str2.substring(at);
     }
 
-   
-
     /**
-     * <p>Compares all CharSequences in an array and returns the index at which the
-     * CharSequences begin to differ.</p>
+     * <p>
+     * Compares all CharSequences in an array and returns the index at which the CharSequences begin to differ.
+     * </p>
      *
-     * <p>For example,
-     * <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -&gt; 7</code></p>
+     * <p>
+     * For example, <code>indexOfDifference(new String[] {"i am a machine", "i am a robot"}) -&gt; 7</code>
+     * </p>
      *
      * <pre>
      * Strings.indexOfDifference(null) = -1
@@ -963,12 +976,12 @@ public class Strings {
      * Strings.indexOfDifference(new String[] {"i am a machine", "i am a robot"}) = 7
      * </pre>
      *
-     * @param css  array of CharSequences, entries may be null
+     * @param css array of CharSequences, entries may be null
      * @return the index where the strings begin to differ; -1 if they are all equal
      * @since 2.4
      * @since 3.0 Changed signature from indexOfDifference(String...) to indexOfDifference(CharSequence...)
      */
-    public static int indexOfDifference(final CharSequence... css) {
+    public static int indexOfDifference(final CharSequence...css) {
         if (css == null || css.length <= 1) {
             return INDEX_NOT_FOUND;
         }
@@ -1025,9 +1038,7 @@ public class Strings {
         }
         return firstDiff;
     }
-    
-    
-    
+
     /**
      * <p>
      * Gets a substring from the specified String avoiding exceptions.
@@ -2352,9 +2363,6 @@ public class Strings {
         return true;
     }
 
-   
-
-  
     /**
      * <p>
      * Compares all Strings in an array and returns the initial sequence of characters that is common to all of them.
