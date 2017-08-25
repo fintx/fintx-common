@@ -57,25 +57,45 @@ public class Objects {
     private static ConcurrentMap<String, BeanCopier> beanCopiers = new ConcurrentHashMap<String, BeanCopier>();
     private static final Set<Class<?>> WRAPPER_TYPES = new HashSet<Class<?>>(
             java.util.Arrays.asList(Boolean.class, Character.class, Byte.class, Short.class, Integer.class, Long.class, Float.class, Double.class, Void.class));
-
+    /*
+     * Base type means it could not be change internal with out pointer change
+     */
     private static final Set<Class<?>> BASE_TYPES =
-            new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.String.class, java.math.BigDecimal.class, java.sql.Timestamp.class, java.sql.Time.class,
-                    java.sql.Date.class, java.util.Date.class, java.math.BigInteger.class, java.util.Calendar.class, java.sql.Clob.class, java.sql.Blob.class));
+            new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.String.class, java.math.BigDecimal.class, java.math.BigInteger.class));
 
-    public static void addBaseTypeClass(Class<?> clazz) {
+    /*
+     * Base type means it could not be change internal with out pointer change
+     */
+    private static final Set<Class<?>> USE_AS_BASE_TYPES =
+            new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.StringBuilder.class));
+
+    
+    public static void addBaseType(Class<?> clazz) {
         BASE_TYPES.add(clazz);
     }
-    
+
     public static boolean isBaseType(Class<?> clazz) {
-        if(null==clazz) {
-            throw new NullPointerException() ;
+        if (null == clazz) {
+            throw new NullPointerException();
         }
-        return clazz.isPrimitive()||isWrapperType(clazz)||BASE_TYPES.contains(clazz);
+        return clazz.isPrimitive() || isWrapperType(clazz) || BASE_TYPES.contains(clazz);
+    }
+    
+    public static void addUseAsBaseType(Class<?> clazz) {
+        USE_AS_BASE_TYPES.add(clazz);
+    }
+    
+    public static boolean isUseAsBaseType(Class<?> clazz) {
+        if (null == clazz) {
+            throw new NullPointerException();
+        }
+        return USE_AS_BASE_TYPES.contains(clazz);
     }
 
+
     public static boolean isWrapperType(Class<?> clazz) {
-        if(null==clazz) {
-            throw new NullPointerException() ;
+        if (null == clazz) {
+            throw new NullPointerException();
         }
         return WRAPPER_TYPES.contains(clazz);
     }
@@ -93,7 +113,7 @@ public class Objects {
             return null;
         }
         try {
-            Class<?> clazz=from.getClass();
+            Class<?> clazz = from.getClass();
             if (clazz.isArray()) {
                 int length = Array.getLength(from);
                 @SuppressWarnings("unchecked")
@@ -102,10 +122,9 @@ public class Objects {
                     Array.set(clone, i, deepClone(Array.get(from, i)));
                 }
                 return clone;
-            } else if (isBaseType(clazz)) {
+            } else if (isBaseType(clazz)||isUseAsBaseType(clazz)) {
                 return from;
             } else {
-                
                 @SuppressWarnings("unchecked")
                 T clone = (T) clazz.newInstance();
                 BeanCopier copier = getCopier(clazz, clazz);
@@ -115,28 +134,20 @@ public class Objects {
                         return deepClone(value);
                     }
                 });
+                //FIX the not copied type
+                // if(deepEquals(clone,from)) {
+                // return clone;
+                // }else {
+                // System.err.println(from.getClass().getCanonicalName());
+                // return from;
+                // }
+                
+                //Consider the performance use USE_AS_BASE_TYPE to solve the not copied type problem
                 return clone;
+                
             }
         } catch (Exception e) {
             throw new RuntimeException("From class:" + from.getClass().getCanonicalName() + " value" + from, e);
-        }
-    }
-
-    private static class ObjectContainer<T> {
-        private T object;
-
-        /**
-         * @return the object
-         */
-        public T getObject() {
-            return object;
-        }
-
-        /**
-         * @param object the object to set
-         */
-        public void setObject(T object) {
-            this.object = object;
         }
     }
 
@@ -225,7 +236,7 @@ public class Objects {
             } else if (canonicalName.equals("byte[]")) {
                 return java.util.Arrays.hashCode((byte[]) o);
             } else {
-                return java.util.Arrays.hashCode((Object[]) o);
+                return java.util.Arrays.deepHashCode((Object[]) o);
             }
 
         }
