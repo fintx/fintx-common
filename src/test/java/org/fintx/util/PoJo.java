@@ -39,7 +39,7 @@ public class PoJo {
     protected int in;
     public int[] ins;
     byte[] bytes=new byte[10];
-
+    List<String> list;
  
     Object[] objs=new Object[1];
 //    PoJo pojo=this;
