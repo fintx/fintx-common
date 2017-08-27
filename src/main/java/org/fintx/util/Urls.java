@@ -47,7 +47,7 @@ public class Urls {
      * @param data to be parse
      * @param encoding the data string encoding
      */
-    private static void parseParameters(Map<String, String> map, String data, String encoding) throws UnsupportedEncodingException {
+    public static void parseParameters(Map<String, String> map, String data, String encoding) throws UnsupportedEncodingException {
         if ((data == null) || (data.length() <= 0)) {
             return;
         }
@@ -169,16 +169,5 @@ public class Urls {
 
     }
 
-    public static void main(String[] args) {
-
-        String text1 =
-                "transName=XYQY&Plain=TranAbbr%3DXYQY%7CMerc_id%3D2269620161%7CMercDtTm%3D20170623033818%7CCheckFlag%3D1%7CIdType%3D1%7CIdNo%3D31010219850101234X%7CAccount%3D6217922450500740%7CPayCardName%3D%25B2%25E2%25CA%25D4%25B4%25F3%25C9%25B3%25B7%25A2%25B5%25C4%25D4%25B1%7CMercCode%3D983708160000301%7CMercUrl%3Dhttp%3A%2F%2Fzhangwu.hrbbwx.com%2Freceiver%2FSpdb%2F983708160000301%2FXYQY%2F000000000532&Signature=123037734cd933183acd4588736c885e5ad5720a5aadc1b5a972b7865d3f4369100d2ae49fe9682f89dc9c0f23916a0151b38036ef722555a48b1bc1adf655648f90ab5983f0fd1ddadf22f5de52eefd24f06da7041e3bfca2aec467f7d97326fbc8a3c990d22813eca74ce3922bded61696d8f9d83eebab713566e7d9a73c52";
-
-        Map<String, String> m = new HashMap<String, String>();
-        parseParameters(m, text1);
-        System.out.println(m.get("Plain").toString());
-        System.out.println(m.get("Signature").toString());
-        System.out.println(buildQueryData(m));
-    }
 
 }
