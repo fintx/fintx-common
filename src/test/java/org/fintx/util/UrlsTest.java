@@ -21,7 +21,9 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -32,6 +34,9 @@ import java.util.Map;
  *
  */
 public class UrlsTest {
+    
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void test() throws Exception {
@@ -45,6 +50,8 @@ public class UrlsTest {
         System.out.println(m.get("Plain").toString());
         System.out.println(m.get("Signature").toString());
         System.out.println(Urls.buildQueryData(m));
+        thrown.expect(NullPointerException.class);
+        thrown.expectMessage("charsetName");
         Urls.parseParameters(m, text1, null);
     }
 
