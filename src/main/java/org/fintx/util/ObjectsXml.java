@@ -78,6 +78,9 @@ public final class ObjectsXml implements ObjectStringConvertor {
             marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding.getCode());
             // 是否格式化生成的xml串
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, formatted);
+            
+            //marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, "");
+            
             if (Strings.isEmpty(headers)) {
                 // 是否省略xml头声明信息
                 marshaller.setProperty(Marshaller.JAXB_FRAGMENT, fragment);

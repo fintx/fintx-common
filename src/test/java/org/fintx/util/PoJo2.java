@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Getter
 @Setter
-@XmlAccessorType(XmlAccessType.FIELD)
-@XmlRootElement
-public class PoJo {
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlRootElement(namespace = "www.adtec.com.cn")
+public class PoJo2 {
 
     private String str;
     String[] strs;

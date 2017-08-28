@@ -28,6 +28,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,7 +47,14 @@ public class ObjectsTest {
    
 
     @Test
-    public void testDeepClone() {
+    public void testDeepClone() throws Exception {
+        Constructor con = Objects.class.getDeclaredConstructor();  
+        
+        // 通过私有带参构造方法对象创建对象  
+        // IllegalAccessException:非法的访问异常  
+        // 暴力访问  
+        con.setAccessible(true);// 值为true则指示反射的对象在使用时应该取消Java语言访问检查。  
+        Object obj = con.newInstance();  
         BeanCopier bc=BeanCopier.create(String.class, String.class, false);
         String str=null;
         bc.copy("", str, null);
@@ -128,6 +136,7 @@ public class ObjectsTest {
         ints[0] = 1;
         pojo.setIns(ints);
         pojo.setObjs(new Object[10]);
+        pojo.getObjs() [0]="s";
         pojo.setStr("aa");
         pojo.setStrs(new String[3]);
         bytes[9] = 10;
@@ -145,18 +154,19 @@ public class ObjectsTest {
         Assert.assertTrue("aa".equals(pojo2.getStr()));
         Assert.assertTrue(10 == pojo2.getBytes()[9]);
         Assert.assertTrue("b".equals(pojo2.getList().get(1)) );
-
+        PoJo2 pojo3=new PoJo2();
+        Objects.copyProperties(pojo, pojo3);
         Map<String,String> mapper=new HashMap<String,String>();
-        mapper.put("http://www.w3.org/2001/XMLSchema-instance", "mynsprefix");
+        mapper.put("www.adtec.com.cn", "adt");
         ObjectsXml xmlConvertor = Objects.Xml.custom(mapper, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        xml = xmlConvertor.toString(pojo);
+        xml = xmlConvertor.toString(pojo3);
         System.out.println(xml);
-        pojo2 = xmlConvertor.toObject(xml, PoJo.class);
-        Assert.assertTrue(0 == pojo2.getIn());
-        Assert.assertTrue(1 == pojo2.getIns()[0]);
-        Assert.assertTrue("aa".equals(pojo2.getStr()));
-        Assert.assertTrue(10 == pojo2.getBytes()[9]);
-        Assert.assertTrue("b".equals(pojo2.getList().get(1)) );
+        pojo3 = xmlConvertor.toObject(xml, PoJo2.class);
+        Assert.assertTrue(0 == pojo3.getIn());
+        Assert.assertTrue(1 == pojo3.getIns()[0]);
+        Assert.assertTrue("aa".equals(pojo3.getStr()));
+        Assert.assertTrue(10 == pojo3.getBytes()[9]);
+        Assert.assertTrue("b".equals(pojo3.getList().get(1)) );
 
     }
 
