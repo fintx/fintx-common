@@ -5,6 +5,7 @@ import org.fintx.lang.Encoding;
 import net.sf.cglib.beans.BeanCopier;
 import net.sf.cglib.core.Converter;
 
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Array;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -66,10 +67,8 @@ public class Objects {
     /*
      * Base type means it could not be change internal with out pointer change
      */
-    private static final Set<Class<?>> USE_AS_BASE_TYPES =
-            new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.StringBuilder.class));
+    private static final Set<Class<?>> USE_AS_BASE_TYPES = new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.StringBuilder.class));
 
-    
     public static void addBaseType(Class<?> clazz) {
         BASE_TYPES.add(clazz);
     }
@@ -80,18 +79,17 @@ public class Objects {
         }
         return clazz.isPrimitive() || isWrapperType(clazz) || BASE_TYPES.contains(clazz);
     }
-    
+
     public static void addUseAsBaseType(Class<?> clazz) {
         USE_AS_BASE_TYPES.add(clazz);
     }
-    
+
     public static boolean isUseAsBaseType(Class<?> clazz) {
         if (null == clazz) {
             throw new NullPointerException();
         }
         return USE_AS_BASE_TYPES.contains(clazz);
     }
-
 
     public static boolean isWrapperType(Class<?> clazz) {
         if (null == clazz) {
@@ -122,7 +120,7 @@ public class Objects {
                     Array.set(clone, i, deepClone(Array.get(from, i)));
                 }
                 return clone;
-            } else if (isBaseType(clazz)||isUseAsBaseType(clazz)) {
+            } else if (isBaseType(clazz) || isUseAsBaseType(clazz)) {
                 return from;
             } else {
                 @SuppressWarnings("unchecked")
@@ -134,17 +132,17 @@ public class Objects {
                         return deepClone(value);
                     }
                 });
-                //FIX the not copied type
+                // FIX the not copied type
                 // if(deepEquals(clone,from)) {
                 // return clone;
                 // }else {
                 // System.err.println(from.getClass().getCanonicalName());
                 // return from;
                 // }
-                
-                //Consider the performance use USE_AS_BASE_TYPE to solve the not copied type problem
+
+                // Consider the performance use USE_AS_BASE_TYPE to solve the not copied type problem
                 return clone;
-                
+
             }
         } catch (Exception e) {
             throw new RuntimeException("From class:" + from.getClass().getCanonicalName() + " value" + from, e);
@@ -286,6 +284,13 @@ public class Objects {
      * @see String#valueOf(Object)
      */
     public static String toString(Object o) {
+        if (null != o && o.getClass().isArray()) {
+            String canonicalName = o.getClass().getCanonicalName();
+           
+            if (canonicalName.equals("byte[]")) {
+                return new String((byte[])o);
+            }
+        }
         return java.util.Objects.toString(o);
     }
 
@@ -298,6 +303,13 @@ public class Objects {
      * @see java.util.Objects#toString(Object)
      */
     public static String toString(Object o, String nullDefault) {
+        if (null != o && o.getClass().isArray()) {
+            String canonicalName = o.getClass().getCanonicalName();
+           
+            if (canonicalName.equals("byte[]")) {
+                return new String((byte[])o);
+            }
+        }
         return java.util.Objects.toString(o, nullDefault);
     }
 
