@@ -15,23 +15,17 @@
  */
 package org.fintx.util;
 
-import static org.junit.Assert.*;
 
 import org.fintx.lang.Encoding;
 
 import net.sf.cglib.beans.BeanCopier;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
