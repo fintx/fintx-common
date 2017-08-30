@@ -28,6 +28,7 @@ import org.fintx.util.convertor.ObjectStringConvertor;
 
 import com.sun.xml.internal.bind.marshaller.NamespacePrefixMapper;
 import com.sun.xml.internal.bind.v2.WellKnownNamespace;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 /**
@@ -35,7 +36,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @SuppressWarnings("restriction")
-@AllArgsConstructor
+@AllArgsConstructor(access=AccessLevel.PACKAGE)
 public final class ObjectsXml implements ObjectStringConvertor {
 
     private Map<String, String> namespacePrefixMapper;

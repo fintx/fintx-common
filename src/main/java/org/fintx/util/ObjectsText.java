@@ -48,7 +48,7 @@ public class ObjectsText implements ObjectStringConvertor {
     private final String linebreak;
     private final boolean withname;
 
-    public ObjectsText(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
+    ObjectsText(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
         this.encoding = encoding;
         this.separator = separator;
         if (withname) {
