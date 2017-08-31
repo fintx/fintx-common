@@ -161,6 +161,8 @@ public class ObjectsTest {
         Assert.assertTrue("aa".equals(pojo3.getStr()));
         Assert.assertTrue(10 == pojo3.getBytes()[9]);
         Assert.assertTrue("b".equals(pojo3.getList().get(1)) );
+        
+    
 
     }
 

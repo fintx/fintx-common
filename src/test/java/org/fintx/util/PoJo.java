@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Getter
 @Setter
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement
 public class PoJo {
 

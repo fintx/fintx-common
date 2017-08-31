@@ -18,11 +18,13 @@ package org.fintx.util;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
@@ -30,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @Getter
 @Setter
-@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(namespace = "www.adtec.com.cn")
 public class PoJo2 {
 
@@ -38,12 +40,13 @@ public class PoJo2 {
     String[] strs;
     protected int in;
     public int[] ins;
-    byte[] bytes=new byte[10];
+    byte[] bytes = new byte[10];
     List<String> list;
- 
-    Object[] objs=new Object[1];
-//    PoJo pojo=this;
-   
-    
+
+    Object[] objs = new Object[1];
+    // PoJo pojo=this;
+    @XmlJavaTypeAdapter(NullableEmptyStringAdapter.class) // @XmlJavaTypeAdapter is on the field, it is only working in field xml access type. Or there will be
+                                                          // duplicate properties exception
+    BigInteger nullable;
 
 }
