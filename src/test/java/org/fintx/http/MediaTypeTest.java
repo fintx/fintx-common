@@ -27,8 +27,8 @@ public class MediaTypeTest {
 
     @Test
     public void test() {
-        MediaType.values();
-        MediaType.valueOf("APP_FORM");
+        MediaType[] types = MediaType.values();
+        MediaType type = MediaType.valueOf("APP_FORM");
         MediaType.APP_FORM.getCode();
     }
 
