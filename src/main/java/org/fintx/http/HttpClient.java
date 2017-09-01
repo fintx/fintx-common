@@ -40,7 +40,7 @@ public final class HttpClient {
         return new HttpClientBase(trustStore, keyStore, keyPass);
     }
 
-    public void print(boolean printable) {
+    public static void print(boolean printable) {
         httpClientBase.print(printable);
     }
 

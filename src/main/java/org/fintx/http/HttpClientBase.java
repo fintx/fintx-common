@@ -174,7 +174,8 @@ public final class HttpClientBase {
                 client = client.newBuilder().addNetworkInterceptor(networkInterceptor).build();
             }
         } else {
-            client.networkInterceptors().remove(networkInterceptor);
+            //not supported operation
+            //client.networkInterceptors().remove(networkInterceptor);
         }
     }
 

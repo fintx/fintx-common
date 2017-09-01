@@ -43,48 +43,50 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         if (null == obj) {
             return "";
         }
-        String type = obj.getClass().getCanonicalName();
+        @SuppressWarnings("unchecked")
+        Class<T> type=(Class<T>) obj.getClass();
+        String typeName = obj.getClass().getCanonicalName();
         
-        if (type.equals("java.lang.String")) {
+        if (typeName.equals("java.lang.String")) {
             return obj.toString();
-        } else if (type.equals("char[]")) {
+        } else if (typeName.equals("char[]")) {
             return new String((char[]) obj);
-        } else if (type.equals("char") || type.equals("java.lang.Character")) {
+        } else if (typeName.equals("char") || typeName.equals("java.lang.Character")) {
             return obj.toString();
-        } else if (type.equals("int") || type.equals("java.lang.Integer")) {
+        } else if (typeName.equals("int") || typeName.equals("java.lang.Integer")) {
             return obj.toString();
-        } else if (type.equals("float") || type.equals("java.lang.Float")) {
+        } else if (typeName.equals("float") || typeName.equals("java.lang.Float")) {
             return obj.toString();
-        } else if (type.equals("double") || type.equals("java.lang.Double")) {
+        } else if (typeName.equals("double") || typeName.equals("java.lang.Double")) {
             return obj.toString();
-        } else if (type.equals("long") || type.equals("java.lang.Long")) {
+        } else if (typeName.equals("long") || typeName.equals("java.lang.Long")) {
             return obj.toString();
-        } else if (type.equals("boolean") || type.equals("java.lang.Boolean")) {
+        } else if (typeName.equals("boolean") || typeName.equals("java.lang.Boolean")) {
             return obj.toString();
-        }  else if (type.equals("short") || type.equals("java.lang.Short")) {
+        }  else if (typeName.equals("short") || typeName.equals("java.lang.Short")) {
             return obj.toString();
-        }else if (type.equals("byte") || type.equals("java.lang.Byte")) {
+        }else if (typeName.equals("byte") || typeName.equals("java.lang.Byte")) {
             // TODO ??
             return obj.toString();
-        } else if (type.equals("byte[]")) {
+        } else if (typeName.equals("byte[]")) {
             return new String((byte[]) obj);
-        }  else if (type.equals("java.math.BigDecimal")) {
+        }  else if (typeName.equals("java.math.BigDecimal")) {
             return obj.toString();
-        } else if (type.equals("java.sql.Timestamp")) {
+        } else if (typeName.equals("java.sql.Timestamp")) {
             return LocalDateTime.ofInstant(((java.sql.Timestamp) obj).toInstant(), ZoneId.systemDefault())
                     .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        } else if (type.equals("java.sql.Time")) {
+        } else if (typeName.equals("java.sql.Time")) {
             return LocalDateTime.ofInstant(((java.sql.Time) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("HHmmss"));
-        } else if (type.equals("java.sql.Date")) {
+        } else if (typeName.equals("java.sql.Date")) {
             return ((java.sql.Date) obj).toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
-        } else if (type.equals("java.util.Date")) {
+        } else if (typeName.equals("java.util.Date")) {
             return LocalDateTime.ofInstant(((java.util.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        }else if (type.equals("java.math.BigInteger")) {
+        }else if (typeName.equals("java.math.BigInteger")) {
             return obj.toString();
-        } else if (type.equals("java.util.Calendar")) {
+        } else if (typeName.equals("java.util.Calendar")||java.util.Calendar.class.isAssignableFrom(type)) {
             return LocalDateTime.ofInstant((((java.util.Calendar) obj).getTime()).toInstant(), ZoneId.systemDefault())
                     .format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        } else if (type.equals("java.sql.Clob")) {
+        } else if (typeName.equals("java.sql.Clob")) {
             java.sql.Clob clob = (java.sql.Clob) obj;
             StringBuilder sb = new StringBuilder();
             BufferedReader br;
@@ -98,7 +100,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
                 throw new ReflectiveOperationException(e.getMessage());
             }
             return sb.toString();
-        } else if (type.equals("java.sql.Blob")) {
+        } else if (typeName.equals("java.sql.Blob")) {
             java.sql.Blob blob = (java.sql.Blob) obj;
             StringBuilder sb = new StringBuilder();
             BufferedReader br;

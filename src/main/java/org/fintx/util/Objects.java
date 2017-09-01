@@ -70,7 +70,10 @@ public class Objects {
     private static final Set<Class<?>> USE_AS_BASE_TYPES = new HashSet<Class<?>>(java.util.Arrays.asList(java.lang.StringBuilder.class));
 
     public static void addBaseType(Class<?> clazz) {
-        BASE_TYPES.add(clazz);
+        if (null == clazz) {
+            throw new NullPointerException();
+        }
+        BASE_TYPES.add(clazz); 
     }
 
     public static boolean isBaseType(Class<?> clazz) {
@@ -81,14 +84,20 @@ public class Objects {
     }
 
     public static void addUseAsBaseType(Class<?> clazz) {
-        USE_AS_BASE_TYPES.add(clazz);
+        if (null == clazz) {
+            throw new NullPointerException();
+        }
+        if(!isBaseType(clazz)) {
+            USE_AS_BASE_TYPES.add(clazz);  
+        }
+        
     }
 
     public static boolean isUseAsBaseType(Class<?> clazz) {
         if (null == clazz) {
             throw new NullPointerException();
         }
-        return USE_AS_BASE_TYPES.contains(clazz);
+        return isBaseType(clazz)||USE_AS_BASE_TYPES.contains(clazz);
     }
 
     public static boolean isWrapperType(Class<?> clazz) {
@@ -144,8 +153,8 @@ public class Objects {
                 return clone;
 
             }
-        } catch (Exception e) {
-            throw new RuntimeException("From class:" + from.getClass().getCanonicalName() + " value" + from, e);
+        } catch (Throwable t) {
+            throw new RuntimeException("From class:" + from.getClass().getCanonicalName() + " value" + from, t);
         }
     }
 
@@ -286,9 +295,9 @@ public class Objects {
     public static String toString(Object o) {
         if (null != o && o.getClass().isArray()) {
             String canonicalName = o.getClass().getCanonicalName();
-           
+
             if (canonicalName.equals("byte[]")) {
-                return new String((byte[])o);
+                return new String((byte[]) o);
             }
         }
         return java.util.Objects.toString(o);
@@ -305,9 +314,9 @@ public class Objects {
     public static String toString(Object o, String nullDefault) {
         if (null != o && o.getClass().isArray()) {
             String canonicalName = o.getClass().getCanonicalName();
-           
+
             if (canonicalName.equals("byte[]")) {
-                return new String((byte[])o);
+                return new String((byte[]) o);
             }
         }
         return java.util.Objects.toString(o, nullDefault);
