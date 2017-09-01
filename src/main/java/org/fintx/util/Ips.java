@@ -39,6 +39,9 @@ public class Ips {
     // }
     // return getRemoteAddress(request);
     // }
+    private Ips() {
+        
+    }
     /**
      * Get the remote IP from HttpServletRequest
      * 
@@ -84,8 +87,8 @@ public class Ips {
         try {
             InetAddress inetAddress = InetAddress.getLocalHost();
             clientId = inetAddress.getHostAddress();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
+            throw new RuntimeException("Get local IP address failed!",e);
         }
         return clientId;
     }

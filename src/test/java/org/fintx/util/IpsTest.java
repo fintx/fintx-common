@@ -44,6 +44,12 @@ public class IpsTest {
         Ips.getRemoteAddress(request);
         Request2 request2=new Request2();
         Ips.getRemoteAddress(request2);
+        Request3 request3=new Request3();
+        Ips.getRemoteAddress(request3);
+        Request4 request4=new Request4();
+        Ips.getRemoteAddress(request4);
+        Request5 request5=new Request5();
+        Ips.getRemoteAddress(request5);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Argument request should not be null!");
         Ips.getRemoteAddress(null);

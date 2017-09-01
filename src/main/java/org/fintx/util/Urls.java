@@ -35,7 +35,6 @@ public class Urls {
         try {
             parseParameters(map, data, "UTF-8");
         } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
