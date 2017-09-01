@@ -19,7 +19,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.sql.Timestamp;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
@@ -45,4 +48,8 @@ public class TextPoJo {
     java.util.Date date=new java.util.Date();
     java.sql.Date dat=new java.sql.Date(System.currentTimeMillis());
     Long long1=1L;
+    short sh=1;
+    byte by=(byte)0x1f;
+    Calendar ca=Calendar.getInstance();
+    BigInteger bi=new BigInteger("1123235436456546");
 }

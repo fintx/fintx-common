@@ -20,12 +20,15 @@ import org.fintx.lang.Encoding;
 
 import net.sf.cglib.beans.BeanCopier;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +41,8 @@ import javax.xml.bind.JAXBException;
  */
 public class ObjectsTest {
 
-   
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void testDeepClone() throws Exception {
@@ -259,6 +263,46 @@ public class ObjectsTest {
         
         System.out.println(Objects.hash(new byte[] {(byte) 0xff}));
         Objects.hashCode(new byte[] {(byte) 0xff});
+    }
+    
+    @Test
+    public void testException1() {
+        Objects.addBaseType(Calendar.class);
+        thrown.expect(NullPointerException.class);
+        Objects.addBaseType(null);
+
+    }
+    @Test
+    public void testException2() {
+        Objects.isBaseType(String.class);
+        thrown.expect(NullPointerException.class);
+        Objects.isBaseType(null);
+
+    }
+    
+    @Test
+    public void testException3() {
+        Objects.addUseAsBaseType(Date.class);
+        thrown.expect(NullPointerException.class);
+        Objects.addUseAsBaseType(null);
+
+    }
+    @Test
+    public void testException4() {
+        Objects.isUseAsBaseType(String.class);
+        Objects.isUseAsBaseType(Long.class);
+        thrown.expect(NullPointerException.class);
+        Objects.isUseAsBaseType(null);
+
+    }
+    @Test
+    public void testException5() {
+        Objects.isWrapperType(String.class);
+        Objects.isWrapperType(Long.class);
+        Objects.isWrapperType(Date.class);
+        thrown.expect(NullPointerException.class);
+        Objects.isWrapperType(null);
+
     }
 
 }

@@ -50,6 +50,8 @@ public class IpsTest {
         Ips.getRemoteAddress(request4);
         Request5 request5=new Request5();
         Ips.getRemoteAddress(request5);
+        Request6 request6=new Request6();
+        Ips.getRemoteAddress(request6);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Argument request should not be null!");
         Ips.getRemoteAddress(null);
