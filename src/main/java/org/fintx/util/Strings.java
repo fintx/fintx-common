@@ -202,11 +202,11 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isBlank(null)      = true
-     * StringUtils.isBlank("")        = true
-     * StringUtils.isBlank(" ")       = true
-     * StringUtils.isBlank("bob")     = false
-     * StringUtils.isBlank("  bob  ") = false
+     * Strings.isBlank(null)      = true
+     * Strings.isBlank("")        = true
+     * Strings.isBlank(" ")       = true
+     * Strings.isBlank("bob")     = false
+     * Strings.isBlank("  bob  ") = false
      * </pre>
      *
      * @param cs the CharSequence to check, may be null
@@ -435,14 +435,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.compare(null, null)   = 0
-     * StringUtils.compare(null , "a")   &lt; 0
-     * StringUtils.compare("a", null)    &gt; 0
-     * StringUtils.compare("abc", "abc") = 0
-     * StringUtils.compare("a", "b")     &lt; 0
-     * StringUtils.compare("b", "a")     &gt; 0
-     * StringUtils.compare("a", "B")     &gt; 0
-     * StringUtils.compare("ab", "abc")  &lt; 0
+     * Strings.compare(null, null)   = 0
+     * Strings.compare(null , "a")   &lt; 0
+     * Strings.compare("a", null)    &gt; 0
+     * Strings.compare("abc", "abc") = 0
+     * Strings.compare("a", "b")     &lt; 0
+     * Strings.compare("b", "a")     &gt; 0
+     * Strings.compare("a", "B")     &gt; 0
+     * Strings.compare("ab", "abc")  &lt; 0
      * </pre>
      *
      * @see #compare(String, String, boolean)
@@ -482,16 +482,16 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.compare(null, null, *)     = 0
-     * StringUtils.compare(null , "a", true)  &lt; 0
-     * StringUtils.compare(null , "a", false) &gt; 0
-     * StringUtils.compare("a", null, true)   &gt; 0
-     * StringUtils.compare("a", null, false)  &lt; 0
-     * StringUtils.compare("abc", "abc", *)   = 0
-     * StringUtils.compare("a", "b", *)       &lt; 0
-     * StringUtils.compare("b", "a", *)       &gt; 0
-     * StringUtils.compare("a", "B", *)       &gt; 0
-     * StringUtils.compare("ab", "abc", *)    &lt; 0
+     * Strings.compare(null, null, *)     = 0
+     * Strings.compare(null , "a", true)  &lt; 0
+     * Strings.compare(null , "a", false) &gt; 0
+     * Strings.compare("a", null, true)   &gt; 0
+     * Strings.compare("a", null, false)  &lt; 0
+     * Strings.compare("abc", "abc", *)   = 0
+     * Strings.compare("a", "b", *)       &lt; 0
+     * Strings.compare("b", "a", *)       &gt; 0
+     * Strings.compare("a", "B", *)       &gt; 0
+     * Strings.compare("ab", "abc", *)    &lt; 0
      * </pre>
      *
      * @see String#compareTo(String)
@@ -540,16 +540,16 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.compareIgnoreCase(null, null)   = 0
-     * StringUtils.compareIgnoreCase(null , "a")   &lt; 0
-     * StringUtils.compareIgnoreCase("a", null)    &gt; 0
-     * StringUtils.compareIgnoreCase("abc", "abc") = 0
-     * StringUtils.compareIgnoreCase("abc", "ABC") = 0
-     * StringUtils.compareIgnoreCase("a", "b")     &lt; 0
-     * StringUtils.compareIgnoreCase("b", "a")     &gt; 0
-     * StringUtils.compareIgnoreCase("a", "B")     &lt; 0
-     * StringUtils.compareIgnoreCase("A", "b")     &lt; 0
-     * StringUtils.compareIgnoreCase("ab", "ABC")  &lt; 0
+     * Strings.compareIgnoreCase(null, null)   = 0
+     * Strings.compareIgnoreCase(null , "a")   &lt; 0
+     * Strings.compareIgnoreCase("a", null)    &gt; 0
+     * Strings.compareIgnoreCase("abc", "abc") = 0
+     * Strings.compareIgnoreCase("abc", "ABC") = 0
+     * Strings.compareIgnoreCase("a", "b")     &lt; 0
+     * Strings.compareIgnoreCase("b", "a")     &gt; 0
+     * Strings.compareIgnoreCase("a", "B")     &lt; 0
+     * Strings.compareIgnoreCase("A", "b")     &lt; 0
+     * Strings.compareIgnoreCase("ab", "ABC")  &lt; 0
      * </pre>
      *
      * @see #compareIgnoreCase(String, String, boolean)
@@ -590,18 +590,18 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.compareIgnoreCase(null, null, *)     = 0
-     * StringUtils.compareIgnoreCase(null , "a", true)  &lt; 0
-     * StringUtils.compareIgnoreCase(null , "a", false) &gt; 0
-     * StringUtils.compareIgnoreCase("a", null, true)   &gt; 0
-     * StringUtils.compareIgnoreCase("a", null, false)  &lt; 0
-     * StringUtils.compareIgnoreCase("abc", "abc", *)   = 0
-     * StringUtils.compareIgnoreCase("abc", "ABC", *)   = 0
-     * StringUtils.compareIgnoreCase("a", "b", *)       &lt; 0
-     * StringUtils.compareIgnoreCase("b", "a", *)       &gt; 0
-     * StringUtils.compareIgnoreCase("a", "B", *)       &lt; 0
-     * StringUtils.compareIgnoreCase("A", "b", *)       &lt; 0
-     * StringUtils.compareIgnoreCase("ab", "abc", *)    &lt; 0
+     * Strings.compareIgnoreCase(null, null, *)     = 0
+     * Strings.compareIgnoreCase(null , "a", true)  &lt; 0
+     * Strings.compareIgnoreCase(null , "a", false) &gt; 0
+     * Strings.compareIgnoreCase("a", null, true)   &gt; 0
+     * Strings.compareIgnoreCase("a", null, false)  &lt; 0
+     * Strings.compareIgnoreCase("abc", "abc", *)   = 0
+     * Strings.compareIgnoreCase("abc", "ABC", *)   = 0
+     * Strings.compareIgnoreCase("a", "b", *)       &lt; 0
+     * Strings.compareIgnoreCase("b", "a", *)       &gt; 0
+     * Strings.compareIgnoreCase("a", "B", *)       &lt; 0
+     * Strings.compareIgnoreCase("A", "b", *)       &lt; 0
+     * Strings.compareIgnoreCase("ab", "abc", *)    &lt; 0
      * </pre>
      *
      * @see String#compareToIgnoreCase(String)
@@ -794,8 +794,6 @@ public class Strings {
         }
         return newArr;
     }
-
-   
 
     /**
      * <p>
@@ -1221,180 +1219,6 @@ public class Strings {
             return false;
         }
         return str.indexOf(searchStr) >= 0;
-    }
-
-    // IndexOfAnyBut chars
-    // -----------------------------------------------------------------------
-    /**
-     * <p>
-     * Searches a CharSequence to find the first index of any character not in the given set of characters.
-     * </p>
-     *
-     * <p>
-     * A {@code null} CharSequence will return {@code -1}. A {@code null} or zero length search array will return {@code -1}.
-     * </p>
-     *
-     * <pre>
-     * StringUtils.indexOfAnyBut(null, *)                              = -1
-     * StringUtils.indexOfAnyBut("", *)                                = -1
-     * StringUtils.indexOfAnyBut(*, null)                              = -1
-     * StringUtils.indexOfAnyBut(*, [])                                = -1
-     * StringUtils.indexOfAnyBut("zzabyycdxx", new char[] {'z', 'a'} ) = 3
-     * StringUtils.indexOfAnyBut("aba", new char[] {'z'} )             = 0
-     * StringUtils.indexOfAnyBut("aba", new char[] {'a', 'b'} )        = -1
-     * </pre>
-     *
-     * @param cs the CharSequence to check, may be null
-     * @param searchChars the chars to search for, may be null
-     * @return the index of any of the chars, -1 if no match or null input
-     * @since 2.0
-     * @since 3.0 Changed signature from indexOfAnyBut(String, char[]) to indexOfAnyBut(CharSequence, char...)
-     */
-    public static int indexOfAnyBut(final CharSequence cs, final char...searchChars) {
-        if (isEmpty(cs) || Arrays.isEmpty(searchChars)) {
-            return INDEX_NOT_FOUND;
-        }
-        final int csLen = cs.length();
-        final int csLast = csLen - 1;
-        final int searchLen = searchChars.length;
-        final int searchLast = searchLen - 1;
-        outer: for (int i = 0; i < csLen; i++) {
-            final char ch = cs.charAt(i);
-            for (int j = 0; j < searchLen; j++) {
-                if (searchChars[j] == ch) {
-                    if (i < csLast && j < searchLast && Character.isHighSurrogate(ch)) {
-                        if (searchChars[j + 1] == cs.charAt(i + 1)) {
-                            continue outer;
-                        }
-                    } else {
-                        continue outer;
-                    }
-                }
-            }
-            return i;
-        }
-        return INDEX_NOT_FOUND;
-    }
-
-    /**
-     * <p>
-     * Search a CharSequence to find the first index of any character not in the given set of characters.
-     * </p>
-     *
-     * <p>
-     * A {@code null} CharSequence will return {@code -1}. A {@code null} or empty search string will return {@code -1}.
-     * </p>
-     *
-     * <pre>
-     * StringUtils.indexOfAnyBut(null, *)            = -1
-     * StringUtils.indexOfAnyBut("", *)              = -1
-     * StringUtils.indexOfAnyBut(*, null)            = -1
-     * StringUtils.indexOfAnyBut(*, "")              = -1
-     * StringUtils.indexOfAnyBut("zzabyycdxx", "za") = 3
-     * StringUtils.indexOfAnyBut("zzabyycdxx", "")   = -1
-     * StringUtils.indexOfAnyBut("aba","ab")         = -1
-     * </pre>
-     *
-     * @param seq the CharSequence to check, may be null
-     * @param searchChars the chars to search for, may be null
-     * @return the index of any of the chars, -1 if no match or null input
-     * @since 2.0
-     * @since 3.0 Changed signature from indexOfAnyBut(String, String) to indexOfAnyBut(CharSequence, CharSequence)
-     */
-    public static int indexOfAnyBut(final CharSequence seq, final CharSequence searchChars) {
-        if (isEmpty(seq) || isEmpty(searchChars)) {
-            return INDEX_NOT_FOUND;
-        }
-        final int strLen = seq.length();
-        for (int i = 0; i < strLen; i++) {
-            final char ch = seq.charAt(i);
-            final boolean chFound = indexOf(searchChars.toString(), ch, 0) >= 0;
-            if (i + 1 < strLen && Character.isHighSurrogate(ch)) {
-                final char ch2 = seq.charAt(i + 1);
-                if (chFound && indexOf(searchChars.toString(), ch2, 0) < 0) {
-                    return i;
-                }
-            } else {
-                if (!chFound) {
-                    return i;
-                }
-            }
-        }
-        return INDEX_NOT_FOUND;
-    }
-
-    // ContainsOnly
-    // -----------------------------------------------------------------------
-    /**
-     * <p>
-     * Checks if the CharSequence contains only certain characters.
-     * </p>
-     *
-     * <p>
-     * A {@code null} CharSequence will return {@code false}. A {@code null} valid character array will return {@code false}. An empty CharSequence (length()=0)
-     * always returns {@code true}.
-     * </p>
-     *
-     * <pre>
-     * StringUtils.containsOnly(null, *)       = false
-     * StringUtils.containsOnly(*, null)       = false
-     * StringUtils.containsOnly("", *)         = true
-     * StringUtils.containsOnly("ab", '')      = false
-     * StringUtils.containsOnly("abab", 'abc') = true
-     * StringUtils.containsOnly("ab1", 'abc')  = false
-     * StringUtils.containsOnly("abz", 'abc')  = false
-     * </pre>
-     *
-     * @param cs the String to check, may be null
-     * @param valid an array of valid chars, may be null
-     * @return true if it only contains valid chars and is non-null
-     * @since 3.0 Changed signature from containsOnly(String, char[]) to containsOnly(CharSequence, char...)
-     */
-    public static boolean containsOnly(final CharSequence cs, final char...valid) {
-        // All these pre-checks are to maintain API with an older version
-        if (valid == null || cs == null) {
-            return false;
-        }
-        if (cs.length() == 0) {
-            return true;
-        }
-        if (valid.length == 0) {
-            return false;
-        }
-        return indexOfAnyBut(cs, valid) == INDEX_NOT_FOUND;
-    }
-
-    /**
-     * <p>
-     * Checks if the CharSequence contains only certain characters.
-     * </p>
-     *
-     * <p>
-     * A {@code null} CharSequence will return {@code false}. A {@code null} valid character String will return {@code false}. An empty String (length()=0)
-     * always returns {@code true}.
-     * </p>
-     *
-     * <pre>
-     * StringUtils.containsOnly(null, *)       = false
-     * StringUtils.containsOnly(*, null)       = false
-     * StringUtils.containsOnly("", *)         = true
-     * StringUtils.containsOnly("ab", "")      = false
-     * StringUtils.containsOnly("abab", "abc") = true
-     * StringUtils.containsOnly("ab1", "abc")  = false
-     * StringUtils.containsOnly("abz", "abc")  = false
-     * </pre>
-     *
-     * @param cs the CharSequence to check, may be null
-     * @param validChars a String of valid chars, may be null
-     * @return true if it only contains valid chars and is non-null
-     * @since 2.0
-     * @since 3.0 Changed signature from containsOnly(String, String) to containsOnly(CharSequence, String)
-     */
-    public static boolean containsOnly(final CharSequence cs, final String validChars) {
-        if (cs == null || validChars == null) {
-            return false;
-        }
-        return containsOnly(cs, validChars.toCharArray());
     }
 
     // Difference
@@ -2146,12 +1970,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.splitByWholeSeparator(null, *)               = null
-     * StringUtils.splitByWholeSeparator("", *)                 = []
-     * StringUtils.splitByWholeSeparator("ab de fg", null)      = ["ab", "de", "fg"]
-     * StringUtils.splitByWholeSeparator("ab   de fg", null)    = ["ab", "de", "fg"]
-     * StringUtils.splitByWholeSeparator("ab:cd:ef", ":")       = ["ab", "cd", "ef"]
-     * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-") = ["ab", "cd", "ef"]
+     * Strings.splitByWholeSeparator(null, *)               = null
+     * Strings.splitByWholeSeparator("", *)                 = []
+     * Strings.splitByWholeSeparator("ab de fg", null)      = ["ab", "de", "fg"]
+     * Strings.splitByWholeSeparator("ab   de fg", null)    = ["ab", "de", "fg"]
+     * Strings.splitByWholeSeparator("ab:cd:ef", ":")       = ["ab", "cd", "ef"]
+     * Strings.splitByWholeSeparator("ab-!-cd-!-ef", "-!-") = ["ab", "cd", "ef"]
      * </pre>
      *
      * @param str the String to parse, may be null
@@ -2176,13 +2000,13 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.splitByWholeSeparator(null, *, *)               = null
-     * StringUtils.splitByWholeSeparator("", *, *)                 = []
-     * StringUtils.splitByWholeSeparator("ab de fg", null, 0)      = ["ab", "de", "fg"]
-     * StringUtils.splitByWholeSeparator("ab   de fg", null, 0)    = ["ab", "de", "fg"]
-     * StringUtils.splitByWholeSeparator("ab:cd:ef", ":", 2)       = ["ab", "cd:ef"]
-     * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-", 5) = ["ab", "cd", "ef"]
-     * StringUtils.splitByWholeSeparator("ab-!-cd-!-ef", "-!-", 2) = ["ab", "cd-!-ef"]
+     * Strings.splitByWholeSeparator(null, *, *)               = null
+     * Strings.splitByWholeSeparator("", *, *)                 = []
+     * Strings.splitByWholeSeparator("ab de fg", null, 0)      = ["ab", "de", "fg"]
+     * Strings.splitByWholeSeparator("ab   de fg", null, 0)    = ["ab", "de", "fg"]
+     * Strings.splitByWholeSeparator("ab:cd:ef", ":", 2)       = ["ab", "cd:ef"]
+     * Strings.splitByWholeSeparator("ab-!-cd-!-ef", "-!-", 5) = ["ab", "cd", "ef"]
+     * Strings.splitByWholeSeparator("ab-!-cd-!-ef", "-!-", 2) = ["ab", "cd-!-ef"]
      * </pre>
      *
      * @param str the String to parse, may be null
@@ -2461,12 +2285,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.remove(null, *)        = null
-     * StringUtils.remove("", *)          = ""
-     * StringUtils.remove(*, null)        = *
-     * StringUtils.remove(*, "")          = *
-     * StringUtils.remove("queued", "ue") = "qd"
-     * StringUtils.remove("queued", "zz") = "queued"
+     * Strings.remove(null, *)        = null
+     * Strings.remove("", *)          = ""
+     * Strings.remove(*, null)        = *
+     * Strings.remove(*, "")          = *
+     * Strings.remove("queued", "ue") = "qd"
+     * Strings.remove("queued", "zz") = "queued"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -2492,14 +2316,14 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.removeIgnoreCase(null, *)        = null
-     * StringUtils.removeIgnoreCase("", *)          = ""
-     * StringUtils.removeIgnoreCase(*, null)        = *
-     * StringUtils.removeIgnoreCase(*, "")          = *
-     * StringUtils.removeIgnoreCase("queued", "ue") = "qd"
-     * StringUtils.removeIgnoreCase("queued", "zz") = "queued"
-     * StringUtils.removeIgnoreCase("quEUed", "UE") = "qd"
-     * StringUtils.removeIgnoreCase("queued", "zZ") = "queued"
+     * Strings.removeIgnoreCase(null, *)        = null
+     * Strings.removeIgnoreCase("", *)          = ""
+     * Strings.removeIgnoreCase(*, null)        = *
+     * Strings.removeIgnoreCase(*, "")          = *
+     * Strings.removeIgnoreCase("queued", "ue") = "qd"
+     * Strings.removeIgnoreCase("queued", "zz") = "queued"
+     * Strings.removeIgnoreCase("quEUed", "UE") = "qd"
+     * Strings.removeIgnoreCase("queued", "zZ") = "queued"
      * </pre>
      *
      * @param str the source String to search, may be null
@@ -2525,19 +2349,19 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.replace(null, *, *, *, false)         = null
-     * StringUtils.replace("", *, *, *, false)           = ""
-     * StringUtils.replace("any", null, *, *, false)     = "any"
-     * StringUtils.replace("any", *, null, *, false)     = "any"
-     * StringUtils.replace("any", "", *, *, false)       = "any"
-     * StringUtils.replace("any", *, *, 0, false)        = "any"
-     * StringUtils.replace("abaa", "a", null, -1, false) = "abaa"
-     * StringUtils.replace("abaa", "a", "", -1, false)   = "b"
-     * StringUtils.replace("abaa", "a", "z", 0, false)   = "abaa"
-     * StringUtils.replace("abaa", "A", "z", 1, false)   = "abaa"
-     * StringUtils.replace("abaa", "A", "z", 1, true)   = "zbaa"
-     * StringUtils.replace("abAa", "a", "z", 2, true)   = "zbza"
-     * StringUtils.replace("abAa", "a", "z", -1, true)  = "zbzz"
+     * Strings.replace(null, *, *, *, false)         = null
+     * Strings.replace("", *, *, *, false)           = ""
+     * Strings.replace("any", null, *, *, false)     = "any"
+     * Strings.replace("any", *, null, *, false)     = "any"
+     * Strings.replace("any", "", *, *, false)       = "any"
+     * Strings.replace("any", *, *, 0, false)        = "any"
+     * Strings.replace("abaa", "a", null, -1, false) = "abaa"
+     * Strings.replace("abaa", "a", "", -1, false)   = "b"
+     * Strings.replace("abaa", "a", "z", 0, false)   = "abaa"
+     * Strings.replace("abaa", "A", "z", 1, false)   = "abaa"
+     * Strings.replace("abaa", "A", "z", 1, true)   = "zbaa"
+     * Strings.replace("abAa", "a", "z", 2, true)   = "zbza"
+     * Strings.replace("abAa", "a", "z", -1, true)  = "zbzz"
      * </pre>
      *
      * @param text text to search and replace in, may be null
@@ -2562,19 +2386,19 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.replace(null, *, *, *, false)         = null
-     * StringUtils.replace("", *, *, *, false)           = ""
-     * StringUtils.replace("any", null, *, *, false)     = "any"
-     * StringUtils.replace("any", *, null, *, false)     = "any"
-     * StringUtils.replace("any", "", *, *, false)       = "any"
-     * StringUtils.replace("any", *, *, 0, false)        = "any"
-     * StringUtils.replace("abaa", "a", null, -1, false) = "abaa"
-     * StringUtils.replace("abaa", "a", "", -1, false)   = "b"
-     * StringUtils.replace("abaa", "a", "z", 0, false)   = "abaa"
-     * StringUtils.replace("abaa", "A", "z", 1, false)   = "abaa"
-     * StringUtils.replace("abaa", "A", "z", 1, true)   = "zbaa"
-     * StringUtils.replace("abAa", "a", "z", 2, true)   = "zbza"
-     * StringUtils.replace("abAa", "a", "z", -1, true)  = "zbzz"
+     * Strings.replace(null, *, *, *, false)         = null
+     * Strings.replace("", *, *, *, false)           = ""
+     * Strings.replace("any", null, *, *, false)     = "any"
+     * Strings.replace("any", *, null, *, false)     = "any"
+     * Strings.replace("any", "", *, *, false)       = "any"
+     * Strings.replace("any", *, *, 0, false)        = "any"
+     * Strings.replace("abaa", "a", null, -1, false) = "abaa"
+     * Strings.replace("abaa", "a", "", -1, false)   = "b"
+     * Strings.replace("abaa", "a", "z", 0, false)   = "abaa"
+     * Strings.replace("abaa", "A", "z", 1, false)   = "abaa"
+     * Strings.replace("abaa", "A", "z", 1, true)   = "zbaa"
+     * Strings.replace("abAa", "a", "z", 2, true)   = "zbza"
+     * Strings.replace("abAa", "a", "z", -1, true)  = "zbzz"
      * </pre>
      *
      * @param text text to search and replace in, may be null
@@ -2625,18 +2449,18 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.replaceIgnoreCase(null, *, *, *)         = null
-     * StringUtils.replaceIgnoreCase("", *, *, *)           = ""
-     * StringUtils.replaceIgnoreCase("any", null, *, *)     = "any"
-     * StringUtils.replaceIgnoreCase("any", *, null, *)     = "any"
-     * StringUtils.replaceIgnoreCase("any", "", *, *)       = "any"
-     * StringUtils.replaceIgnoreCase("any", *, *, 0)        = "any"
-     * StringUtils.replaceIgnoreCase("abaa", "a", null, -1) = "abaa"
-     * StringUtils.replaceIgnoreCase("abaa", "a", "", -1)   = "b"
-     * StringUtils.replaceIgnoreCase("abaa", "a", "z", 0)   = "abaa"
-     * StringUtils.replaceIgnoreCase("abaa", "A", "z", 1)   = "zbaa"
-     * StringUtils.replaceIgnoreCase("abAa", "a", "z", 2)   = "zbza"
-     * StringUtils.replaceIgnoreCase("abAa", "a", "z", -1)  = "zbzz"
+     * Strings.replaceIgnoreCase(null, *, *, *)         = null
+     * Strings.replaceIgnoreCase("", *, *, *)           = ""
+     * Strings.replaceIgnoreCase("any", null, *, *)     = "any"
+     * Strings.replaceIgnoreCase("any", *, null, *)     = "any"
+     * Strings.replaceIgnoreCase("any", "", *, *)       = "any"
+     * Strings.replaceIgnoreCase("any", *, *, 0)        = "any"
+     * Strings.replaceIgnoreCase("abaa", "a", null, -1) = "abaa"
+     * Strings.replaceIgnoreCase("abaa", "a", "", -1)   = "b"
+     * Strings.replaceIgnoreCase("abaa", "a", "z", 0)   = "abaa"
+     * Strings.replaceIgnoreCase("abaa", "A", "z", 1)   = "zbaa"
+     * Strings.replaceIgnoreCase("abAa", "a", "z", 2)   = "zbza"
+     * Strings.replaceIgnoreCase("abAa", "a", "z", -1)  = "zbzz"
      * </pre>
      *
      * @param text text to search and replace in, may be null
@@ -2667,17 +2491,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.replacePattern(null, *, *)       = null
-     * StringUtils.replacePattern("any", null, *)   = "any"
-     * StringUtils.replacePattern("any", *, null)   = "any"
-     * StringUtils.replacePattern("", "", "zzz")    = "zzz"
-     * StringUtils.replacePattern("", ".*", "zzz")  = "zzz"
-     * StringUtils.replacePattern("", ".+", "zzz")  = ""
-     * StringUtils.replacePattern("&lt;__&gt;\n&lt;__&gt;", "&lt;.*&gt;", "z")       = "z"
-     * StringUtils.replacePattern("ABCabc123", "[a-z]", "_")       = "ABC___123"
-     * StringUtils.replacePattern("ABCabc123", "[^A-Z0-9]+", "_")  = "ABC_123"
-     * StringUtils.replacePattern("ABCabc123", "[^A-Z0-9]+", "")   = "ABC123"
-     * StringUtils.replacePattern("Lorem ipsum  dolor   sit", "( +)([a-z]+)", "_$2")  = "Lorem_ipsum_dolor_sit"
+     * Strings.replacePattern(null, *, *)       = null
+     * Strings.replacePattern("any", null, *)   = "any"
+     * Strings.replacePattern("any", *, null)   = "any"
+     * Strings.replacePattern("", "", "zzz")    = "zzz"
+     * Strings.replacePattern("", ".*", "zzz")  = "zzz"
+     * Strings.replacePattern("", ".+", "zzz")  = ""
+     * Strings.replacePattern("&lt;__&gt;\n&lt;__&gt;", "&lt;.*&gt;", "z")       = "z"
+     * Strings.replacePattern("ABCabc123", "[a-z]", "_")       = "ABC___123"
+     * Strings.replacePattern("ABCabc123", "[^A-Z0-9]+", "_")  = "ABC_123"
+     * Strings.replacePattern("ABCabc123", "[^A-Z0-9]+", "")   = "ABC123"
+     * Strings.replacePattern("Lorem ipsum  dolor   sit", "( +)([a-z]+)", "_$2")  = "Lorem_ipsum_dolor_sit"
      * </pre>
      *
      * @param source the source string
@@ -2710,17 +2534,17 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.overlay(null, *, *, *)            = null
-     * StringUtils.overlay("", "abc", 0, 0)          = "abc"
-     * StringUtils.overlay("abcdef", null, 2, 4)     = "abef"
-     * StringUtils.overlay("abcdef", "", 2, 4)       = "abef"
-     * StringUtils.overlay("abcdef", "", 4, 2)       = "abef"
-     * StringUtils.overlay("abcdef", "zzzz", 2, 4)   = "abzzzzef"
-     * StringUtils.overlay("abcdef", "zzzz", 4, 2)   = "abzzzzef"
-     * StringUtils.overlay("abcdef", "zzzz", -1, 4)  = "zzzzef"
-     * StringUtils.overlay("abcdef", "zzzz", 2, 8)   = "abzzzz"
-     * StringUtils.overlay("abcdef", "zzzz", -2, -3) = "zzzzabcdef"
-     * StringUtils.overlay("abcdef", "zzzz", 8, 10)  = "abcdefzzzz"
+     * Strings.overlay(null, *, *, *)            = null
+     * Strings.overlay("", "abc", 0, 0)          = "abc"
+     * Strings.overlay("abcdef", null, 2, 4)     = "abef"
+     * Strings.overlay("abcdef", "", 2, 4)       = "abef"
+     * Strings.overlay("abcdef", "", 4, 2)       = "abef"
+     * Strings.overlay("abcdef", "zzzz", 2, 4)   = "abzzzzef"
+     * Strings.overlay("abcdef", "zzzz", 4, 2)   = "abzzzzef"
+     * Strings.overlay("abcdef", "zzzz", -1, 4)  = "zzzzef"
+     * Strings.overlay("abcdef", "zzzz", 2, 8)   = "abzzzz"
+     * Strings.overlay("abcdef", "zzzz", -2, -3) = "zzzzabcdef"
+     * Strings.overlay("abcdef", "zzzz", 8, 10)  = "abcdefzzzz"
      * </pre>
      *
      * @param str the String to do overlaying in, may be null
@@ -2764,12 +2588,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.repeat(null, 2) = null
-     * StringUtils.repeat("", 0)   = ""
-     * StringUtils.repeat("", 2)   = ""
-     * StringUtils.repeat("a", 3)  = "aaa"
-     * StringUtils.repeat("ab", 2) = "abab"
-     * StringUtils.repeat("a", -2) = ""
+     * Strings.repeat(null, 2) = null
+     * Strings.repeat("", 0)   = ""
+     * Strings.repeat("", 2)   = ""
+     * Strings.repeat("a", 3)  = "aaa"
+     * Strings.repeat("ab", 2) = "abab"
+     * Strings.repeat("a", -2) = ""
      * </pre>
      *
      * @param str the String to repeat, may be null
@@ -2821,12 +2645,12 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.repeat(null, null, 2) = null
-     * StringUtils.repeat(null, "x", 2)  = null
-     * StringUtils.repeat("", null, 0)   = ""
-     * StringUtils.repeat("", "", 2)     = ""
-     * StringUtils.repeat("", "x", 3)    = "xxx"
-     * StringUtils.repeat("?", ", ", 3)  = "?, ?, ?"
+     * Strings.repeat(null, null, 2) = null
+     * Strings.repeat(null, "x", 2)  = null
+     * Strings.repeat("", null, 0)   = ""
+     * Strings.repeat("", "", 2)     = ""
+     * Strings.repeat("", "x", 3)    = "xxx"
+     * Strings.repeat("?", ", ", 3)  = "?, ?, ?"
      * </pre>
      *
      * @param str the String to repeat, may be null
@@ -2850,9 +2674,9 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.repeat('e', 0)  = ""
-     * StringUtils.repeat('e', 3)  = "eee"
-     * StringUtils.repeat('e', -2) = ""
+     * Strings.repeat('e', 0)  = ""
+     * Strings.repeat('e', 3)  = "eee"
+     * Strings.repeat('e', -2) = ""
      * </pre>
      *
      * <p>
@@ -3318,34 +3142,38 @@ public class Strings {
 
     // Character Tests
     // -----------------------------------------------------------------------
+    // Character Tests
+    // -----------------------------------------------------------------------
     /**
      * <p>
-     * Checks if the String contains only unicode letters.
+     * Checks if the CharSequence contains only Unicode letters.
      * </p>
      *
      * <p>
-     * <code>null</code> will return <code>false</code>. An empty String (length()=0) will return <code>true</code>.
+     * {@code null} will return {@code false}. An empty CharSequence (length()=0) will return {@code false}.
      * </p>
      *
      * <pre>
      * Strings.isAlpha(null)   = false
-     * Strings.isAlpha("")     = true
+     * Strings.isAlpha("")     = false
      * Strings.isAlpha("  ")   = false
      * Strings.isAlpha("abc")  = true
      * Strings.isAlpha("ab2c") = false
      * Strings.isAlpha("ab-c") = false
      * </pre>
      *
-     * @param str the String to check, may be null
-     * @return <code>true</code> if only contains letters, and is non-null
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if only contains letters, and is non-null
+     * @since 3.0 Changed signature from isAlpha(String) to isAlpha(CharSequence)
+     * @since 3.0 Changed "" to return false and not true
      */
-    public static boolean isAlpha(String str) {
-        if (str == null) {
+    public static boolean isAlpha(final CharSequence cs) {
+        if (isEmpty(cs)) {
             return false;
         }
-        int sz = str.length();
+        final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if (Character.isLetter(str.charAt(i)) == false) {
+            if (!Character.isLetter(cs.charAt(i))) {
                 return false;
             }
         }
@@ -3362,15 +3190,15 @@ public class Strings {
      * </p>
      *
      * <pre>
-     * StringUtils.isMixedCase(null)    = false
-     * StringUtils.isMixedCase("")      = false
-     * StringUtils.isMixedCase("ABC")   = false
-     * StringUtils.isMixedCase("abc")   = false
-     * StringUtils.isMixedCase("aBc")   = true
-     * StringUtils.isMixedCase("A c")   = true
-     * StringUtils.isMixedCase("A1c")   = true
-     * StringUtils.isMixedCase("a/C")   = true
-     * StringUtils.isMixedCase("aC\t")  = true
+     * Strings.isMixedCase(null)    = false
+     * Strings.isMixedCase("")      = false
+     * Strings.isMixedCase("ABC")   = false
+     * Strings.isMixedCase("abc")   = false
+     * Strings.isMixedCase("aBc")   = true
+     * Strings.isMixedCase("A c")   = true
+     * Strings.isMixedCase("A1c")   = true
+     * Strings.isMixedCase("a/C")   = true
+     * Strings.isMixedCase("aC\t")  = true
      * </pre>
      *
      * @param cs the CharSequence to check, may be null
@@ -3398,34 +3226,44 @@ public class Strings {
 
     /**
      * <p>
-     * Checks if the String contains only unicode digits. A decimal point is not a unicode digit and returns false.
+     * Checks if the CharSequence contains only Unicode digits. A decimal point is not a Unicode digit and returns false.
      * </p>
      *
      * <p>
-     * <code>null</code> will return <code>false</code>. An empty String (length()=0) will return <code>true</code>.
+     * {@code null} will return {@code false}. An empty CharSequence (length()=0) will return {@code false}.
+     * </p>
+     *
+     * <p>
+     * Note that the method does not allow for a leading sign, either positive or negative. Also, if a String passes the numeric test, it may still generate a
+     * NumberFormatException when parsed by Integer.parseInt or Long.parseLong, e.g. if the value is outside the range for int or long respectively.
      * </p>
      *
      * <pre>
      * Strings.isNumeric(null)   = false
-     * Strings.isNumeric("")     = true
+     * Strings.isNumeric("")     = false
      * Strings.isNumeric("  ")   = false
      * Strings.isNumeric("123")  = true
+     * Strings.isNumeric("\u0967\u0968\u0969")  = true
      * Strings.isNumeric("12 3") = false
      * Strings.isNumeric("ab2c") = false
      * Strings.isNumeric("12-3") = false
      * Strings.isNumeric("12.3") = false
+     * Strings.isNumeric("-123") = false
+     * Strings.isNumeric("+123") = false
      * </pre>
      *
-     * @param str the String to check, may be null
-     * @return <code>true</code> if only contains digits, and is non-null
+     * @param cs the CharSequence to check, may be null
+     * @return {@code true} if only contains digits, and is non-null
+     * @since 3.0 Changed signature from isNumeric(String) to isNumeric(CharSequence)
+     * @since 3.0 Changed "" to return false and not true
      */
-    public static boolean isNumeric(String str) {
-        if (str == null) {
+    public static boolean isNumeric(final CharSequence cs) {
+        if (isEmpty(cs)) {
             return false;
         }
-        int sz = str.length();
+        final int sz = cs.length();
         for (int i = 0; i < sz; i++) {
-            if (Character.isDigit(str.charAt(i)) == false) {
+            if (!Character.isDigit(cs.charAt(i))) {
                 return false;
             }
         }
@@ -3533,60 +3371,6 @@ public class Strings {
             }
         }
         return true;
-    }
-
-    /**
-     * <p>
-     * Compares all Strings in an array and returns the initial sequence of characters that is common to all of them.
-     * </p>
-     *
-     * <p>
-     * For example, <code>getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) -- "i am a "</code>
-     * </p>
-     *
-     * <pre>
-     * Strings.getCommonPrefix(null) = ""
-     * Strings.getCommonPrefix(new String[] {}) = ""
-     * Strings.getCommonPrefix(new String[] {"abc"}) = "abc"
-     * Strings.getCommonPrefix(new String[] {null, null}) = ""
-     * Strings.getCommonPrefix(new String[] {"", ""}) = ""
-     * Strings.getCommonPrefix(new String[] {"", null}) = ""
-     * Strings.getCommonPrefix(new String[] {"abc", null, null}) = ""
-     * Strings.getCommonPrefix(new String[] {null, null, "abc"}) = ""
-     * Strings.getCommonPrefix(new String[] {"", "abc"}) = ""
-     * Strings.getCommonPrefix(new String[] {"abc", ""}) = ""
-     * Strings.getCommonPrefix(new String[] {"abc", "abc"}) = "abc"
-     * Strings.getCommonPrefix(new String[] {"abc", "a"}) = "a"
-     * Strings.getCommonPrefix(new String[] {"ab", "abxyz"}) = "ab"
-     * Strings.getCommonPrefix(new String[] {"abcde", "abxyz"}) = "ab"
-     * Strings.getCommonPrefix(new String[] {"abcde", "xyz"}) = ""
-     * Strings.getCommonPrefix(new String[] {"xyz", "abcde"}) = ""
-     * Strings.getCommonPrefix(new String[] {"i am a machine", "i am a robot"}) = "i am a "
-     * </pre>
-     *
-     * @param strs array of String objects, entries may be null
-     * @return the initial sequence of characters that are common to all Strings in the array; empty String if the array is null, the elements are all null or
-     *         if there is no common prefix.
-     * @since 2.4
-     */
-    public static String getCommonPrefix(String[] strs) {
-        if (strs == null || strs.length == 0) {
-            return EMPTY;
-        }
-        int smallestIndexOfDiff = indexOfDifference(strs);
-        if (smallestIndexOfDiff == INDEX_NOT_FOUND) {
-            // all strings were identical
-            if (strs[0] == null) {
-                return EMPTY;
-            }
-            return strs[0];
-        } else if (smallestIndexOfDiff == 0) {
-            // there were no common initial characters
-            return EMPTY;
-        } else {
-            // we found a common initial character sequence
-            return strs[0].substring(0, smallestIndexOfDiff);
-        }
     }
 
     // startsWith

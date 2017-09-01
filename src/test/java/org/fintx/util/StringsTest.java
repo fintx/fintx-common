@@ -38,8 +38,6 @@ import java.util.Locale;
  */
 public class StringsTest {
 
-   
-
     static final String WHITESPACE;
     static final String NON_WHITESPACE;
     static final String HARD_SPACE;
@@ -72,26 +70,24 @@ public class StringsTest {
         NON_TRIMMABLE = ntr;
     }
 
-    private static final String[] ARRAY_LIST = {"foo", "bar", "baz"};
+    private static final String[] ARRAY_LIST = { "foo", "bar", "baz" };
     private static final String[] EMPTY_ARRAY_LIST = {};
-    private static final String[] NULL_ARRAY_LIST = {null};
-    private static final Object[] NULL_TO_STRING_LIST = {
-            new Object() {
-                @Override
-                public String toString() {
-                    return null;
-                }
-            }
-    };
-    private static final String[] MIXED_ARRAY_LIST = {null, "", "foo"};
-    private static final Object[] MIXED_TYPE_LIST = {"foo", Long.valueOf(2L)};
-    private static final long[] LONG_PRIM_LIST = {1, 2};
-    private static final int[] INT_PRIM_LIST = {1, 2};
-    private static final byte[] BYTE_PRIM_LIST = {1, 2};
-    private static final short[] SHORT_PRIM_LIST = {1, 2};
-    private static final char[] CHAR_PRIM_LIST = {'1', '2'};
-    private static final float[] FLOAT_PRIM_LIST = {1, 2};
-    private static final double[] DOUBLE_PRIM_LIST = {1, 2};
+    private static final String[] NULL_ARRAY_LIST = { null };
+    private static final Object[] NULL_TO_STRING_LIST = { new Object() {
+        @Override
+        public String toString() {
+            return null;
+        }
+    } };
+    private static final String[] MIXED_ARRAY_LIST = { null, "", "foo" };
+    private static final Object[] MIXED_TYPE_LIST = { "foo", Long.valueOf(2L) };
+    private static final long[] LONG_PRIM_LIST = { 1, 2 };
+    private static final int[] INT_PRIM_LIST = { 1, 2 };
+    private static final byte[] BYTE_PRIM_LIST = { 1, 2 };
+    private static final short[] SHORT_PRIM_LIST = { 1, 2 };
+    private static final char[] CHAR_PRIM_LIST = { '1', '2' };
+    private static final float[] FLOAT_PRIM_LIST = { 1, 2 };
+    private static final double[] DOUBLE_PRIM_LIST = { 1, 2 };
 
     private static final String SEPARATOR = ",";
     private static final char SEPARATOR_CHAR = ';';
@@ -106,7 +102,7 @@ public class StringsTest {
     private static final String SENTENCE_UNCAP = "foo bar baz";
     private static final String SENTENCE_CAP = "Foo Bar Baz";
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @Test
     public void testConstructor() {
         assertNotNull(new Strings());
@@ -118,20 +114,33 @@ public class StringsTest {
     }
 
     @Test
+    public void testIsEmpty() {
+        assertTrue(Strings.isEmpty(null));
+        assertTrue(Strings.isEmpty(""));
+        assertFalse(Strings.isEmpty(" "));
+        assertFalse(Strings.isEmpty("foo"));
+        assertFalse(Strings.isEmpty("  foo  "));
+    }
+
+    @Test
+    public void testIsBlank() {
+        assertTrue(Strings.isBlank(null));
+        assertTrue(Strings.isBlank(""));
+        assertTrue(Strings.isBlank(StringsTest.WHITESPACE));
+        assertFalse(Strings.isBlank("foo"));
+        assertFalse(Strings.isBlank("  foo  "));
+    }
+
+    @Test
     public void testCapitalize() {
         assertNull(Strings.capitalize(null));
 
-        assertEquals("capitalize(empty-string) failed",
-                "", Strings.capitalize(""));
-        assertEquals("capitalize(single-char-string) failed",
-                "X", Strings.capitalize("x"));
-        assertEquals("capitalize(String) failed",
-                FOO_CAP, Strings.capitalize(FOO_CAP));
-        assertEquals("capitalize(string) failed",
-                FOO_CAP, Strings.capitalize(FOO_UNCAP));
+        assertEquals("capitalize(empty-string) failed", "", Strings.capitalize(""));
+        assertEquals("capitalize(single-char-string) failed", "X", Strings.capitalize("x"));
+        assertEquals("capitalize(String) failed", FOO_CAP, Strings.capitalize(FOO_CAP));
+        assertEquals("capitalize(string) failed", FOO_CAP, Strings.capitalize(FOO_UNCAP));
 
-        assertEquals("capitalize(String) is not using TitleCase",
-                "\u01C8", Strings.capitalize("\u01C9"));
+        assertEquals("capitalize(String) is not using TitleCase", "\u01C8", Strings.capitalize("\u01C9"));
 
         // Javadoc examples
         assertNull(Strings.capitalize(null));
@@ -145,14 +154,10 @@ public class StringsTest {
     public void testUnCapitalize() {
         assertNull(Strings.uncapitalize(null));
 
-        assertEquals("uncapitalize(String) failed",
-                FOO_UNCAP, Strings.uncapitalize(FOO_CAP));
-        assertEquals("uncapitalize(string) failed",
-                FOO_UNCAP, Strings.uncapitalize(FOO_UNCAP));
-        assertEquals("uncapitalize(empty-string) failed",
-                "", Strings.uncapitalize(""));
-        assertEquals("uncapitalize(single-char-string) failed",
-                "x", Strings.uncapitalize("X"));
+        assertEquals("uncapitalize(String) failed", FOO_UNCAP, Strings.uncapitalize(FOO_CAP));
+        assertEquals("uncapitalize(string) failed", FOO_UNCAP, Strings.uncapitalize(FOO_UNCAP));
+        assertEquals("uncapitalize(empty-string) failed", "", Strings.uncapitalize(""));
+        assertEquals("uncapitalize(single-char-string) failed", "x", Strings.uncapitalize("X"));
 
         // Examples from uncapitalize Javadoc
         assertEquals("cat", Strings.uncapitalize("cat"));
@@ -163,19 +168,15 @@ public class StringsTest {
     @Test
     public void testReCapitalize() {
         // reflection type of tests: Sentences.
-        assertEquals("uncapitalize(capitalize(String)) failed",
-                SENTENCE_UNCAP, Strings.uncapitalize(Strings.capitalize(SENTENCE_UNCAP)));
-        assertEquals("capitalize(uncapitalize(String)) failed",
-                SENTENCE_CAP, Strings.capitalize(Strings.uncapitalize(SENTENCE_CAP)));
+        assertEquals("uncapitalize(capitalize(String)) failed", SENTENCE_UNCAP, Strings.uncapitalize(Strings.capitalize(SENTENCE_UNCAP)));
+        assertEquals("capitalize(uncapitalize(String)) failed", SENTENCE_CAP, Strings.capitalize(Strings.uncapitalize(SENTENCE_CAP)));
 
         // reflection type of tests: One word.
-        assertEquals("uncapitalize(capitalize(String)) failed",
-                FOO_UNCAP, Strings.uncapitalize(Strings.capitalize(FOO_UNCAP)));
-        assertEquals("capitalize(uncapitalize(String)) failed",
-                FOO_CAP, Strings.capitalize(Strings.uncapitalize(FOO_CAP)));
+        assertEquals("uncapitalize(capitalize(String)) failed", FOO_UNCAP, Strings.uncapitalize(Strings.capitalize(FOO_UNCAP)));
+        assertEquals("capitalize(uncapitalize(String)) failed", FOO_CAP, Strings.capitalize(Strings.uncapitalize(FOO_CAP)));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @Test
     public void testJoin_Objects() {
         assertEquals("abc", Strings.join("a", "b", "c"));
@@ -185,7 +186,7 @@ public class StringsTest {
 
     @Test
     public void testJoin_Objectarray() {
-//        assertNull(Strings.join(null)); // generates warning
+        // assertNull(Strings.join(null)); // generates warning
         assertNull(Strings.join((Object[]) null)); // equivalent explicit cast
         // test additional varargs calls
         assertEquals("", Strings.join()); // empty array
@@ -355,15 +356,12 @@ public class StringsTest {
         assertEquals(TEXT_LIST, Strings.join(java.util.Arrays.asList(ARRAY_LIST).iterator(), SEPARATOR));
     }
 
-  
-
-
     @Test
     public void testSplit_String() {
-        assertEquals(0, Strings.split("",'a').length);
+        assertEquals(0, Strings.split("", 'a').length);
 
         String str = "a b  .c";
-        String[] res = Strings.split(str,null);
+        String[] res = Strings.split(str, null);
         assertEquals(4, res.length);
         assertEquals("a", res[0]);
         assertEquals("b", res[1]);
@@ -371,12 +369,12 @@ public class StringsTest {
         assertEquals(".c", res[3]);
 
         str = " a ";
-        res = Strings.split(str,null);
+        res = Strings.split(str, null);
         assertEquals(3, res.length);
         assertEquals("a", res[1]);
 
         str = "a" + WHITESPACE + "b" + NON_WHITESPACE + "c";
-        res = Strings.split(str,null,-1,false);
+        res = Strings.split(str, null, -1, false);
         assertEquals(2, res.length);
         assertEquals("a", res[0]);
         assertEquals("b" + NON_WHITESPACE + "c", res[1]);
@@ -411,11 +409,11 @@ public class StringsTest {
     @Test
     public void testSplit_StringString_StringStringInt() {
         assertNull(Strings.split(null, "."));
-        
-        assertNull(Strings.split(null,".", 3,true));
+
+        assertNull(Strings.split(null, ".", 3, true));
 
         assertEquals(0, Strings.split("", ".").length);
-        assertEquals(0, Strings.split("", ".", 3,true).length);
+        assertEquals(0, Strings.split("", ".", 3, true).length);
 
         innerTestSplit('.', ".", ' ');
         innerTestSplit('.', ".", ',');
@@ -428,15 +426,15 @@ public class StringsTest {
         }
 
         String[] results;
-        final String[] expectedResults = {"ab", "de fg"};
-        results = Strings.split("ab   de fg", null, 2,false);
+        final String[] expectedResults = { "ab", "de fg" };
+        results = Strings.split("ab   de fg", null, 2, false);
         assertEquals(expectedResults.length, results.length);
         for (int i = 0; i < expectedResults.length; i++) {
             assertEquals(expectedResults[i], results[i]);
         }
 
-        final String[] expectedResults2 = {"ab", "cd:ef"};
-        results = Strings.split("ab:cd:ef", ":", 2,true);
+        final String[] expectedResults2 = { "ab", "cd:ef" };
+        results = Strings.split("ab:cd:ef", ":", 2, true);
         assertEquals(expectedResults2.length, results.length);
         for (int i = 0; i < expectedResults2.length; i++) {
             assertEquals(expectedResults2[i], results[i]);
@@ -444,8 +442,8 @@ public class StringsTest {
     }
 
     private void innerTestSplit(final char separator, final String sepStr, final char noMatch) {
-        final String msg = "Failed on separator hex(" + Integer.toHexString(separator) +
-                "), noMatch hex(" + Integer.toHexString(noMatch) + "), sepStr(" + sepStr + ")";
+        final String msg =
+                "Failed on separator hex(" + Integer.toHexString(separator) + "), noMatch hex(" + Integer.toHexString(noMatch) + "), sepStr(" + sepStr + ")";
 
         final String str = "a" + separator + "b" + separator + separator + noMatch + "c";
         String[] res;
@@ -461,23 +459,23 @@ public class StringsTest {
         assertEquals(msg, 3, res.length);
         assertEquals(msg, "a", res[1]);
 
-        res = Strings.split(str, sepStr,-1,true);
+        res = Strings.split(str, sepStr, -1, true);
         assertEquals(msg, 4, res.length);
         assertEquals(msg, "a", res[0]);
         assertEquals(msg, "b", res[1]);
         assertEquals(msg, noMatch + "c", res[3]);
 
-        res = Strings.split(str, sepStr, 0,true);
+        res = Strings.split(str, sepStr, 0, true);
         assertEquals(msg, 4, res.length);
         assertEquals(msg, "a", res[0]);
         assertEquals(msg, "b", res[1]);
         assertEquals(msg, noMatch + "c", res[3]);
 
-        res = Strings.split(str, sepStr, 1,true);
+        res = Strings.split(str, sepStr, 1, true);
         assertEquals(msg, 1, res.length);
         assertEquals(msg, str, res[0]);
 
-        res = Strings.split(str, sepStr, 2,true);
+        res = Strings.split(str, sepStr, 2, true);
         assertEquals(msg, 2, res.length);
         assertEquals(msg, "a", res[0]);
         assertEquals(msg, str.substring(2), res[1]);
@@ -490,7 +488,7 @@ public class StringsTest {
         assertEquals(0, Strings.splitByWholeSeparator("", ".").length);
 
         final String stringToSplitOnNulls = "ab   de fg";
-        final String[] splitOnNullExpectedResults = {"ab", "de", "fg"};
+        final String[] splitOnNullExpectedResults = { "ab", "de", "fg" };
 
         final String[] splitOnNullResults = Strings.splitByWholeSeparator(stringToSplitOnNulls, null);
         assertEquals(splitOnNullExpectedResults.length, splitOnNullResults.length);
@@ -500,14 +498,14 @@ public class StringsTest {
 
         final String stringToSplitOnCharactersAndString = "abstemiouslyaeiouyabstemiously";
 
-        final String[] splitOnStringExpectedResults = {"abstemiously", "abstemiously"};
+        final String[] splitOnStringExpectedResults = { "abstemiously", "abstemiously" };
         final String[] splitOnStringResults = Strings.splitByWholeSeparator(stringToSplitOnCharactersAndString, "aeiouy");
         assertEquals(splitOnStringExpectedResults.length, splitOnStringResults.length);
         for (int i = 0; i < splitOnStringExpectedResults.length; i += 1) {
             assertEquals(splitOnStringExpectedResults[i], splitOnStringResults[i]);
         }
 
-        final String[] splitWithMultipleSeparatorExpectedResults = {"ab", "cd", "ef"};
+        final String[] splitWithMultipleSeparatorExpectedResults = { "ab", "cd", "ef" };
         final String[] splitWithMultipleSeparator = Strings.splitByWholeSeparator("ab:cd::ef", ":");
         assertEquals(splitWithMultipleSeparatorExpectedResults.length, splitWithMultipleSeparator.length);
         for (int i = 0; i < splitWithMultipleSeparatorExpectedResults.length; i++) {
@@ -522,8 +520,8 @@ public class StringsTest {
         assertEquals(0, Strings.splitByWholeSeparator("", ".", 3).length);
 
         final String stringToSplitOnNulls = "ab   de fg";
-        final String[] splitOnNullExpectedResults = {"ab", "de fg"};
-        //String[] splitOnNullExpectedResults = { "ab", "de" } ;
+        final String[] splitOnNullExpectedResults = { "ab", "de fg" };
+        // String[] splitOnNullExpectedResults = { "ab", "de" } ;
 
         final String[] splitOnNullResults = Strings.splitByWholeSeparator(stringToSplitOnNulls, null, 2);
         assertEquals(splitOnNullExpectedResults.length, splitOnNullResults.length);
@@ -533,8 +531,8 @@ public class StringsTest {
 
         final String stringToSplitOnCharactersAndString = "abstemiouslyaeiouyabstemiouslyaeiouyabstemiously";
 
-        final String[] splitOnStringExpectedResults = {"abstemiously", "abstemiouslyaeiouyabstemiously"};
-        //String[] splitOnStringExpectedResults = { "abstemiously", "abstemiously" } ;
+        final String[] splitOnStringExpectedResults = { "abstemiously", "abstemiouslyaeiouyabstemiously" };
+        // String[] splitOnStringExpectedResults = { "abstemiously", "abstemiously" } ;
         final String[] splitOnStringResults = Strings.splitByWholeSeparator(stringToSplitOnCharactersAndString, "aeiouy", 2);
         assertEquals(splitOnStringExpectedResults.length, splitOnStringResults.length);
         for (int i = 0; i < splitOnStringExpectedResults.length; i++) {
@@ -558,51 +556,51 @@ public class StringsTest {
 
     @Test
     public void testReplace_StringStringString() {
-        assertNull(Strings.replace(null, null, null,-1,false));
-        assertNull(Strings.replace(null, null, "any",-1,false));
-        assertNull(Strings.replace(null, "any", null,-1,false));
-        assertNull(Strings.replace(null, "any", "any",-1,false));
+        assertNull(Strings.replace(null, null, null, -1, false));
+        assertNull(Strings.replace(null, null, "any", -1, false));
+        assertNull(Strings.replace(null, "any", null, -1, false));
+        assertNull(Strings.replace(null, "any", "any", -1, false));
 
-        assertEquals("", Strings.replace("", null, null,-1,false));
-        assertEquals("", Strings.replace("", null, "any",-1,false));
-        assertEquals("", Strings.replace("", "any", null,-1,false));
-        assertEquals("", Strings.replace("", "any", "any",-1,false));
+        assertEquals("", Strings.replace("", null, null, -1, false));
+        assertEquals("", Strings.replace("", null, "any", -1, false));
+        assertEquals("", Strings.replace("", "any", null, -1, false));
+        assertEquals("", Strings.replace("", "any", "any", -1, false));
 
-        assertEquals("FOO", Strings.replace("FOO", "", "any",-1,false));
-        assertEquals("FOO", Strings.replace("FOO", null, "any",-1,false));
-        assertEquals("FOO", Strings.replace("FOO", "F", null,-1,false));
-        assertEquals("FOO", Strings.replace("FOO", null, null,-1,false));
+        assertEquals("FOO", Strings.replace("FOO", "", "any", -1, false));
+        assertEquals("FOO", Strings.replace("FOO", null, "any", -1, false));
+        assertEquals("FOO", Strings.replace("FOO", "F", null, -1, false));
+        assertEquals("FOO", Strings.replace("FOO", null, null, -1, false));
 
-        assertEquals("", Strings.replace("foofoofoo", "foo", "",-1,false));
-        assertEquals("barbarbar", Strings.replace("foofoofoo", "foo", "bar",-1,false));
-        assertEquals("farfarfar", Strings.replace("foofoofoo", "oo", "ar",-1,false));
+        assertEquals("", Strings.replace("foofoofoo", "foo", "", -1, false));
+        assertEquals("barbarbar", Strings.replace("foofoofoo", "foo", "bar", -1, false));
+        assertEquals("farfarfar", Strings.replace("foofoofoo", "oo", "ar", -1, false));
     }
 
     @Test
     public void testReplaceIgnoreCase_StringStringString() {
-        assertEquals(null, Strings.replace(null, null, null,-1,true));
-        assertEquals(null, Strings.replace(null, null, "any",-1,true));
-        assertEquals(null, Strings.replace(null, "any", null,-1,true));
-        assertEquals(null, Strings.replace(null, "any", "any",-1,true));
+        assertEquals(null, Strings.replace(null, null, null, -1, true));
+        assertEquals(null, Strings.replace(null, null, "any", -1, true));
+        assertEquals(null, Strings.replace(null, "any", null, -1, true));
+        assertEquals(null, Strings.replace(null, "any", "any", -1, true));
 
-        assertEquals("", Strings.replace("", null, null,-1,true));
-        assertEquals("", Strings.replace("", null, "any",-1,true));
-        assertEquals("", Strings.replace("", "any", null,-1,true));
-        assertEquals("", Strings.replace("", "any", "any",-1,true));
+        assertEquals("", Strings.replace("", null, null, -1, true));
+        assertEquals("", Strings.replace("", null, "any", -1, true));
+        assertEquals("", Strings.replace("", "any", null, -1, true));
+        assertEquals("", Strings.replace("", "any", "any", -1, true));
 
-        assertEquals("FOO", Strings.replace("FOO", "", "any",-1,true));
-        assertEquals("FOO", Strings.replace("FOO", null, "any",-1,true));
-        assertEquals("FOO", Strings.replace("FOO", "F", null,-1,true));
-        assertEquals("FOO", Strings.replace("FOO", null, null,-1,true));
+        assertEquals("FOO", Strings.replace("FOO", "", "any", -1, true));
+        assertEquals("FOO", Strings.replace("FOO", null, "any", -1, true));
+        assertEquals("FOO", Strings.replace("FOO", "F", null, -1, true));
+        assertEquals("FOO", Strings.replace("FOO", null, null, -1, true));
 
-        assertEquals("", Strings.replace("foofoofoo", "foo", "",-1,true));
-        assertEquals("barbarbar", Strings.replace("foofoofoo", "foo", "bar",-1,true));
-        assertEquals("farfarfar", Strings.replace("foofoofoo", "oo", "ar",-1,true));
+        assertEquals("", Strings.replace("foofoofoo", "foo", "", -1, true));
+        assertEquals("barbarbar", Strings.replace("foofoofoo", "foo", "bar", -1, true));
+        assertEquals("farfarfar", Strings.replace("foofoofoo", "oo", "ar", -1, true));
 
         // IgnoreCase
-        assertEquals("", Strings.replace("foofoofoo", "FOO", "",-1,true));
-        assertEquals("barbarbar", Strings.replace("fooFOOfoo", "foo", "bar",-1,true));
-        assertEquals("farfarfar", Strings.replace("foofOOfoo", "OO", "ar",-1,true));
+        assertEquals("", Strings.replace("foofoofoo", "FOO", "", -1, true));
+        assertEquals("barbarbar", Strings.replace("fooFOOfoo", "foo", "bar", -1, true));
+        assertEquals("farfarfar", Strings.replace("foofOOfoo", "OO", "ar", -1, true));
     }
 
     @Test
@@ -622,8 +620,7 @@ public class StringsTest {
         assertEquals("ABC___123", Strings.replacePattern("ABCabc123", "[a-z]", "_"));
         assertEquals("ABC_123", Strings.replacePattern("ABCabc123", "[^A-Z0-9]+", "_"));
         assertEquals("ABC123", Strings.replacePattern("ABCabc123", "[^A-Z0-9]+", ""));
-        assertEquals("Lorem_ipsum_dolor_sit",
-                     Strings.replacePattern("Lorem ipsum  dolor   sit", "( +)([a-z]+)", "_$2"));
+        assertEquals("Lorem_ipsum_dolor_sit", Strings.replacePattern("Lorem ipsum  dolor   sit", "( +)([a-z]+)", "_$2"));
     }
 
     @Test
@@ -638,7 +635,7 @@ public class StringsTest {
         assertEquals("", Strings.replace("", "any", null, 2));
         assertEquals("", Strings.replace("", "any", "any", 2));
 
-        final String str = new String(new char[]{'o', 'o', 'f', 'o', 'o'});
+        final String str = new String(new char[] { 'o', 'o', 'f', 'o', 'o' });
         assertSame(str, Strings.replace(str, "x", "", -1));
 
         assertEquals("f", Strings.replace("oofoo", "o", "", -1));
@@ -726,9 +723,8 @@ public class StringsTest {
         assertEquals("", Strings.repeat("a", -2));
         assertEquals("ababab", Strings.repeat("ab", 3));
         assertEquals("abcabcabc", Strings.repeat("abc", 3));
-        final String str = Strings.repeat("a", 10000);  // bigger than pad limit
+        final String str = Strings.repeat("a", 10000); // bigger than pad limit
         assertEquals(10000, str.length());
-        assertTrue(Strings.containsOnly(str, 'a'));
     }
 
     @Test
@@ -760,9 +756,8 @@ public class StringsTest {
         assertEquals("abc", Strings.rightPad("abc", 2, ' '));
         assertEquals("abc", Strings.rightPad("abc", -1, ' '));
         assertEquals("abcxx", Strings.rightPad("abc", 5, 'x'));
-        final String str = Strings.rightPad("aaa", 10000, 'a');  // bigger than pad length
+        final String str = Strings.rightPad("aaa", 10000, 'a'); // bigger than pad length
         assertEquals(10000, str.length());
-        assertTrue(Strings.containsOnly(str, 'a'));
     }
 
     @Test
@@ -787,9 +782,8 @@ public class StringsTest {
         assertEquals("xxabc", Strings.leftPad("abc", 5, 'x'));
         assertEquals("\uffff\uffffabc", Strings.leftPad("abc", 5, '\uffff'));
         assertEquals("abc", Strings.leftPad("abc", 2, ' '));
-        final String str = Strings.leftPad("aaa", 10000, 'a');  // bigger than pad length
+        final String str = Strings.leftPad("aaa", 10000, 'a'); // bigger than pad length
         assertEquals(10000, str.length());
-        assertTrue(Strings.containsOnly(str, 'a'));
     }
 
     @Test
@@ -841,7 +835,7 @@ public class StringsTest {
         assertEquals("  abc  ", Strings.center("abc", 7, ""));
     }
 
-    //-----------------------------------------------------------------------
+    // -----------------------------------------------------------------------
     @Test
     public void testDifference_StringString() {
         assertNull(Strings.difference(null, null));
@@ -866,7 +860,7 @@ public class StringsTest {
         assertEquals(7, Strings.indexOfDifference("i am a machine", "i am a robot"));
         assertEquals(-1, Strings.indexOfDifference("foo", "foo"));
         assertEquals(0, Strings.indexOfDifference("i am a robot", "you are a robot"));
-        //System.out.println("indexOfDiff: " + Strings.indexOfDifference("i am a robot", "not machine"));
+        // System.out.println("indexOfDiff: " + Strings.indexOfDifference("i am a robot", "not machine"));
     }
 
     /**
@@ -938,12 +932,12 @@ public class StringsTest {
 
     @Test
     public void testRemoveStart() {
-        // Strings.removeStart("", *)        = ""
+        // Strings.removeStart("", *) = ""
         assertNull(Strings.removeStart(null, null));
         assertNull(Strings.removeStart(null, ""));
         assertNull(Strings.removeStart(null, "a"));
 
-        // Strings.removeStart(*, null)      = *
+        // Strings.removeStart(*, null) = *
         assertEquals(Strings.removeStart("", null), "");
         assertEquals(Strings.removeStart("", ""), "");
         assertEquals(Strings.removeStart("", "a"), "");
@@ -957,12 +951,12 @@ public class StringsTest {
 
     @Test
     public void testRemoveStartIgnoreCase() {
-        // Strings.removeStart("", *)        = ""
+        // Strings.removeStart("", *) = ""
         assertNull("removeStartIgnoreCase(null, null)", Strings.removeStartIgnoreCase(null, null));
         assertNull("removeStartIgnoreCase(null, \"\")", Strings.removeStartIgnoreCase(null, ""));
         assertNull("removeStartIgnoreCase(null, \"a\")", Strings.removeStartIgnoreCase(null, "a"));
 
-        // Strings.removeStart(*, null)      = *
+        // Strings.removeStart(*, null) = *
         assertEquals("removeStartIgnoreCase(\"\", null)", Strings.removeStartIgnoreCase("", null), "");
         assertEquals("removeStartIgnoreCase(\"\", \"\")", Strings.removeStartIgnoreCase("", ""), "");
         assertEquals("removeStartIgnoreCase(\"\", \"a\")", Strings.removeStartIgnoreCase("", "a"), "");
@@ -979,12 +973,12 @@ public class StringsTest {
 
     @Test
     public void testRemoveEnd() {
-        // Strings.removeEnd("", *)        = ""
+        // Strings.removeEnd("", *) = ""
         assertNull(Strings.removeEnd(null, null));
         assertNull(Strings.removeEnd(null, ""));
         assertNull(Strings.removeEnd(null, "a"));
 
-        // Strings.removeEnd(*, null)      = *
+        // Strings.removeEnd(*, null) = *
         assertEquals(Strings.removeEnd("", null), "");
         assertEquals(Strings.removeEnd("", ""), "");
         assertEquals(Strings.removeEnd("", "a"), "");
@@ -999,12 +993,12 @@ public class StringsTest {
 
     @Test
     public void testRemoveEndIgnoreCase() {
-        // Strings.removeEndIgnoreCase("", *)        = ""
+        // Strings.removeEndIgnoreCase("", *) = ""
         assertNull("removeEndIgnoreCase(null, null)", Strings.removeEndIgnoreCase(null, null));
         assertNull("removeEndIgnoreCase(null, \"\")", Strings.removeEndIgnoreCase(null, ""));
         assertNull("removeEndIgnoreCase(null, \"a\")", Strings.removeEndIgnoreCase(null, "a"));
 
-        // Strings.removeEnd(*, null)      = *
+        // Strings.removeEnd(*, null) = *
         assertEquals("removeEndIgnoreCase(\"\", null)", Strings.removeEndIgnoreCase("", null), "");
         assertEquals("removeEndIgnoreCase(\"\", \"\")", Strings.removeEndIgnoreCase("", ""), "");
         assertEquals("removeEndIgnoreCase(\"\", \"a\")", Strings.removeEndIgnoreCase("", "a"), "");
@@ -1023,22 +1017,22 @@ public class StringsTest {
 
     @Test
     public void testRemove_String() {
-        // Strings.remove(null, *)        = null
+        // Strings.remove(null, *) = null
         assertNull(Strings.remove(null, null));
         assertNull(Strings.remove(null, ""));
         assertNull(Strings.remove(null, "a"));
 
-        // Strings.remove("", *)          = ""
+        // Strings.remove("", *) = ""
         assertEquals("", Strings.remove("", null));
         assertEquals("", Strings.remove("", ""));
         assertEquals("", Strings.remove("", "a"));
 
-        // Strings.remove(*, null)        = *
+        // Strings.remove(*, null) = *
         assertNull(Strings.remove(null, null));
         assertEquals("", Strings.remove("", null));
         assertEquals("a", Strings.remove("a", null));
 
-        // Strings.remove(*, "")          = *
+        // Strings.remove(*, "") = *
         assertNull(Strings.remove(null, ""));
         assertEquals("", Strings.remove("", ""));
         assertEquals("a", Strings.remove("a", ""));
@@ -1088,12 +1082,12 @@ public class StringsTest {
 
     @Test
     public void testRemove_char() {
-        // Strings.remove(null, *)       = null
+        // Strings.remove(null, *) = null
         assertNull(Strings.remove(null, 'a'));
         assertNull(Strings.remove(null, 'a'));
         assertNull(Strings.remove(null, 'a'));
 
-        // Strings.remove("", *)          = ""
+        // Strings.remove("", *) = ""
         assertEquals("", Strings.remove("", 'a'));
         assertEquals("", Strings.remove("", 'a'));
         assertEquals("", Strings.remove("", 'a'));
