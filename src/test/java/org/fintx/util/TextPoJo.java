@@ -18,7 +18,8 @@ package org.fintx.util;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 /**
  * @author bluecreator(qiang.x.wang@gmail.com)
@@ -31,6 +32,17 @@ public class TextPoJo {
     String f2;
     String f3;
     boolean f4;
-    
- 
+    byte[] bytes = "a".getBytes();
+    Timestamp t = new Timestamp(System.currentTimeMillis());
+    Integer in = new Integer(0);
+    BigDecimal bd = new BigDecimal("0.0");
+    char[] chars = "ab".toCharArray();
+    char a = 'a';
+    Character b = 'b';
+    int i=1;
+    float f=0.0f;
+    double d=0.0d;
+    java.util.Date date=new java.util.Date();
+    java.sql.Date dat=new java.sql.Date(System.currentTimeMillis());
+    Long long1=1L;
 }
