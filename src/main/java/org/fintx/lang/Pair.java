@@ -114,16 +114,4 @@ public class Pair<L, R> implements Serializable {
         this.right = right;
     }
 
-    /**
-     * Sets the {@code Map.Entry} value. This sets the right element of the pair.
-     * 
-     * @param value the right value to set, not null
-     * @return the old value for the right element
-     */
-    public R setValue(final R value) {
-        final R result = getRight();
-        setRight(value);
-        return result;
-    }
-
 }
