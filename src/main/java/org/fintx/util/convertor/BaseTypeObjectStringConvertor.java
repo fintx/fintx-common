@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -42,7 +43,8 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         if (null == obj) {
             return "";
         }
-        String type = obj.getClass().getName();
+        String type = obj.getClass().getCanonicalName();
+        
         if (type.equals("java.lang.String")) {
             return obj.toString();
         } else if (type.equals("char[]")) {
@@ -55,7 +57,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return obj.toString();
         } else if (type.equals("double") || type.equals("java.lang.Double")) {
             return obj.toString();
-        } else if (type.equals("long") || type.equals("Long")) {
+        } else if (type.equals("long") || type.equals("java.lang.Long")) {
             return obj.toString();
         } else if (type.equals("boolean") || type.equals("java.lang.Boolean")) {
             return obj.toString();
@@ -74,7 +76,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         } else if (type.equals("java.sql.Time")) {
             return LocalDateTime.ofInstant(((java.sql.Time) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("HHmmss"));
         } else if (type.equals("java.sql.Date")) {
-            return LocalDateTime.ofInstant(((java.sql.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.BASIC_ISO_DATE);
+            return ((java.sql.Date) obj).toLocalDate().format(DateTimeFormatter.BASIC_ISO_DATE);
         } else if (type.equals("java.util.Date")) {
             return LocalDateTime.ofInstant(((java.util.Date) obj).toInstant(), ZoneId.systemDefault()).format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
         }else if (type.equals("java.math.BigInteger")) {
@@ -124,12 +126,12 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             text = text.trim();
         }
 
-        String type = clazz.getName();
+        String type = clazz.getCanonicalName();
         if (type.equals("java.lang.String")) {
             return (T) text;
         } else if (type.equals("char[]")) {
             return (T) text.toCharArray();
-        } else if (type.equals("char")) {
+        } else if (type.equals("char")||type.equals("java.lang.Character")) {
             if (text.length() == 1) {
                 return (T) new Character(text.charAt(0));
             } else {
@@ -147,7 +149,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
             return (T) new Float(text);
         } else if (type.equals("double") || type.equals("java.lang.Double")) {
             return (T) new Double(text);
-        } else if (type.equals("long") || type.equals("Long")) {
+        } else if (type.equals("long") || type.equals("java.lang.Long")) {
             return (T) new Long(text);
         } else if (type.equals("boolean") || type.equals("java.lang.Boolean")) {
             return (T) new Boolean(text);
@@ -159,7 +161,7 @@ public class BaseTypeObjectStringConvertor implements ObjectStringConvertor {
         } else if (type.equals("java.sql.Time")) {
             return (T) java.sql.Timestamp.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("HHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("java.sql.Date")) {
-            return (T) java.sql.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
+            return (T) java.sql.Date.valueOf(LocalDate.parse(text, DateTimeFormatter.ofPattern("yyyyMMdd")));
         } else if (type.equals("java.util.Date")) {
             return (T) java.util.Date.from(LocalDateTime.parse(text, DateTimeFormatter.ofPattern("yyyyMMddHHmmss")).atZone(ZoneId.systemDefault()).toInstant());
         } else if (type.equals("byte") || type.equals("java.lang.Byte")) {
