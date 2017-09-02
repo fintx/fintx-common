@@ -173,8 +173,6 @@ public class Strings {
      * @param charset the encoding to use, if null then use the platform default
      * @return a new String
      * @throws NullPointerException if {@code bytes} is null
-     * @since 3.2
-     * @since 3.3 No longer throws {@link UnsupportedEncodingException}.
      */
     public static String toEncodedString(final byte[] bytes, final Charset charset) {
         return new String(bytes, charset != null ? charset : Charset.defaultCharset());
@@ -183,7 +181,7 @@ public class Strings {
     /**
      * Check whether the string is null
      * 
-     * @param seq the string to be check
+     * @param cs the CharSequence to be check
      * @return boolean the result true empty; false not empty
      */
     public static boolean isEmpty(CharSequence cs) {
@@ -318,14 +316,9 @@ public class Strings {
      * No delimiter is added before or after the list. Null objects or empty strings within the iteration are represented by empty strings.
      * </p>
      *
-     * <p>
-     * See the examples here: {@link #join(Object[],char)}.
-     * </p>
-     *
      * @param iterator the {@code Iterator} of values to join together, may be null
      * @param separator the separator character to use
      * @return the joined String, {@code null} if null iterator input
-     * @since 2.0
      */
     public static String join(final Iterator<?> iterator, final char separator) {
 
@@ -365,10 +358,6 @@ public class Strings {
      *
      * <p>
      * No delimiter is added before or after the list. A {@code null} separator is the same as an empty String ("").
-     * </p>
-     *
-     * <p>
-     * See the examples here: {@link #join(Object[],String)}.
      * </p>
      *
      * @param iterator the {@code Iterator} of values to join together, may be null
@@ -1248,8 +1237,7 @@ public class Strings {
      * @param str1 the first String, may be null
      * @param str2 the second String, may be null
      * @return the portion of str2 where it differs from str1; returns the empty String if they are equal
-     * @see #indexOfDifference(CharSequence,CharSequence)
-     * @since 2.0
+     * @see #indexOfDifference(CharSequence...)
      */
     public static String difference(final String str1, final String str2) {
         if (str1 == null) {
@@ -1811,6 +1799,8 @@ public class Strings {
      *
      * @param str the String to parse, may be {@code null}
      * @param separatorChar the separate character
+     * @param preserveAllTokens if {@code true}, adjacent separators are treated as empty token separators; if {@code false}, adjacent separators are treated as
+     *            one separator.
      * @return an array of parsed Strings, {@code null} if null String input
      */
     public static String[] split(final String str, final char separatorChar, final boolean preserveAllTokens) {
@@ -1853,7 +1843,7 @@ public class Strings {
      * Performs the logic for the {@code split} and {@code splitPreserveAllTokens} methods that do not return a maximum array length.
      *
      * @param str the String to parse, may be {@code null}
-     * @param separatorStr the separate string
+     * @param separatorChars the separate string
      * @return an array of parsed Strings, {@code null} if null String input
      */
     public static String[] split(final String str, final String separatorChars) {
@@ -2368,7 +2358,6 @@ public class Strings {
      * @param searchString the String to search for (case insensitive), may be null
      * @param replacement the String to replace it with, may be null
      * @param max maximum number of values to replace, or {@code -1} if no maximum
-     * @param ignoreCase if true replace is case insensitive, otherwise case sensitive
      * @return the text with any replacements processed, {@code null} if null String input
      */
     public static String replace(final String text, String searchString, final String replacement, int max) {
@@ -2508,11 +2497,6 @@ public class Strings {
      * @param regex the regular expression to which this string is to be matched
      * @param replacement the string to be substituted for each match
      * @return The resulting {@code String}
-     * @see #replaceAll(String, String, String)
-     * @see String#replaceAll(String, String)
-     * @see Pattern#DOTALL
-     * @since 3.2
-     * @since 3.5 Changed {@code null} reference passed to this method is a no-op.
      */
     public static String replacePattern(final String source, final String regex, final String replacement) {
         if (source == null || regex == null || replacement == null) {
@@ -3015,10 +2999,6 @@ public class Strings {
      * Capitalizes a String changing the first character to title case as per {@link Character#toTitleCase(int)}. No other characters are changed.
      * </p>
      *
-     * <p>
-     * For a word based algorithm, see {@link org.apache.commons.lang3.text.WordUtils#capitalize(String)}. A {@code null} input String returns {@code null}.
-     * </p>
-     *
      * <pre>
      * Strings.capitalize(null)  = null
      * Strings.capitalize("")    = ""
@@ -3029,7 +3009,6 @@ public class Strings {
      *
      * @param str the String to capitalize, may be null
      * @return the capitalized String, {@code null} if null String input
-     * @since 2.0
      */
     public static String capitalize(final String str) {
         int strLen;
@@ -3060,10 +3039,6 @@ public class Strings {
      * Uncapitalizes a String, changing the first character to lower case as per {@link Character#toLowerCase(int)}. No other characters are changed.
      * </p>
      *
-     * <p>
-     * For a word based algorithm, see {@link org.apache.commons.lang3.text.WordUtils#uncapitalize(String)}. A {@code null} input String returns {@code null}.
-     * </p>
-     *
      * <pre>
      * Strings.uncapitalize(null)  = null
      * Strings.uncapitalize("")    = ""
@@ -3074,9 +3049,7 @@ public class Strings {
      *
      * @param str the String to uncapitalize, may be null
      * @return the uncapitalized String, {@code null} if null String input
-     * @see org.apache.commons.lang3.text.WordUtils#uncapitalize(String)
      * @see #capitalize(String)
-     * @since 2.0
      */
     public static String uncapitalize(final String str) {
         int strLen;

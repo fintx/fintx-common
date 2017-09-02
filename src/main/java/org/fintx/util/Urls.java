@@ -45,6 +45,7 @@ public class Urls {
      * @param map key value pair map
      * @param data to be parse
      * @param encoding the data string encoding
+     * @throws UnsupportedEncodingException when encoding is unsupported
      */
     public static void parseParameters(Map<String, String> map, String data, String encoding) throws UnsupportedEncodingException {
         if ((data == null) || (data.length() <= 0)) {

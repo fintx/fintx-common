@@ -410,17 +410,17 @@ public class Arrays {
      *
      * Examples:
      * <ul>
-     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 2) -&gt; ["3", "2", "1"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 0) -&gt; ["1", "2", "3"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3"], 1, 0) -&gt; ["2", "1", "3"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3"], 0, 5) -&gt; ["1", "2", "3"]</li>
-     * <li>ArrayUtils.swap(["1", "2", "3"], -1, 1) -&gt; ["2", "1", "3"]</li>
+     * <li>Arrays.swap(["1", "2", "3"], 0, 2) -&gt; ["3", "2", "1"]</li>
+     * <li>Arrays.swap(["1", "2", "3"], 0, 0) -&gt; ["1", "2", "3"]</li>
+     * <li>Arrays.swap(["1", "2", "3"], 1, 0) -&gt; ["2", "1", "3"]</li>
+     * <li>Arrays.swap(["1", "2", "3"], 0, 5) -&gt; ["1", "2", "3"]</li>
+     * <li>Arrays.swap(["1", "2", "3"], -1, 1) -&gt; ["2", "1", "3"]</li>
      * </ul>
      *
+     * @param <T> the type of the array eg:String[]
      * @param array the array to swap, may be {@code null}
      * @param offset1 the index of the first element to swap
      * @param offset2 the index of the second element to swap
-     * @since 3.5
      */
     public static <T> void swap(final T array, final int offset1, final int offset2) {
         swap(array, offset1, offset2, 1);
@@ -487,6 +487,7 @@ public class Arrays {
      * There is no special handling for multi-dimensional arrays. This method does nothing for {@code null} or empty input arrays.
      * </p>
      *
+     * @param <T> the type of the array eg:String[]
      * @param array the array to shift, may be {@code null}
      * @param offset The number of positions to rotate the elements. If the offset is larger than the number of elements to rotate, than the effective offset is
      *            modulo the number of elements to rotate.
@@ -509,7 +510,6 @@ public class Arrays {
      *            (&gt;array.length) is demoted to array length.
      * @param offset The number of positions to rotate the elements. If the offset is larger than the number of elements to rotate, than the effective offset is
      *            modulo the number of elements to rotate.
-     * @since 3.5
      */
     public static <T> void shift(final T array, int startIndexInclusive, int endIndexExclusive, int offset) {
         if (array == null) {
@@ -565,6 +565,7 @@ public class Arrays {
      * <p>
      * This method returns {@link #INDEX_NOT_FOUND} ({@code -1}) for a {@code null} input array.
      *
+     * @param <T> the type of array eg:String[]
      * @param array the array to search through for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @return the index of the object within the array, {@link #INDEX_NOT_FOUND} ({@code -1}) if not found or {@code null} array input
@@ -626,6 +627,7 @@ public class Arrays {
      * <p>
      * This method returns {@link #INDEX_NOT_FOUND} ({@code -1}) for a {@code null} input array.
      *
+     * @param <T> the type of the array eg:String[]
      * @param array the array to traverse backwards looking for the object, may be {@code null}
      * @param objectToFind the object to find, may be {@code null}
      * @return the last index of the object within the array, {@link #INDEX_NOT_FOUND} ({@code -1}) if not found or {@code null} array input
@@ -1062,6 +1064,7 @@ public class Arrays {
      * <p>
      * This method checks whether the provided array is sorted according to the provided {@code Comparator}.
      *
+     * @param <T> the type of the array eg:String[]
      * @param array the array to check
      * @param comparator the {@code Comparator} to compare over
      * @param <T> the type of array eg:String[]
@@ -1162,6 +1165,7 @@ public class Arrays {
      * This method returns {@code null} for a {@code null} input array.
      * </p>
      *
+     * @param <T> the type of the array eg:String[]
      * @param array the {@code Object[]} to be processed, may be null
      * @return {@code String[]} of the same size as the source with its element's string representation, {@code null} if null array input
      * @throws NullPointerException if array contains {@code null}
@@ -1223,7 +1227,7 @@ public class Arrays {
      * @param values the new values to insert, may be {@code null}
      * @return The new array.
      * @throws IndexOutOfBoundsException if {@code array} is provided and either {@code index < 0} or {@code index > array.length}
-     * @throws Null
+     * @throws NullPointerException when the array is null
      */
     // TODO different from commons-lang3
     public static <T> T insert(final T array, final int index, final Object...values) {

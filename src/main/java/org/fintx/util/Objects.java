@@ -221,7 +221,7 @@ public class Objects {
      * @return the hash code of a non-{@code null} argument and 0 for a {@code null} argument
      * @see Object#hashCode
      */
-    public static <T> int hashCode(T o) {
+    public static  int hashCode(Object o) {
         if (null == o || !o.getClass().isArray()) {
             return java.util.Objects.hashCode(o);
         } else {
