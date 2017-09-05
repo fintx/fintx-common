@@ -16,7 +16,6 @@
 package org.fintx.http;
 
 
-import org.fintx.util.Objects;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +25,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Calendar;
 import java.util.Map;
 
 /**
@@ -46,6 +44,8 @@ public class HttpClientTest {
             HttpClient.print(false);
             System.out.println(HttpClient.get(new URL("https://www.baidu.com")));
             //System.out.println(HttpClient.post(new URL("https://www.baidu.com"), MediaType.APP_FORM, "baidu"));
+            HttpClientBase httpClient=HttpClient.custom(null, null, null);
+            httpClient.get(new URL("https://www.baidu.com"));
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
