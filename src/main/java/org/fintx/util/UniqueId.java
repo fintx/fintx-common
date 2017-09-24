@@ -57,7 +57,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * <td colspan="4">time</td>
  * <td colspan="6">machine</td>
  * <td colspan="2">pid</td>
- * <td colspan="3">inc</td>
+ * <td colspan="3">counter</td>
  * </tr>
  * </table>
  *
@@ -100,10 +100,19 @@ public final class UniqueId implements Comparable<UniqueId>, Serializable {
     /**
      * Gets a new object id.
      *
-     * @return the new https://oss.sonatype.org/content/repositories/snapshots
+     * @return the new UniqueId instance
      */
     public static UniqueId get() {
         return new UniqueId(dateToTimestampSeconds(new Date()), MACHINE_IDENTIFIER, PROCESS_IDENTIFIER, NEXT_COUNTER.getAndIncrement(), false);
+    }
+
+    /**
+     * Gets a new object id.
+     *
+     * @return the new Unique Id String
+     */
+    public static String getString() {
+        return get().toString();
     }
 
     /**
