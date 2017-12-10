@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class Ips {
+public class IPs {
 
     // public static String getRemoteAddress() {
     // RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -39,7 +39,7 @@ public class Ips {
     // }
     // return getRemoteAddress(request);
     // }
-    private Ips() {
+    private IPs() {
         
     }
     /**

@@ -32,29 +32,29 @@ import javax.servlet.http.HttpServletRequestWrapper;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class IpsTest {
+public class IPsTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
 
     @Test
     public void test() {
-        Ips.getLocalAddress();
+        IPs.getLocalAddress();
         Request request=new Request();
-        Ips.getRemoteAddress(request);
+        IPs.getRemoteAddress(request);
         Request2 request2=new Request2();
-        Ips.getRemoteAddress(request2);
+        IPs.getRemoteAddress(request2);
         Request3 request3=new Request3();
-        Ips.getRemoteAddress(request3);
+        IPs.getRemoteAddress(request3);
         Request4 request4=new Request4();
-        Ips.getRemoteAddress(request4);
+        IPs.getRemoteAddress(request4);
         Request5 request5=new Request5();
-        Ips.getRemoteAddress(request5);
+        IPs.getRemoteAddress(request5);
         Request6 request6=new Request6();
-        Ips.getRemoteAddress(request6);
+        IPs.getRemoteAddress(request6);
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Argument request should not be null!");
-        Ips.getRemoteAddress(null);
+        IPs.getRemoteAddress(null);
     }
 
 }
