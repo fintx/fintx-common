@@ -56,6 +56,9 @@ import javax.net.ssl.X509TrustManager;
  *
  */
 public final class HttpClient {
+    private HttpClient() {
+        throw new AssertionError("No HttpClient instances for you!");
+    }
     private static final ThreadLocal<OkHttpClient> local = new ThreadLocal<OkHttpClient>();
 
     private static final Interceptor networkInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
