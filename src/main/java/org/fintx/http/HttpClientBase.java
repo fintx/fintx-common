@@ -377,7 +377,6 @@ public final class HttpClientBase {
         return resp;
     }
 
-    @SuppressWarnings("null")
     public String post(URL url, Map<String, String> formParams, Map<String, File> formFiles) throws IOException, IllegalStateException {
         if (null == url) {
             throw new NullPointerException("url could not be null!");
@@ -398,6 +397,9 @@ public final class HttpClientBase {
         if (null != formFiles && 0 != formFiles.size()) {
             for (Map.Entry<String, File> entry : formFiles.entrySet()) {
                 RequestBody fileBody = RequestBody.create(okhttp3.MediaType.parse(MediaType.APP_OCTETSTREAM.getCode()), entry.getValue());
+                if(entry.getKey()==null) {
+                    throw new NullPointerException("Key of form files should not be null!");
+                }
                 builder.addFormDataPart(entry.getKey(), entry.getValue().getName(), fileBody);
             }
 
