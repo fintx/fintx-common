@@ -44,8 +44,8 @@ public class HttpClientTest {
             HttpClient.print(false);
             System.out.println(HttpClient.get(new URL("https://www.baidu.com")));
             //System.out.println(HttpClient.post(new URL("https://www.baidu.com"), MediaType.APP_FORM, "baidu"));
-            HttpClientBase httpClient=HttpClient.custom(null, null, null);
-            httpClient.get(new URL("https://www.baidu.com"));
+            HttpClient.custom(null, null, null);
+            HttpClient.get(new URL("https://www.baidu.com"));
         } catch (IllegalStateException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
