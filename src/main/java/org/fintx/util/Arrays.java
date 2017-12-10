@@ -1095,36 +1095,36 @@ public class Arrays {
         return true;
     }
 
-    /**
-     * Removes the occurrences of the specified element from the specified array.
-     *
-     * <p>
-     * All subsequent elements are shifted to the left (subtracts one from their indices). If the array doesn't contains such an element, no elements are
-     * removed from the array. <code>null</code> will be returned if the input array is <code>null</code>.
-     * </p>
-     *
-     * @param <T> the type of object in the array
-     * @param element the element to remove
-     * @param array the input array
-     *
-     * @return A new array containing the existing elements except the occurrences of the specified element.
-     */
-    public static <T> T[] removeAllOccurences(final T[] array, final T element) {
-        int index = indexOf(array, element, 0);
-        if (index == INDEX_NOT_FOUND) {
-            return Objects.deepClone(array);
-        }
-
-        final int[] indices = new int[array.length - index];
-        indices[0] = index;
-        int count = 1;
-
-        while ((index = indexOf(array, element, indices[count - 1] + 1)) != INDEX_NOT_FOUND) {
-            indices[count++] = index;
-        }
-
-        return (T[]) remove(array, java.util.Arrays.copyOf(indices, count));
-    }
+//    /**
+//     * Removes the occurrences of the specified element from the specified array.
+//     *
+//     * <p>
+//     * All subsequent elements are shifted to the left (subtracts one from their indices). If the array doesn't contains such an element, no elements are
+//     * removed from the array. <code>null</code> will be returned if the input array is <code>null</code>.
+//     * </p>
+//     *
+//     * @param <T> the type of object in the array
+//     * @param element the element to remove
+//     * @param array the input array
+//     *
+//     * @return A new array containing the existing elements except the occurrences of the specified element.
+//     */
+//    public static <T> T[] removeAllOccurences(final T[] array, final T element) {
+//        int index = indexOf(array, element, 0);
+//        if (index == INDEX_NOT_FOUND) {
+//            return Objects.deepClone(array);
+//        }
+//
+//        final int[] indices = new int[array.length - index];
+//        indices[0] = index;
+//        int count = 1;
+//
+//        while ((index = indexOf(array, element, indices[count - 1] + 1)) != INDEX_NOT_FOUND) {
+//            indices[count++] = index;
+//        }
+//
+//        return (T[]) remove(array, java.util.Arrays.copyOf(indices, count));
+//    }
 
     /**
      * Removes the occurrences of the specified element from the specified array.
