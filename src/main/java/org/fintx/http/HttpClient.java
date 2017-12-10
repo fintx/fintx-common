@@ -55,7 +55,6 @@ import javax.net.ssl.X509TrustManager;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-// TODO 用threadlocal 存储配置信息
 public final class HttpClient {
     private static final ThreadLocal<OkHttpClient> local = new ThreadLocal<OkHttpClient>();
 
