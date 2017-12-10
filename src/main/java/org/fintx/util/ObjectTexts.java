@@ -35,7 +35,7 @@ import java.util.List;
  * @author bluecreator(qiang.x.wang@gmail.com)
  *
  */
-public class ObjectsText implements ObjectStringConvertor {
+public class ObjectTexts implements ObjectStringConvertor {
     // TODO use for cached
     // private static ThreadLocal<ObjectStringConvertor> tlConvertors = new ThreadLocal<ObjectStringConvertor>();
     // TODO use as builder configuration
@@ -46,7 +46,7 @@ public class ObjectsText implements ObjectStringConvertor {
     private final String linebreak;
     private final boolean withname;
 
-    public ObjectsText(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
+    public ObjectTexts(Encoding encoding, Character separator, String linebreak, boolean withname, Character...associator) {
         this.encoding = encoding;
         this.separator = separator;
         if (withname) {

@@ -435,7 +435,7 @@ public class Objects {
     }
 
     public static class Xml {
-        private static ObjectsXml convertor = new ObjectsXml(null, true, Encoding.UTF_8, false, null);
+        private static ObjectXmls convertor = new ObjectXmls(null, true, Encoding.UTF_8, false, null);
 
         /**
          * Convert bean object to xml string
@@ -464,14 +464,14 @@ public class Objects {
             return convertor.toObject(xml, clazz);
         }
 
-        public static ObjectsXml custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment, String headers) {
-            return new ObjectsXml(namespacePrefixMapper, formatted, encoding, fragment, headers);
+        public static ObjectXmls custom(Map<String, String> namespacePrefixMapper, boolean formatted, Encoding encoding, boolean fragment, String headers) {
+            return new ObjectXmls(namespacePrefixMapper, formatted, encoding, fragment, headers);
         }
 
     }
 
     public static class Text {
-        private static ObjectsText convertor = new ObjectsText(Encoding.UTF_8, '|', "\r\n", false);
+        private static ObjectTexts convertor = new ObjectTexts(Encoding.UTF_8, '|', "\r\n", false);
 
         /**
          * Convert bean object to text string
@@ -500,9 +500,9 @@ public class Objects {
             return convertor.toObject(text, clazz);
         }
 
-        public static ObjectsText custom(final Encoding encoding, final Character separate, final String linkbreak, final boolean withname,
+        public static ObjectTexts custom(final Encoding encoding, final Character separate, final String linkbreak, final boolean withname,
                 final Character associate) {
-            return new ObjectsText(encoding, separate, linkbreak, withname, associate);
+            return new ObjectTexts(encoding, separate, linkbreak, withname, associate);
         }
     }
 }

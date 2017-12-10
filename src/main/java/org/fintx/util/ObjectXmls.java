@@ -37,7 +37,7 @@ import lombok.AccessLevel;
  */
 @SuppressWarnings("restriction")
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
-public final class ObjectsXml implements ObjectStringConvertor {
+public final class ObjectXmls implements ObjectStringConvertor {
 
     private Map<String, String> namespacePrefixMapper;
     private boolean formatted;

@@ -156,7 +156,7 @@ public class ObjectsTest {
         Objects.copyProperties(pojo, pojo3);
         Map<String,String> mapper=new HashMap<String,String>();
         mapper.put("www.adtec.com.cn", "adt");
-        ObjectsXml xmlConvertor = Objects.Xml.custom(mapper, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        ObjectXmls xmlConvertor = Objects.Xml.custom(mapper, false, Encoding.GB18030, false, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         xml = xmlConvertor.toString(pojo3);
         System.out.println(xml);
         pojo3 = xmlConvertor.toObject(xml, PoJo2.class);
@@ -183,7 +183,7 @@ public class ObjectsTest {
         Assert.assertTrue(pojo2.getF1() == pojo2.getF1() && pojo2.getF1().equals("a"));
         Assert.assertTrue(pojo2.getF3() == pojo2.getF3() && pojo2.getF3().equals("b"));
 
-        ObjectsText convertor = Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
+        ObjectTexts convertor = Objects.Text.custom(Encoding.GB18030, '|', "\r\n", true, '=');
         text = convertor.toString(pojo);
         System.out.println(text);
         pojo2 = convertor.toObject(text, TextPoJo.class);
