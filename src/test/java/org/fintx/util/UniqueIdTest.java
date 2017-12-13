@@ -82,7 +82,7 @@ public class UniqueIdTest {
         }
         System.err.println("");
         while ((list.size() != threads) && !error) {
-            System.err.print(list.size());
+            // System.err.print(list.size());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
