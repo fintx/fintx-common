@@ -112,7 +112,7 @@ pojo2 = objectsText.toObject(text, TextPoJo.class);
 //Normal use
 HttpClient.get(new URL("http://www.baidu.com"))
 //Custom
-HttpClientBase httpClient = HttpClient.custom(trustStore, keyStore, keyPass);
+HttpClient.custom(trustStore, keyStore, keyPass);
 httpClient.get(new URL("http://www.baidu.com"));
 ```
 
