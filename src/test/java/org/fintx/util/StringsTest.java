@@ -864,7 +864,7 @@ public class StringsTest {
     }
 
     /**
-     * A sanity check for {@link Strings#EMPTY}.
+     * A sanity check for {Strings#EMPTY}.
      */
     @Test
     public void testEMPTY() {
@@ -874,7 +874,7 @@ public class StringsTest {
     }
 
     /**
-     * Test for {@link Strings#isAllLowerCase(CharSequence)}.
+     * Test for {Strings#isAllLowerCase(CharSequence)}.
      */
     @Test
     public void testIsAllLowerCase() {
@@ -891,7 +891,7 @@ public class StringsTest {
     }
 
     /**
-     * Test for {@link Strings#isAllUpperCase(CharSequence)}.
+     * Test for {Strings#isAllUpperCase(CharSequence)}.
      */
     @Test
     public void testIsAllUpperCase() {
@@ -908,7 +908,7 @@ public class StringsTest {
     }
 
     /**
-     * Test for {@link Strings#isMixedCase(CharSequence)}.
+     * Test for {Strings#isMixedCase(CharSequence)}.
      */
     @Test
     public void testIsMixedCase() {
@@ -1106,10 +1106,9 @@ public class StringsTest {
     }
 
     /**
-     * Tests {@link Strings#toString(byte[], String)}
+     * Tests {Strings#toString(byte[], String)}
      *
      * @throws java.io.UnsupportedEncodingException because the method under test max throw it
-     * @see Strings#toString(byte[], String)
      */
     @Test
     public void testToString() throws UnsupportedEncodingException {

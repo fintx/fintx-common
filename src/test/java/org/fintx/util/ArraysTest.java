@@ -3380,7 +3380,7 @@ public class ArraysTest {
     // -----------------------------------------------------------------------
 
     /**
-     * Test for {@link Arrays#isEmpty(java.lang.Object[])}.
+     * Test for {Arrays#isEmpty(java.lang.Object[])}.
      */
     @Test
     public void testIsEmptyObject() {
@@ -3392,8 +3392,8 @@ public class ArraysTest {
     }
 
     /**
-     * Tests for {@link Arrays#isEmpty(long[])}, {@link Arrays#isEmpty(int[])}, {@link Arrays#isEmpty(short[])}, {@link Arrays#isEmpty(char[])},
-     * {@link Arrays#isEmpty(byte[])}, {@link Arrays#isEmpty(double[])}, {@link Arrays#isEmpty(float[])} and {@link Arrays#isEmpty(boolean[])}.
+     * Tests for {Arrays#isEmpty(long[])}, {Arrays#isEmpty(int[])}, {Arrays#isEmpty(short[])}, {Arrays#isEmpty(char[])},
+     * {Arrays#isEmpty(byte[])}, {Arrays#isEmpty(double[])}, {Arrays#isEmpty(float[])} and {Arrays#isEmpty(boolean[])}.
      */
     @Test
     public void testIsEmptyPrimitives() {
@@ -3447,7 +3447,7 @@ public class ArraysTest {
     }
 
     /**
-     * Test for {@link Arrays#isNotEmpty(java.lang.Object[])}.
+     * Test for {Arrays#isNotEmpty(java.lang.Object[])}.
      */
     @Test
     public void testIsNotEmptyObject() {
@@ -3459,8 +3459,8 @@ public class ArraysTest {
     }
 
     /**
-     * Tests for {@link Arrays#isNotEmpty(long[])}, {@link Arrays#isNotEmpty(int[])}, {@link Arrays#isNotEmpty(short[])}, {@link Arrays#isNotEmpty(char[])},
-     * {@link Arrays#isNotEmpty(byte[])}, {@link Arrays#isNotEmpty(double[])}, {@link Arrays#isNotEmpty(float[])} and {@link Arrays#isNotEmpty(boolean[])}.
+     * Tests for {Arrays#isNotEmpty(long[])}, {Arrays#isNotEmpty(int[])}, {Arrays#isNotEmpty(short[])}, {Arrays#isNotEmpty(char[])},
+     * {Arrays#isNotEmpty(byte[])}, {Arrays#isNotEmpty(double[])}, {Arrays#isNotEmpty(float[])} and {Arrays#isNotEmpty(boolean[])}.
      */
     @Test
     public void testIsNotEmptyPrimitives() {
